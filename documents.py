@@ -4,7 +4,7 @@
 
 import os.path
 
-(LANGUAGE_HOME_PAGE, MODULE_HOME_PAGE, SYNTAX_DOCUMENTATION) = range(3)
+(NAME, LANGUAGE_HOME_PAGE, MODULE_HOME_PAGE, SYNTAX_DOCUMENTATION) = range(4)
 
 CONFIGURATION_DIR = os.path.expanduser('~/.config/python-documents/')
 
@@ -28,6 +28,7 @@ class AbstractMarkup(object):
 class MarkdownMarkup(AbstractMarkup):
 	"""Markdown language"""
 	attribures = {
+		NAME: 'Markdown',
 		LANGUAGE_HOME_PAGE: 'http://daringfireball.net/projects/markdown/',
 		MODULE_HOME_PAGE: 'https://github.com/Waylan/Python-Markdown/',
 		SYNTAX_DOCUMENTATION: 'http://daringfireball.net/projects/markdown/syntax'
@@ -81,6 +82,7 @@ class MarkdownMarkup(AbstractMarkup):
 class ReStructuredTextMarkup(AbstractMarkup):
 	"""reStructuredText language"""
 	attribures = {
+		NAME: 'reStructuredText',
 		LANGUAGE_HOME_PAGE: 'http://docutils.sourceforge.net/rst.html',
 		MODULE_HOME_PAGE: 'http://docutils.sourceforge.net/',
 		SYNTAX_DOCUMENTATION: 'http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html'
@@ -108,7 +110,10 @@ class ReStructuredTextMarkup(AbstractMarkup):
 available_markups = (MarkdownMarkup, ReStructuredTextMarkup)
 
 def get_markup_for_file_name(filename):
+	markup_class = None
 	for markup in available_markups:
 		for extension in markup.file_extensions:
 			if filename.endswith(extension):
-				return markup
+				markup_class = markup
+	if markup_class:
+		return markup_class(filename=filename)
