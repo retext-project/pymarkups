@@ -38,6 +38,7 @@ class MarkdownMarkup(AbstractMarkup):
 	}
 	
 	file_extensions = ('.md', '.mkd', '.mkdn', '.mdwn', '.mdown', '.markdown')
+	default_extension = '.mkd'
 	
 	def available():
 		try:
@@ -102,6 +103,7 @@ class ReStructuredTextMarkup(AbstractMarkup):
 	}
 	
 	file_extensions = ('.rst', '.rest')
+	default_extension = '.rst'
 	
 	def available():
 		try:
