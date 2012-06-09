@@ -27,7 +27,7 @@ class AbstractMarkup(object):
 
 class MarkdownMarkup(AbstractMarkup):
 	"""Markdown language"""
-	attribures = {
+	attributes = {
 		NAME: 'Markdown',
 		LANGUAGE_HOME_PAGE: 'http://daringfireball.net/projects/markdown/',
 		MODULE_HOME_PAGE: 'https://github.com/Waylan/Python-Markdown/',
@@ -81,7 +81,7 @@ class MarkdownMarkup(AbstractMarkup):
 
 class ReStructuredTextMarkup(AbstractMarkup):
 	"""reStructuredText language"""
-	attribures = {
+	attributes = {
 		NAME: 'reStructuredText',
 		LANGUAGE_HOME_PAGE: 'http://docutils.sourceforge.net/rst.html',
 		MODULE_HOME_PAGE: 'http://docutils.sourceforge.net/',
