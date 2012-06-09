@@ -11,6 +11,8 @@ Usage example:
 >>> markup = documents.get_markup_for_file_name("myfile.rst")
 >>> markup.attributes[documents.NAME]
 'reStructuredText'
+>>> markup.attributes[documents.SYNTAX_DOCUMENTATION]
+'http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html'
 >>> text = "Hello, world!\\n=============\\n\\nThis is an example **reStructuredText** document."
 >>> markup.get_document_title(text)
 'Hello, world!'
