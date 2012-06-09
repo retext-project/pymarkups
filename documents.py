@@ -24,6 +24,9 @@ class AbstractMarkup(object):
 	
 	def get_document_body(self, text):
 		raise NotImplementedError()
+	
+	def get_stylesheet(self, text):
+		raise NotImplementedError()
 
 class MarkdownMarkup(AbstractMarkup):
 	"""Markdown language"""
@@ -75,6 +78,16 @@ class MarkdownMarkup(AbstractMarkup):
 		except:
 			return ''
 	
+	def get_stylesheet(self, text):
+		if 'codehilite' in self.extensions + self.local_extensions:
+			try:
+				from pygments.formatters import HtmlFormatter
+			except:
+				pass
+			else:
+				return HtmlFormatter().get_style_defs('.codehilite') + '\n'
+		return ''
+	
 	def get_document_body(self, text):
 		self.md.reset()
 		return self.md.convert(text)
@@ -106,6 +119,11 @@ class ReStructuredTextMarkup(AbstractMarkup):
 	
 	def get_document_body(self, text):
 		return self.publish_parts(text, writer_name='html')['body']
+	
+	def get_stylesheet(self, text):
+		orig_stylesheet = self.publish_parts(text, writer_name='html')['stylesheet']
+		# Cut off <style> and </style> tags
+		return orig_stylesheet[25:-10]
 
 available_markups = (MarkdownMarkup, ReStructuredTextMarkup)
 
