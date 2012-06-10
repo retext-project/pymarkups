@@ -13,7 +13,7 @@ class AbstractMarkup(object):
 	
 	file_extensions = ()
 	
-	def __init__(filename=None):
+	def __init__(self, filename=None):
 		raise NotImplementedError()
 		
 	def available():
@@ -136,12 +136,14 @@ def get_available_markups():
 			available_markups.append(markup)
 	return available_markups
 
-def get_markup_for_file_name(filename):
+def get_markup_for_file_name(filename, return_class=False):
 	markup_class = None
 	for markup in get_available_markups():
 		for extension in markup.file_extensions:
 			if filename.endswith(extension):
 				markup_class = markup
+	if return_class:
+		return markup_class
 	if markup_class:
 		return markup_class(filename=filename)
 
