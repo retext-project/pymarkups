@@ -127,11 +127,18 @@ class ReStructuredTextMarkup(AbstractMarkup):
 		# Cut off <style> and </style> tags
 		return orig_stylesheet[25:-10]
 
-available_markups = (MarkdownMarkup, ReStructuredTextMarkup)
+known_markups = (MarkdownMarkup, ReStructuredTextMarkup)
+
+def get_available_markups():
+	available_markups = []
+	for markup in known_markups:
+		if markup.available():
+			available_markups.append(markup)
+	return available_markups
 
 def get_markup_for_file_name(filename):
 	markup_class = None
-	for markup in available_markups:
+	for markup in get_available_markups():
 		for extension in markup.file_extensions:
 			if filename.endswith(extension):
 				markup_class = markup
@@ -139,6 +146,6 @@ def get_markup_for_file_name(filename):
 		return markup_class(filename=filename)
 
 def find_markup_class_by_name(name):
-	for markup in available_markups:
+	for markup in known_markups:
 		if markup.attributes[NAME].lower() == name.lower():
 			return markup
