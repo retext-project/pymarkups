@@ -137,3 +137,8 @@ def get_markup_for_file_name(filename):
 				markup_class = markup
 	if markup_class:
 		return markup_class(filename=filename)
+
+def find_markup_class_by_name(name):
+	for markup in available_markups:
+		if markup.attributes[NAME].lower() == name.lower():
+			return markup
