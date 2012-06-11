@@ -17,7 +17,7 @@ class AbstractMarkup(object):
 	
 	def __init__(self, filename=None):
 		raise NotImplementedError()
-		
+	
 	def available():
 		raise NotImplementedError()
 	
@@ -27,7 +27,7 @@ class AbstractMarkup(object):
 	def get_document_body(self, text):
 		raise NotImplementedError()
 	
-	def get_stylesheet(self, text):
+	def get_stylesheet(self, text=''):
 		raise NotImplementedError()
 
 class MarkdownMarkup(AbstractMarkup):
@@ -81,7 +81,7 @@ class MarkdownMarkup(AbstractMarkup):
 		except:
 			return ''
 	
-	def get_stylesheet(self, text):
+	def get_stylesheet(self, text=''):
 		if 'codehilite' in self.extensions + self.local_extensions:
 			try:
 				from pygments.formatters import HtmlFormatter
@@ -124,7 +124,7 @@ class ReStructuredTextMarkup(AbstractMarkup):
 	def get_document_body(self, text):
 		return self.publish_parts(text, writer_name='html')['body']
 	
-	def get_stylesheet(self, text):
+	def get_stylesheet(self, text=''):
 		orig_stylesheet = self.publish_parts(text, writer_name='html')['stylesheet']
 		# Cut off <style> and </style> tags
 		return orig_stylesheet[25:-10]
