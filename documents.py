@@ -17,7 +17,7 @@ class AbstractMarkup(object):
 	
 	def __init__(self, filename=None):
 		raise NotImplementedError()
-		
+	
 	def available():
 		raise NotImplementedError()
 	
