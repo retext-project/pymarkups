@@ -2,9 +2,11 @@
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2012
 
+__version__ = '0.2'
+
 import os.path
 
-(NAME, LANGUAGE_HOME_PAGE, MODULE_HOME_PAGE, SYNTAX_DOCUMENTATION) = range(4)
+(LANGUAGE_HOME_PAGE, MODULE_HOME_PAGE, SYNTAX_DOCUMENTATION) = range(3)
 
 CONFIGURATION_DIR = os.path.expanduser('~/.config/python-documents/')
 
@@ -30,8 +32,8 @@ class AbstractMarkup(object):
 
 class MarkdownMarkup(AbstractMarkup):
 	"""Markdown language"""
+	name = 'Markdown'
 	attributes = {
-		NAME: 'Markdown',
 		LANGUAGE_HOME_PAGE: 'http://daringfireball.net/projects/markdown/',
 		MODULE_HOME_PAGE: 'https://github.com/Waylan/Python-Markdown/',
 		SYNTAX_DOCUMENTATION: 'http://daringfireball.net/projects/markdown/syntax'
@@ -95,8 +97,8 @@ class MarkdownMarkup(AbstractMarkup):
 
 class ReStructuredTextMarkup(AbstractMarkup):
 	"""reStructuredText language"""
+	name = 'reStructuredText'
 	attributes = {
-		NAME: 'reStructuredText',
 		LANGUAGE_HOME_PAGE: 'http://docutils.sourceforge.net/rst.html',
 		MODULE_HOME_PAGE: 'http://docutils.sourceforge.net/',
 		SYNTAX_DOCUMENTATION: 'http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html'
@@ -149,5 +151,5 @@ def get_markup_for_file_name(filename, return_class=False):
 
 def find_markup_class_by_name(name):
 	for markup in known_markups:
-		if markup.attributes[NAME].lower() == name.lower():
+		if markup.name.lower() == name.lower():
 			return markup
