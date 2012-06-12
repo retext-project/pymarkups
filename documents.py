@@ -109,7 +109,7 @@ class ReStructuredTextMarkup(AbstractMarkup):
 	
 	def available():
 		try:
-			from docutils.core import publish_parts
+			import docutils.core
 		except:
 			return False
 		return True
