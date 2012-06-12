@@ -9,7 +9,7 @@ such as Markdown and reStructuredText (these two are supported by default).
 Usage example:
 
 >>> markup = documents.get_markup_for_file_name("myfile.rst")
->>> markup.attributes[documents.NAME]
+>>> markup.name
 'reStructuredText'
 >>> markup.attributes[documents.SYNTAX_DOCUMENTATION]
 'http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html'
