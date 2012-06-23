@@ -140,13 +140,13 @@ def get_available_markups():
 
 def get_markup_for_file_name(filename, return_class=False):
 	markup_class = None
-	for markup in get_available_markups():
+	for markup in known_markups:
 		for extension in markup.file_extensions:
 			if filename.endswith(extension):
 				markup_class = markup
 	if return_class:
 		return markup_class
-	if markup_class:
+	if markup_class and markup_class.available():
 		return markup_class(filename=filename)
 
 def find_markup_class_by_name(name):
