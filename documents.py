@@ -136,21 +136,23 @@ class ReStructuredTextMarkup(AbstractMarkup):
 	
 	def __init__(self, filename=None):
 		from docutils.core import publish_parts
-		self.publish_parts = publish_parts
+		overrides = {'report_level': 4}
+		self.publish_parts = lambda text: publish_parts(text,
+			writer_name='html', settings_overrides=overrides)
 	
 	def get_document_title(self, text):
-		return self.publish_parts(text, writer_name='html')['title']
+		return self.publish_parts(text)['title']
 	
 	def get_document_body(self, text):
-		return self.publish_parts(text, writer_name='html')['body']
+		return self.publish_parts(text)['body']
 	
 	def get_stylesheet(self, text=''):
-		orig_stylesheet = self.publish_parts(text, writer_name='html')['stylesheet']
+		orig_stylesheet = self.publish_parts(text)['stylesheet']
 		# Cut off <style> and </style> tags
 		return orig_stylesheet[25:-10]
 	
 	def get_javascript(self, text=''):
-		head = self.publish_parts(text, writer_name='html')['head']
+		head = self.publish_parts(text)['head']
 		start_position = head.find('<script ')
 		end_position = head.rfind('</script>')
 		if start_position >= 0 and end_position >= 0:
