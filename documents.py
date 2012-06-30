@@ -30,6 +30,9 @@ class AbstractMarkup(object):
 	def get_stylesheet(self, text=''):
 		return ''
 	
+	def get_javascript(self, text=''):
+		return ''
+	
 	def get_whole_html(self, text, custom_headers='',
 	                   include_stylesheet=True, fallback_title=''):
 		stylesheet = ('<style type="text/css">\n' + self.get_stylesheet(text) +
@@ -42,8 +45,9 @@ class AbstractMarkup(object):
 		'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">\n'
 		'<html>\n<head>\n'
 		'<meta http-equiv="content-type" content="text/html; charset=utf-8">\n'
-		+ custom_headers + title_string + stylesheet + '</head>\n<body>\n'
-		+ self.get_document_body(text) + '</body>\n</html>\n'
+		+ custom_headers + title_string + stylesheet + self.get_javascript(text)
+		+ '</head>\n<body>\n' + self.get_document_body(text)
+		+ '</body>\n</html>\n'
 		)
 
 class MarkdownMarkup(AbstractMarkup):
@@ -144,6 +148,14 @@ class ReStructuredTextMarkup(AbstractMarkup):
 		orig_stylesheet = self.publish_parts(text, writer_name='html')['stylesheet']
 		# Cut off <style> and </style> tags
 		return orig_stylesheet[25:-10]
+	
+	def get_javascript(self, text=''):
+		head = self.publish_parts(text, writer_name='html')['head']
+		start_position = head.find('<script ')
+		end_position = head.rfind('</script>')
+		if start_position >= 0 and end_position >= 0:
+			return head[start_position:end_position+9]+'\n'
+		return ''
 
 known_markups = (MarkdownMarkup, ReStructuredTextMarkup)
 
