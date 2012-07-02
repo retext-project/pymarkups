@@ -62,6 +62,7 @@ class MarkdownMarkup(AbstractMarkup):
 	file_extensions = ('.md', '.mkd', '.mkdn', '.mdwn', '.mdown', '.markdown')
 	default_extension = '.mkd'
 	
+	@staticmethod
 	def available():
 		try:
 			import markdown
@@ -127,6 +128,7 @@ class ReStructuredTextMarkup(AbstractMarkup):
 	file_extensions = ('.rst', '.rest')
 	default_extension = '.rst'
 	
+	@staticmethod
 	def available():
 		try:
 			import docutils.core
