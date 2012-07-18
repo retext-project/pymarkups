@@ -85,6 +85,7 @@ class MarkdownMarkup(AbstractMarkup):
 		self.extensions = self._load_extensions_list_from_file(
 			CONFIGURATION_DIR + 'markdown-extensions.txt')
 		local_directory = os.path.split(filename)[0] if filename else '.'
+		if not local_directory: local_directory = '.'
 		self.local_extensions = self._load_extensions_list_from_file(
 			local_directory+'/markdown-extensions.txt')
 		try:
