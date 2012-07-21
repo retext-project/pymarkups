@@ -7,9 +7,10 @@ import documents
 from email.utils import formatdate
 
 __version__ = documents.__version__
+site = 'https://launchpad.net/python-documents'
 
 APP_NAME, APP_VERSION, APP_SITE = range(3)
-default_app_data = ('python-documents', None, None)
+default_app_data = ('python-documents', __version__, site)
 
 class WebLibrary(object):
 	def __init__(self, working_dir='.', app_data=default_app_data):
