@@ -8,7 +8,7 @@ import os.path
 
 (LANGUAGE_HOME_PAGE, MODULE_HOME_PAGE, SYNTAX_DOCUMENTATION) = range(3)
 
-CONFIGURATION_DIR = os.path.expanduser('~/.config/python-documents/')
+CONFIGURATION_DIR = os.path.expanduser('~/.config/')
 
 class AbstractMarkup(object):
 	"""Abstract class for markup languages"""
