@@ -1,16 +1,16 @@
-# python-documents, web module
+# python-markups, web module
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2012
 
 import os
-import documents
+import markups
 from email.utils import formatdate
 
-__version__ = documents.__version__
-site = 'https://launchpad.net/python-documents'
+__version__ = markups.__version__
+site = 'https://launchpad.net/python-markups'
 
 APP_NAME, APP_VERSION, APP_SITE = range(3)
-default_app_data = ('python-documents', __version__, site)
+default_app_data = ('python-markups', __version__, site)
 
 class WebLibrary(object):
 	def __init__(self, working_dir='.', app_data=default_app_data):
@@ -59,7 +59,7 @@ class WebLibrary(object):
 			# For Python 3
 			text = inputfile.read()
 		inputfile.close()
-		markup = documents.get_markup_for_file_name(fname)
+		markup = markups.get_markup_for_file_name(fname)
 		if not markup:
 			return
 		html = markup.get_document_body(text)

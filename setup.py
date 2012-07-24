@@ -8,10 +8,10 @@ such as Markdown and reStructuredText (these two are supported by default).
 
 Usage example:
 
->>> markup = documents.get_markup_for_file_name("myfile.rst")
+>>> markup = markups.get_markup_for_file_name("myfile.rst")
 >>> markup.name
 'reStructuredText'
->>> markup.attributes[documents.SYNTAX_DOCUMENTATION]
+>>> markup.attributes[markups.SYNTAX_DOCUMENTATION]
 'http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html'
 >>> text = "Hello, world!\\n=============\\n\\nThis is an example **reStructuredText** document."
 >>> markup.get_document_title(text)
@@ -35,14 +35,14 @@ classifiers = ['Development Status :: 4 - Beta',
 	'Topic :: Software Development :: Libraries :: Python Modules'
 ]
 
-setup(name='Documents',
+setup(name='Markups',
 	version='0.1',
 	description='A wrapper around various text markups',
 	long_description=long_description,
 	author='Dmitry Shachnev',
 	author_email='mitya57@gmail.com',
-	url='http://launchpad.net/python-documents',
-	packages=['documents'],
+	url='http://launchpad.net/python-markups',
+	packages=['markups'],
 	license='BSD',
 	classifiers=classifiers,
 	requires=['dbus']
