@@ -1,4 +1,4 @@
-# python-documents
+# python-markups
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2012
 
