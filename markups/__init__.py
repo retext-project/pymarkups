@@ -91,10 +91,12 @@ class MarkdownMarkup(AbstractMarkup):
 		try:
 			self.md = markdown.Markdown(self.extensions + self.local_extensions,
 			output_format='html4')
-		except ValueError as e:
+		except (ValueError, ImportError) as e:
+			print(e)
 			try:
 				self.md = markdown.Markdown(self.extensions, output_format='html4')
-			except ValueError:
+			except (ValueError, ImportError) as e:
+				print(e)
 				self.md = markdown.Markdown(output_format='html4')
 	
 	def get_document_title(self, text):
