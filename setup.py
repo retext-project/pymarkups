@@ -36,7 +36,7 @@ classifiers = ['Development Status :: 4 - Beta',
 ]
 
 setup(name='Markups',
-	version='0.1',
+	version='0.2',
 	description='A wrapper around various text markups',
 	long_description=long_description,
 	author='Dmitry Shachnev',
