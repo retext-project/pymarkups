@@ -2,6 +2,7 @@
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2012
 
+import sys
 from markups.core import *
 from markups.markdown import MarkdownMarkup
 from markups.restructuredtext import ReStructuredTextMarkup
@@ -27,7 +28,7 @@ def get_custom_markups():
 			try:
 				module = __import__('markups.'+markup_name, {}, {}, ['markups'])
 			except ImportError:
-				print('Warning: cannot import module markups.'+markup_name)
+				sys.stderr.write('Warning: cannot import module markups.'+markup_name+'\n')
 			else:
 				custom_markups.append(module.markup)
 		return custom_markups

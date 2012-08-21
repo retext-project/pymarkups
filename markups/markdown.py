@@ -2,6 +2,7 @@
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2012
 
+import sys
 from markups.core import *
 from markups.abstract import AbstractMarkup
 
@@ -47,11 +48,13 @@ class MarkdownMarkup(AbstractMarkup):
 			self.md = markdown.Markdown(self.extensions + self.local_extensions,
 			output_format='html4')
 		except (ValueError, ImportError) as e:
-			print(e)
+			sys.stderr.write(e)
+			sys.stderr.write('\n')
 			try:
 				self.md = markdown.Markdown(self.extensions, output_format='html4')
 			except (ValueError, ImportError) as e:
-				print(e)
+				sys.stderr.write(e)
+				sys.stderr.write('\n')
 				self.md = markdown.Markdown(output_format='html4')
 	
 	def get_document_title(self, text):
