@@ -64,7 +64,7 @@ class WebLibrary(object):
 			return
 		html = markup.get_document_body(text)
 		pagename = markup.get_document_title(text)
-		javascript = markup.get_javascript(text)
+		javascript = markup.get_javascript(text, webenv=True)
 		if not pagename:
 			pagename = bn
 		if html or bn == 'index':

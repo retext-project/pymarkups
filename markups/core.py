@@ -17,3 +17,9 @@ def get_pygments_stylesheet(selector):
 		return ''
 	else:
 		return HtmlFormatter().get_style_defs(selector) + '\n'
+
+def tweak_mathjax_url(mjurl, webenv):
+	if webenv:
+		return mjurl.replace(MATHJAX_LOCAL_URL, MATHJAX_WEB_URL)
+	else:
+		return mjurl.replace(MATHJAX_WEB_URL, MATHJAX_LOCAL_URL)
