@@ -7,6 +7,8 @@ import os.path
 # Some common constants and functions
 (LANGUAGE_HOME_PAGE, MODULE_HOME_PAGE, SYNTAX_DOCUMENTATION) = range(3)
 CONFIGURATION_DIR = os.path.expanduser('~/.config/')
+MATHJAX_LOCAL_URL = 'file:///usr/share/javascript/mathjax/MathJax.js'
+MATHJAX_WEB_URL = 'http://cdn.mathjax.org/mathjax/latest/MathJax.js'
 
 def get_pygments_stylesheet(selector):
 	try:
