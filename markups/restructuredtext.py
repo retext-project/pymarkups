@@ -48,5 +48,5 @@ class ReStructuredTextMarkup(AbstractMarkup):
 		end_position = head.rfind('</script>')
 		if start_position >= 0 and end_position >= 0:
 			mjurl = head[start_position:end_position+9]+'\n'
-			return tweak_mathjax_url(mjurl, webenv)
+			return mjurl.replace(MATHJAX_WEB_URL, get_mathjax_url())
 		return ''
