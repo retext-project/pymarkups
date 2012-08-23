@@ -45,6 +45,8 @@ class MarkdownMarkup(AbstractMarkup):
 		self.local_extensions = self._load_extensions_list_from_file(
 			local_directory+'/markdown-extensions.txt')
 		try:
+			if not (self.extensions or self.local_extensions):
+				self.extensions = ['extra']
 			self.md = markdown.Markdown(self.extensions + self.local_extensions,
 			output_format='html4')
 		except (ValueError, ImportError) as e:
