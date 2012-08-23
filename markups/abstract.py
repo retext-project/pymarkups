@@ -21,7 +21,7 @@ class AbstractMarkup(object):
 	def get_stylesheet(self, text=''):
 		return ''
 	
-	def get_javascript(self, text=''):
+	def get_javascript(self, text='', webenv=False):
 		return ''
 	
 	def get_whole_html(self, text, custom_headers='', include_stylesheet=True,
