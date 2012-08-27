@@ -42,7 +42,7 @@ class ReStructuredTextMarkup(AbstractMarkup):
 		# Cut off <style> and </style> tags
 		return orig_stylesheet[25:-10] + get_pygments_stylesheet('.code')
 	
-	def get_javascript(self, text='', webenv=False):
+	def get_javascript(self, text='', webenv=False, tags=[]):
 		head = self.publish_parts(text)['head']
 		start_position = head.find('<script ')
 		end_position = head.rfind('</script>')

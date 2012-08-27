@@ -84,7 +84,9 @@ class MarkdownMarkup(AbstractMarkup):
 			return get_pygments_stylesheet('.codehilite')
 		return ''
 	
-	def get_javascript(self, text='', webenv=False):
+	def get_javascript(self, text='', webenv=False, tags=[]):
+		if not 'mathjax' in tags:
+			return ''
 		return ('<script type="text/javascript" src="' + get_mathjax_url(webenv)
 		+ '?config=TeX-AMS-MML_HTMLorMML"></script>\n<script type="text/javascript">\n' +
 		'MathJax.Hub.Config({ "tex2jax": { inlineMath: [[ \'$\', \'$\' ]] } });\n'
