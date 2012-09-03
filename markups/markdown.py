@@ -39,6 +39,17 @@ class MarkdownMarkup(AbstractMarkup):
 			extensions_file.close()
 			return extensions
 	
+	def _check_extension_exists(self, extension_name):
+		try:
+			__import__('markdown.extensions.'+extension_name, {}, {},
+			['markdown.extensions'])
+		except ImportError:
+			try:
+				__import__('mdx_'+extension_name)
+			except ImportError:
+				return False
+		return True
+	
 	def _get_mathjax_pattern(self, markdown):
 		def handleMatch(m):
 			node = markdown.util.etree.Element('mathjax')
@@ -54,24 +65,25 @@ class MarkdownMarkup(AbstractMarkup):
 			CONFIGURATION_DIR + 'markdown-extensions.txt')
 		local_directory = os.path.split(filename)[0] if filename else '.'
 		if not local_directory: local_directory = '.'
-		self.local_extensions = self._load_extensions_list_from_file(
+		self.extensions += self._load_extensions_list_from_file(
 			local_directory+'/markdown-extensions.txt')
-		try:
-			if not (self.extensions or self.local_extensions):
-				self.extensions = ['extra']
-			self.md = markdown.Markdown(self.extensions + self.local_extensions,
-			output_format='html4')
-		except (ValueError, ImportError) as e:
-			sys.stderr.write(e)
-			sys.stderr.write('\n')
-			try:
-				self.md = markdown.Markdown(self.extensions, output_format='html4')
-			except (ValueError, ImportError) as e:
-				sys.stderr.write(e)
-				sys.stderr.write('\n')
-				self.md = markdown.Markdown(output_format='html4')
-		self.md.inlinePatterns.add('mathjax', self._get_mathjax_pattern(markdown),
-		'<escape')
+		# We have two virtual extensions
+		self.remove_extra = ('remove-extra' in self.extensions)
+		if self.remove_extra:
+			self.extensions.remove('remove-extra')
+		else:
+			self.extensions.append('extra')
+		self.mathjax = ('mathjax' in self.extensions)
+		if self.mathjax:
+			self.extensions.remove('mathjax')
+		for extension if self.extensions:
+			if not self._check_extension_exists(extension):
+				sys.stderr.write('Failed loading extension %s\n' % extension)
+				self.extensions.remove(extension)
+		self.md = markdown.Markdown(self.extensions, output_format='html4')
+		if self.mathjax:
+			self.md.inlinePatterns.add('mathjax',
+				self._get_mathjax_pattern(markdown), '<escape')
 	
 	def get_document_title(self, text):
 		try:
@@ -80,7 +92,7 @@ class MarkdownMarkup(AbstractMarkup):
 			return ''
 	
 	def get_stylesheet(self, text=''):
-		if 'codehilite' in self.extensions + self.local_extensions:
+		if 'codehilite' in self.extensions:
 			return get_pygments_stylesheet('.codehilite')
 		return ''
 	
