@@ -19,7 +19,7 @@ Usage example:
 >>> markup.get_document_body(text)
 '<p>This is an example <strong>reStructuredText</strong> document.</p>\\n'
 
-.. _Markdown: http://pypi.python.org/pypi/Markdown/
+.. _Markdown: http://daringfireball.net/projects/markdown/
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
 """
 
