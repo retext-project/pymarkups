@@ -68,8 +68,8 @@ class MarkdownMarkup(AbstractMarkup):
 		self.extensions += self._load_extensions_list_from_file(
 			local_directory+'/markdown-extensions.txt')
 		# We have two virtual extensions
-		if 'remove-extra' in self.extensions:
-			self.extensions.remove('remove-extra')
+		if 'remove_extra' in self.extensions:
+			self.extensions.remove('remove_extra')
 		else:
 			self.extensions.append('extra')
 		self.mathjax = ('mathjax' in self.extensions)
