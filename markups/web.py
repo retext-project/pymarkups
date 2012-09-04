@@ -24,7 +24,7 @@ class WebLibrary(object):
 		if app_data[APP_VERSION]:
 			self.generator_info = app_data[APP_NAME] + ' ' + app_data[APP_VERSION]
 		else:
-			self.generator_info = app_data[APP_VERSION]
+			self.generator_info = app_data[APP_NAME]
 	
 	def update_all(self):
 		"""Process all documents in the directory"""
@@ -76,6 +76,7 @@ class WebLibrary(object):
 			except:
 				pass # Not needed for Python 3
 			content = content.replace('%PAGENAME%', pagename)
+			content = content.replace('%SOURCEFILENAME%', fname)
 			content = content.replace('%EXTRAHEADERS%', javascript)
 			content = content.replace('%HTMLDIR%', '.')
 			content = content.replace('%MARKUPNAME%', markup.name)
