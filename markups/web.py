@@ -62,7 +62,7 @@ class WebLibrary(object):
 		markup = markups.get_markup_for_file_name(fname)
 		if not markup:
 			return
-		html = markup.get_document_body(text)
+		html = markup.get_document_body(text).rstrip()
 		pagename = markup.get_document_title(text)
 		javascript = markup.get_javascript(text, webenv=True)
 		if not pagename:
@@ -83,6 +83,8 @@ class WebLibrary(object):
 			content = content.replace('%TIME%', formatdate(usegmt=True))
 			content = content.replace(' href="'+bn+'.html"', '')
 			content = content.replace('%\\', '%')
+			if not os.path.exists(self.working_dir+'/html'):
+				os.mkdir(self.working_dir+'/html')
 			outputfile = open(self.working_dir+'/html/'+bn+'.html', 'w')
 			try:
 				outputfile.write(content.encode('utf-8'))
