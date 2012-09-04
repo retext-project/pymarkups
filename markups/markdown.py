@@ -68,8 +68,7 @@ class MarkdownMarkup(AbstractMarkup):
 		self.extensions += self._load_extensions_list_from_file(
 			local_directory+'/markdown-extensions.txt')
 		# We have two virtual extensions
-		self.remove_extra = ('remove-extra' in self.extensions)
-		if self.remove_extra:
+		if 'remove-extra' in self.extensions:
 			self.extensions.remove('remove-extra')
 		else:
 			self.extensions.append('extra')
@@ -97,7 +96,7 @@ class MarkdownMarkup(AbstractMarkup):
 		return ''
 	
 	def get_javascript(self, text='', webenv=False, tags=[]):
-		if not 'mathjax' in tags:
+		if not (self.mathjax and 'mathjax' in tags):
 			return ''
 		return ('<script type="text/javascript" src="' + get_mathjax_url(webenv)
 		+ '?config=TeX-AMS-MML_HTMLorMML"></script>\n<script type="text/javascript">\n' +
