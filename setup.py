@@ -4,7 +4,7 @@ from distutils.core import setup
 
 long_description = \
 """This module provides a wrapper around the various text markup languages,
-such as Markdown and reStructuredText (these two are supported by default).
+such as Markdown_ and reStructuredText_ (these two are supported by default).
 
 Usage example:
 
@@ -17,7 +17,11 @@ Usage example:
 >>> markup.get_document_title(text)
 'Hello, world!'
 >>> markup.get_document_body(text)
-'<p>This is an example <strong>reStructuredText</strong> document.</p>\\n'"""
+'<p>This is an example <strong>reStructuredText</strong> document.</p>\\n'
+
+.. _Markdown: http://pypi.python.org/pypi/Markdown/
+.. _reStructuredText: http://docutils.sourceforge.net/rst.html
+"""
 
 classifiers = ['Development Status :: 4 - Beta',
 	'License :: OSI Approved :: BSD License',
