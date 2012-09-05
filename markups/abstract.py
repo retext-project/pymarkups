@@ -9,6 +9,9 @@ class AbstractMarkup(object):
 	
 	file_extensions = ()
 	
+	def __init__(self, filename=None):
+		self.cached_parts = {}
+	
 	def available():
 		return True
 	
@@ -28,16 +31,18 @@ class AbstractMarkup(object):
 	                   fallback_title='', webenv=False):
 		stylesheet = ('<style type="text/css">\n' + self.get_stylesheet(text) +
 			'</style>\n' if include_stylesheet else '')
+		body = self.get_document_body(text)
+		self.cached_parts['body'] = body
 		title = self.get_document_title(text)
 		if not title:
 			title = fallback_title
 		title_string = ('<title>' + title + '</title>\n') if title else ''
-		body = self.get_document_body(text)
+		javascript = self.get_javascript(text, webenv)
+		self.cached_parts = {}
 		return (
 		'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">\n'
 		'<html>\n<head>\n'
 		'<meta http-equiv="content-type" content="text/html; charset=utf-8">\n'
-		+ custom_headers + title_string + stylesheet +
-		self.get_javascript(text, webenv) + '</head>\n<body>\n'
-		+ body + '</body>\n</html>\n'
+		+ custom_headers + title_string + stylesheet + javascript
+		+ '</head>\n<body>\n' + body + '</body>\n</html>\n'
 		)
