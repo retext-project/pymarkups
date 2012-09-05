@@ -60,6 +60,7 @@ class MarkdownMarkup(AbstractMarkup):
 		return pattern
 	
 	def __init__(self, filename=None):
+		AbstractMarkup.__init__(self, filename)
 		import markdown
 		self.extensions = self._load_extensions_list_from_file(
 			CONFIGURATION_DIR + 'markdown-extensions.txt')
@@ -85,10 +86,11 @@ class MarkdownMarkup(AbstractMarkup):
 				self._get_mathjax_pattern(markdown), '<escape')
 	
 	def get_document_title(self, text):
-		try:
-			return str.join(' ', self.md.Meta['title'])
-		except:
+		if 'meta' not in self.extensions:
 			return ''
+		if not 'body' in self.cached_parts:
+			self.get_document_body(text)
+		return str.join(' ', self.md.Meta['title'])
 	
 	def get_stylesheet(self, text=''):
 		if 'codehilite' in self.extensions:
@@ -97,6 +99,12 @@ class MarkdownMarkup(AbstractMarkup):
 	
 	def get_javascript(self, text='', webenv=False):
 		if not self.mathjax:
+			return ''
+		if 'body' in self.cached_parts:
+			body = self.cached_parts['body']
+		else:
+			body = self.get_document_body(text)
+		if not '<math' in body:
 			return ''
 		return ('<script type="text/javascript" src="' + get_mathjax_url(webenv)
 		+ '?config=TeX-AMS-MML_HTMLorMML"></script>\n<script type="text/javascript">\n' +
