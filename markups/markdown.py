@@ -95,8 +95,8 @@ class MarkdownMarkup(AbstractMarkup):
 			return get_pygments_stylesheet('.codehilite')
 		return ''
 	
-	def get_javascript(self, text='', webenv=False, tags=[]):
-		if not (self.mathjax and 'mathjax' in tags):
+	def get_javascript(self, text='', webenv=False):
+		if not self.mathjax:
 			return ''
 		return ('<script type="text/javascript" src="' + get_mathjax_url(webenv)
 		+ '?config=TeX-AMS-MML_HTMLorMML"></script>\n<script type="text/javascript">\n' +

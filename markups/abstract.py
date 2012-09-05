@@ -21,7 +21,7 @@ class AbstractMarkup(object):
 	def get_stylesheet(self, text=''):
 		return ''
 	
-	def get_javascript(self, text='', webenv=False, tags=[]):
+	def get_javascript(self, text='', webenv=False):
 		return ''
 	
 	def get_whole_html(self, text, custom_headers='', include_stylesheet=True,
@@ -33,12 +33,11 @@ class AbstractMarkup(object):
 			title = fallback_title
 		title_string = ('<title>' + title + '</title>\n') if title else ''
 		body = self.get_document_body(text)
-		tags = ['mathjax'] if ('<math' in body) else []
 		return (
 		'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">\n'
 		'<html>\n<head>\n'
 		'<meta http-equiv="content-type" content="text/html; charset=utf-8">\n'
 		+ custom_headers + title_string + stylesheet +
-		self.get_javascript(text, webenv, tags) + '</head>\n<body>\n'
+		self.get_javascript(text, webenv) + '</head>\n<body>\n'
 		+ body + '</body>\n</html>\n'
 		)
