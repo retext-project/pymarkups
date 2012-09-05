@@ -1,3 +1,7 @@
+# This file is part of python-markups test suite
+# License: BSD
+# Copyright: (C) Dmitry Shachnev, 2012
+
 from markups import MarkdownMarkup
 import os
 import sys

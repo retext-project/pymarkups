@@ -1,3 +1,7 @@
+# This file is part of python-markups test suite
+# License: BSD
+# Copyright: (C) Dmitry Shachnev, 2012
+
 import markups.web
 import os
 import difflib
