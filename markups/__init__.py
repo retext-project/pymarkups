@@ -9,10 +9,7 @@ from markups.restructuredtext import ReStructuredTextMarkup
 
 __version__ = '0.2'
 
-# Builtin markups
-
 builtin_markups = [MarkdownMarkup, ReStructuredTextMarkup]
-known_markups = builtin_markups # Compatibility variable, don't rely on it
 
 # Public API
 
