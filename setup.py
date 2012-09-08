@@ -50,6 +50,7 @@ class run_tests(Command):
 	def run(self):
 		import tests.test_public_api
 		import tests.test_markdown
+		import tests.test_restructuredtext
 		import tests.test_web
 		print('test_markdown: testing extensions loading')
 		tests.test_markdown.test_extensions_loading()
@@ -61,6 +62,8 @@ class run_tests(Command):
 		tests.test_markdown.test_meta()
 		print('test_markdown: testing mathjax extension')
 		tests.test_markdown.test_mathjax()
+		print('test_restructuredtext: testing math loading')
+		tests.test_restructuredtext.test_mathjax_loading()
 		print('test_web: testing markups.web module')
 		tests.test_web.test_web()
 		print('test_public_api: testing public API')
