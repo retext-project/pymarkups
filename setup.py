@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from distutils.core import setup
+from distutils.core import setup, Command
 
 long_description = \
 """This module provides a wrapper around the various text markup languages,
@@ -39,6 +39,30 @@ classifiers = ['Development Status :: 4 - Beta',
 	'Topic :: Software Development :: Libraries :: Python Modules'
 ]
 
+class run_tests(Command):
+	user_options = []
+	def initialize_options(self):
+		self.strict = True
+		self.restructuredtext = False
+	
+	def finalize_options(self): pass
+	
+	def run(self):
+		import tests.test_markdown
+		import tests.test_web
+		print('test_markdown: testing extensions loading')
+		tests.test_markdown.test_extensions_loading()
+		print('test_markdown: testing markdown extra')
+		tests.test_markdown.test_extra()
+		print('test_markdown: testing markdown without extra')
+		tests.test_markdown.test_remove_extra()
+		print('test_markdown: testing meta extension')
+		tests.test_markdown.test_meta()
+		print('test_markdown: testing mathjax extension')
+		tests.test_markdown.test_mathjax()
+		print('test_web: testing markups.web module')
+		tests.test_web.test_web()
+
 setup(name='Markups',
 	version='0.2',
 	description='A wrapper around various text markups',
@@ -49,5 +73,5 @@ setup(name='Markups',
 	packages=['markups'],
 	license='BSD',
 	classifiers=classifiers,
-	requires=['dbus']
+	cmdclass={'check': run_tests, 'test': run_tests},
 )
