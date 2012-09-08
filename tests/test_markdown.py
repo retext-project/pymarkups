@@ -96,9 +96,8 @@ def test_mathjax():
 	create_extensions_txt(['mathjax'])
 	markup = MarkdownMarkup()
 	os.remove('markdown-extensions.txt')
-	js = markup.get_javascript('Hello, world!')
-	if '<script' in js:
-		fail_test('unexpected <script> tag')
+	if markup.get_javascript('Hello, world!'):
+		fail_test('get_javascript() returned non-empty string')
 	js = markup.get_javascript('Hello, $2+2$!')
 	if not '<script' in js:
 		fail_test('mathjax script not included')
