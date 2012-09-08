@@ -2,6 +2,8 @@
 
 from distutils.core import setup, Command
 
+version = '0.2.1'
+
 long_description = \
 """This module provides a wrapper around the various text markup languages,
 such as Markdown_ and reStructuredText_ (these two are supported by default).
@@ -70,7 +72,7 @@ class run_tests(Command):
 		tests.test_public_api.test_api()
 
 setup(name='Markups',
-	version='0.2',
+	version=version,
 	description='A wrapper around various text markups',
 	long_description=long_description,
 	author='Dmitry Shachnev',
