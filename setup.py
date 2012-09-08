@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
-from distutils.core import setup, Command
+from distutils.core import setup
+import distutils.command.check
 
 version = '0.2.1'
 
@@ -41,15 +42,9 @@ classifiers = ['Development Status :: 4 - Beta',
 	'Topic :: Software Development :: Libraries :: Python Modules'
 ]
 
-class run_tests(Command):
-	user_options = []
-	def initialize_options(self):
-		self.strict = True
-		self.restructuredtext = False
-	
-	def finalize_options(self): pass
-	
+class run_tests(distutils.command.check.check):
 	def run(self):
+		distutils.command.check.check.run(self)
 		import tests.test_public_api
 		import tests.test_markdown
 		import tests.test_restructuredtext
@@ -81,5 +76,5 @@ setup(name='Markups',
 	packages=['markups'],
 	license='BSD',
 	classifiers=classifiers,
-	cmdclass={'check': run_tests, 'test': run_tests},
+	cmdclass={'check': run_tests},
 )
