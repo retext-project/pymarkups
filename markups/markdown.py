@@ -5,6 +5,8 @@
 # MathJax pattern code is based on work by Rob Mayoff
 # https://github.com/mayoff/python-markdown-mathjax
 
+from __future__ import absolute_import
+
 import sys
 from markups.core import *
 from markups.abstract import AbstractMarkup
@@ -68,6 +70,8 @@ class MarkdownMarkup(AbstractMarkup):
 		if not local_directory: local_directory = '.'
 		self.extensions += self._load_extensions_list_from_file(
 			local_directory+'/markdown-extensions.txt')
+		# Remove duplicate entries
+		self.extensions = list(set(self.extensions))
 		# We have two virtual extensions
 		if 'remove_extra' in self.extensions:
 			self.extensions.remove('remove_extra')
