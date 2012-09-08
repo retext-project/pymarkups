@@ -48,6 +48,7 @@ class run_tests(Command):
 	def finalize_options(self): pass
 	
 	def run(self):
+		import tests.test_public_api
 		import tests.test_markdown
 		import tests.test_web
 		print('test_markdown: testing extensions loading')
@@ -62,6 +63,8 @@ class run_tests(Command):
 		tests.test_markdown.test_mathjax()
 		print('test_web: testing markups.web module')
 		tests.test_web.test_web()
+		print('test_public_api: testing public API')
+		tests.test_public_api.test_api()
 
 setup(name='Markups',
 	version='0.2',
