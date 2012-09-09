@@ -28,9 +28,17 @@ class ReStructuredTextMarkup(AbstractMarkup):
 	def __init__(self, filename=None):
 		AbstractMarkup.__init__(self, filename)
 		from docutils.core import publish_parts
+		self._publish_parts = publish_parts
+	
+	def publish_parts(self, text):
+		if 'rest_parts' in self.cache:
+			return self.cache['rest_parts']
 		overrides = {'math_output': 'MathJax'}
-		self.publish_parts = lambda text: publish_parts(text,
-			writer_name='html', settings_overrides=overrides)
+		parts = self._publish_parts(text, writer_name='html',
+			 settings_overrides=overrides)
+		if self.enable_cache:
+			self.cache['rest_parts'] = parts
+		return parts
 	
 	def get_document_title(self, text):
 		return self.publish_parts(text)['title']

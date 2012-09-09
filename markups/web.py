@@ -62,6 +62,7 @@ class WebLibrary(object):
 		markup = markups.get_markup_for_file_name(fname)
 		if not markup:
 			return
+		markup.enable_cache = True
 		html = markup.get_document_body(text).rstrip()
 		pagename = markup.get_document_title(text)
 		javascript = markup.get_javascript(text, webenv=True)
