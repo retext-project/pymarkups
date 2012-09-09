@@ -92,7 +92,7 @@ class MarkdownMarkup(AbstractMarkup):
 	def get_document_title(self, text):
 		if 'meta' not in self.extensions:
 			return ''
-		if not 'body' in self.cached_parts:
+		if not 'body' in self.cache:
 			self.get_document_body(text)
 		return str.join(' ', self.md.Meta['title'])
 	
@@ -104,8 +104,8 @@ class MarkdownMarkup(AbstractMarkup):
 	def get_javascript(self, text='', webenv=False):
 		if not self.mathjax:
 			return ''
-		if 'body' in self.cached_parts:
-			body = self.cached_parts['body']
+		if 'body' in self.cache:
+			body = self.cache['body']
 		else:
 			body = self.get_document_body(text)
 		if not '<math' in body:
@@ -117,4 +117,7 @@ class MarkdownMarkup(AbstractMarkup):
 	
 	def get_document_body(self, text):
 		self.md.reset()
-		return self.md.convert(text)
+		converted_text = self.md.convert(text)
+		if self.enable_cache:
+			self.cache['body'] = converted_text
+		return converted_text
