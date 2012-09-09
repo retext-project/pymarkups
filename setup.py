@@ -59,6 +59,8 @@ class run_tests(distutils.command.check.check):
 		tests.test_markdown.test_meta()
 		print('test_markdown: testing mathjax extension')
 		tests.test_markdown.test_mathjax()
+		print('test_restructuredtext: testing reStructuredText')
+		tests.test_restructuredtext.test_basic()
 		print('test_restructuredtext: testing math loading')
 		tests.test_restructuredtext.test_mathjax_loading()
 		print('test_web: testing markups.web module')
