@@ -1,2 +1,3 @@
 include LICENSE
 include changelog
+recursive-include tests *.py *.rst *.html
