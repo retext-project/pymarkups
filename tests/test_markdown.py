@@ -30,7 +30,8 @@ tables_output = \
 <td>t22</td>
 </tr>
 </tbody>
-</table>'''
+</table>
+'''
 
 deflists_source = \
 '''Apple
@@ -47,7 +48,8 @@ deflists_output = \
 the family Rosaceae.</dd>
 <dt>Orange</dt>
 <dd>The fruit of an evergreen tree of the genus Citrus.</dd>
-</dl>'''
+</dl>
+'''
 
 def create_extensions_txt(extensions_list):
 	extensions_txt = open('markdown-extensions.txt', 'w')
@@ -102,7 +104,7 @@ def test_mathjax():
 	if not '<script' in js:
 		fail_test('mathjax script not included')
 	body = markup.get_document_body('Hello, $2+2$!')
-	if body != '<p>Hello, <mathjax>$2+2$</mathjax>!</p>':
+	if body != '<p>Hello, <mathjax>$2+2$</mathjax>!</p>\n':
 		fail_test('mathjax not working')
 
 if __name__ == '__main__':

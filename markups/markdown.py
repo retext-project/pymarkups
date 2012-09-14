@@ -117,7 +117,7 @@ class MarkdownMarkup(AbstractMarkup):
 	
 	def get_document_body(self, text):
 		self.md.reset()
-		converted_text = self.md.convert(text)
+		converted_text = self.md.convert(text) + '\n'
 		if self.enable_cache:
 			self.cache['body'] = converted_text
 		return converted_text
