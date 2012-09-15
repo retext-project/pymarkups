@@ -50,18 +50,19 @@ class WebLibrary(object):
 		self.template = self.template.replace('%APPINFO%', self.app_info)
 	
 	def _process_page(self, fname):
-		bn, ext = os.path.splitext(fname)
-		html = pagename = ''
-		inputfile = open(self.working_dir+'/'+fname, 'r')
-		try:
-			text = unicode(inputfile.read(), 'utf-8')
-		except:
-			# For Python 3
-			text = inputfile.read()
-		inputfile.close()
 		markup = markups.get_markup_for_file_name(fname)
 		if not markup:
 			return
+		bn, ext = os.path.splitext(fname)
+		html = pagename = ''
+		inputfile = open(self.working_dir+'/'+fname, 'r')
+		text = inputfile.read()
+		inputfile.close()
+		try:
+			text = unicode(text, 'utf-8')
+		except NameError:
+			# Not needed for Python 3
+			pass
 		markup.enable_cache = True
 		html = markup.get_document_body(text).rstrip()
 		pagename = markup.get_document_title(text)
