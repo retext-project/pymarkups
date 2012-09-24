@@ -1,3 +1,4 @@
 include LICENSE
 include changelog
+include examples/example-template.html
 recursive-include tests *.py *.rst *.html
