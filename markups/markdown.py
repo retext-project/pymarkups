@@ -2,14 +2,22 @@
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2012
 
-# MathJax pattern code is based on work by Rob Mayoff
-# https://github.com/mayoff/python-markdown-mathjax
-
 from __future__ import absolute_import
 
 import sys
 from markups.core import *
 from markups.abstract import AbstractMarkup
+
+MATHJAX_CONFIG = '''
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ["$", "$"], ["\\\\(", "\\\\)"] ],
+    processEscapes: true
+  }
+});
+</script>
+'''
 
 class MarkdownMarkup(AbstractMarkup):
 	"""Markdown language"""
@@ -52,14 +60,35 @@ class MarkdownMarkup(AbstractMarkup):
 				return False
 		return True
 	
-	def _get_mathjax_pattern(self, markdown):
-		def handleMatch(m):
-			node = markdown.util.etree.Element('mathjax')
-			node.text = markdown.util.AtomicString(m.group(2) + m.group(3) + m.group(2))
+	def _get_mathjax_patterns(self, markdown):
+		def handle_match_inline(m):
+			node = markdown.util.etree.Element('span')
+			node.set('class', 'math')
+			node.text = markdown.util.AtomicString(m.group(2) + m.group(3) + m.group(4))
 			return node
-		pattern = markdown.inlinepatterns.Pattern(r'(?<!\\)(\$\$?)(.+?)\2')
-		pattern.handleMatch = handleMatch
-		return pattern
+		
+		def handle_match(m):
+			node = markdown.util.etree.Element('div')
+			node.set('class', 'math')
+			node.text = markdown.util.AtomicString(m.group(2) + m.group(3) + m.group(4))
+			return node
+		
+		inlinemathpatterns = (
+			markdown.inlinepatterns.Pattern(r'(?<!\\|\$)(\$)([^\$]+)(\$)'),
+			markdown.inlinepatterns.Pattern(r'(?<!\\)(\\\()([^\\)]+)(\\\))')
+		)
+		mathpatterns = (
+			markdown.inlinepatterns.Pattern(r'(?<!\\)(\$\$)([^\$]+)(\$\$)'),
+			markdown.inlinepatterns.Pattern(r'(?<!\\)(\\\[)(.+)(\\\])')
+		)
+		patterns = []
+		for pattern in inlinemathpatterns:
+			pattern.handleMatch = handle_match_inline
+			patterns.append(pattern)
+		for pattern in mathpatterns:
+			pattern.handleMatch = handle_match
+			patterns.append(pattern)
+		return patterns
 	
 	def __init__(self, filename=None):
 		AbstractMarkup.__init__(self, filename)
@@ -86,8 +115,9 @@ class MarkdownMarkup(AbstractMarkup):
 				self.extensions.remove(extension)
 		self.md = markdown.Markdown(self.extensions, output_format='html4')
 		if self.mathjax:
-			self.md.inlinePatterns.add('mathjax',
-				self._get_mathjax_pattern(markdown), '<escape')
+			patterns = self._get_mathjax_patterns(markdown)
+			for i in range(len(patterns)):
+				self.md.inlinePatterns.add('mathjax%d' % i, patterns[i], '<escape')
 	
 	def get_document_title(self, text):
 		if 'meta' not in self.extensions:
@@ -108,12 +138,10 @@ class MarkdownMarkup(AbstractMarkup):
 			body = self.cache['body']
 		else:
 			body = self.get_document_body(text)
-		if not '<math' in body:
+		if not 'class="math"' in body:
 			return ''
 		return ('<script type="text/javascript" src="' + get_mathjax_url(webenv)
-		+ '?config=TeX-AMS-MML_HTMLorMML"></script>\n<script type="text/javascript">\n' +
-		'MathJax.Hub.Config({ "tex2jax": { inlineMath: [[ \'$\', \'$\' ]] } });\n'
-		+ '</script>\n')
+		+ '?config=TeX-AMS-MML_HTMLorMML"></script>' + MATHJAX_CONFIG)
 	
 	def get_document_body(self, text):
 		self.md.reset()
