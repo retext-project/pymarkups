@@ -51,6 +51,33 @@ the family Rosaceae.</dd>
 </dl>
 '''
 
+mathjax_source = \
+r'''$i_1$ some text \$escaped\$ $i_2$
+
+\(i_3\) some text \(i_4\)
+
+\\(escaped\)
+
+$$m_1$$
+
+\[m_2\]
+
+\$$escaped\$$ \\[escaped\]
+'''
+
+mathjax_output = \
+r'''<p><span class="math">$i_1$</span> some text \$escaped\$ <span class="math">$i_2$</span></p>
+<p><span class="math">\(i_3\)</span> some text <span class="math">\(i_4\)</span></p>
+<p>\(escaped)</p>
+<p>
+<div class="math">$$m_1$$</div>
+</p>
+<p>
+<div class="math">\[m_2\]</div>
+</p>
+<p>\$$escaped\$$ \[escaped]</p>
+'''
+
 def create_extensions_txt(extensions_list):
 	extensions_txt = open('markdown-extensions.txt', 'w')
 	for extension in extensions_list:
@@ -98,13 +125,14 @@ def test_mathjax():
 	create_extensions_txt(['mathjax'])
 	markup = MarkdownMarkup()
 	os.remove('markdown-extensions.txt')
-	if markup.get_javascript('Hello, world!'):
+	# Escaping should work
+	if markup.get_javascript('Hello, \\$2+2$!'):
 		fail_test('get_javascript() returned non-empty string')
-	js = markup.get_javascript('Hello, $2+2$!')
+	js = markup.get_javascript(mathjax_source)
 	if not '<script' in js:
 		fail_test('mathjax script not included')
-	body = markup.get_document_body('Hello, $2+2$!')
-	if body != '<p>Hello, <mathjax>$2+2$</mathjax>!</p>\n':
+	body = markup.get_document_body(mathjax_source)
+	if body != mathjax_output:
 		fail_test('mathjax not working')
 
 if __name__ == '__main__':
