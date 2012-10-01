@@ -13,7 +13,11 @@ MATHJAX_CONFIG = '''
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [ ["$", "$"], ["\\\\(", "\\\\)"] ],
-    processEscapes: true
+    processEscapes: true,
+    processClass: "math"
+  },
+  TeX: {
+    equationNumbers: {autoNumber: "AMS"}
   }
 });
 </script>
@@ -116,6 +120,7 @@ class MarkdownMarkup(AbstractMarkup):
 				self.extensions.remove(extension)
 		self.md = markdown.Markdown(self.extensions, output_format='html4')
 		if self.mathjax:
+			self.body_tag = 'class="tex2jax_ignore"'
 			patterns = self._get_mathjax_patterns(markdown)
 			for i in range(len(patterns)):
 				self.md.inlinePatterns.add('mathjax%d' % i, patterns[i], '<escape')
