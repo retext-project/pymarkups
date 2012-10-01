@@ -1,7 +1,10 @@
-Version 0.2, 2012-09-04
-=======================
+Version 0.2.2, 2012-10-02
+=========================
 
-* Initial release
+* Re-written math support for Markdown
+* Add tests to the tarball
+* Add example template for web module
+* Bug fixes in Markdown and web modules
 
 Version 0.2.1, 2012-09-09
 =========================
@@ -9,3 +12,8 @@ Version 0.2.1, 2012-09-09
 * Add caching support, to speed up get_document_body function
 * Add testsuite
 * Fix some bugs in markdown module
+
+Version 0.2, 2012-09-04
+=======================
+
+* Initial release
