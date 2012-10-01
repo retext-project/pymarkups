@@ -41,10 +41,14 @@ class AbstractMarkup(object):
 		javascript = self.get_javascript(text, webenv)
 		self.enable_cache = False
 		self.cache = {}
+		if hasattr(self, 'body_attrs'):
+			body_tag = '<body %s>\n' % self.body_attrs
+		else:
+			body_tag = '<body>\n'
 		return (
 		'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">\n'
 		'<html>\n<head>\n'
 		'<meta http-equiv="content-type" content="text/html; charset=utf-8">\n'
 		+ custom_headers + title_string + stylesheet + javascript
-		+ '</head>\n<body>\n' + body + '</body>\n</html>\n'
+		+ '</head>\n' + body_tag + body + '</body>\n</html>\n'
 		)
