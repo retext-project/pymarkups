@@ -130,7 +130,10 @@ class MarkdownMarkup(AbstractMarkup):
 			return ''
 		if not 'body' in self.cache:
 			self.get_document_body(text)
-		return str.join(' ', self.md.Meta['title'])
+		if 'title' in self.md.Meta:
+			return str.join(' ', self.md.Meta['title'])
+		else:
+			return ''
 	
 	def get_stylesheet(self, text=''):
 		if 'codehilite' in self.extensions:
