@@ -7,7 +7,7 @@ from markups.core import *
 from markups.markdown import MarkdownMarkup
 from markups.restructuredtext import ReStructuredTextMarkup
 
-__version__ = '0.2.1'
+__version__ = '0.2.2'
 
 builtin_markups = [MarkdownMarkup, ReStructuredTextMarkup]
 
