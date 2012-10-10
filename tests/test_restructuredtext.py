@@ -47,5 +47,5 @@ def test_mathjax_loading():
 		fail_test('math not working')
 
 if __name__ == '__main__':
-	test_basic
+	test_basic()
 	test_mathjax_loading()
