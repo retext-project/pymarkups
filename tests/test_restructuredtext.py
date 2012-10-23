@@ -5,12 +5,6 @@
 import sys
 from markups import ReStructuredTextMarkup
 
-math_output = \
-r'''<p>Hello, <span class="math">
-\(2+2\)</span>
-!</p>
-'''
-
 basic_text = \
 '''Hello, world!
 =============
@@ -43,7 +37,7 @@ def test_mathjax_loading():
 	if not '<script' in js:
 		fail_test('mathjax script not included')
 	body = markup.get_document_body('Hello, :math:`2+2`!')
-	if body != math_output:
+	if not ('<span class="math">' in body and r'\(2+2\)</span>' in body):
 		fail_test('math not working')
 
 if __name__ == '__main__':
