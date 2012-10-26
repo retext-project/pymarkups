@@ -111,7 +111,6 @@ class MarkdownMarkup(AbstractMarkup):
 			self.extensions.remove('remove_extra')
 		else:
 			self.extensions.append('extra')
-			self.extensions.append('meta')
 		self.mathjax = ('mathjax' in self.extensions)
 		if self.mathjax:
 			self.extensions.remove('mathjax')
