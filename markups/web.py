@@ -28,18 +28,21 @@ class WebLibrary(object):
 	
 	def update_all(self):
 		"""Process all documents in the directory"""
+		def is_file(path):
+			return os.path.isfile(os.path.join(self.working_dir, path))
+		
 		self._init_template()
-		for fname in filter(os.path.isfile, os.listdir(self.working_dir)):
+		for fname in filter(is_file, os.listdir(self.working_dir)):
 			self._process_page(fname)
 	
 	def update(self, filename):
 		"""Process one file in the directory"""
 		self._init_template()
-		if os.path.exists(self.working_dir+'/'+filename):
+		if os.path.exists(os.path.join(self.working_dir, filename)):
 			self._process_page(filename)
 	
 	def _init_template(self):
-		templatefile = open(self.working_dir+'/template.html')
+		templatefile = open(os.path.join(self.working_dir, 'template.html'))
 		try:
 			self.template = unicode(templatefile.read(), 'utf-8')
 		except:
@@ -55,7 +58,7 @@ class WebLibrary(object):
 			return
 		bn, ext = os.path.splitext(fname)
 		html = pagename = ''
-		inputfile = open(self.working_dir+'/'+fname, 'r')
+		inputfile = open(os.path.join(self.working_dir, fname), 'r')
 		text = inputfile.read()
 		inputfile.close()
 		try:
@@ -85,9 +88,10 @@ class WebLibrary(object):
 			content = content.replace('%TIME%', formatdate(usegmt=True))
 			content = content.replace(' href="'+bn+'.html"', '')
 			content = content.replace('%\\', '%')
-			if not os.path.exists(self.working_dir+'/html'):
-				os.mkdir(self.working_dir+'/html')
-			outputfile = open(self.working_dir+'/html/'+bn+'.html', 'w')
+			htmldir = os.path.join(self.working_dir, 'html')
+			if not os.path.exists(htmldir):
+				os.mkdir(htmldir)
+			outputfile = open(os.path.join(htmldir, bn+'.html'), 'w')
 			try:
 				outputfile.write(content.encode('utf-8'))
 			except:

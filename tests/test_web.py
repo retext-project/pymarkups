@@ -28,6 +28,9 @@ def test_web():
 		tofile=working_dir+'/html/page.html')
 	diff = [line for line in diff]
 	os.remove(working_dir+'/html/page.html')
+	lib.update_all()
+	assert os.path.exists(working_dir+'/html/page.html')
+	os.remove(working_dir+'/html/page.html')
 	os.rmdir(working_dir+'/html')
 	if diff:
 		sys.stderr.write(str.join('', diff))
