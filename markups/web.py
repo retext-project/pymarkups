@@ -53,12 +53,13 @@ class WebLibrary(object):
 		self.template = self.template.replace('%APPINFO%', self.app_info)
 	
 	def _process_page(self, fname):
-		markup = markups.get_markup_for_file_name(fname)
+		inputfile = os.path.join(self.working_dir, fname)
+		markup = markups.get_markup_for_file_name(inputfile)
 		if not markup:
 			return
 		bn, ext = os.path.splitext(fname)
 		html = pagename = ''
-		inputfile = open(os.path.join(self.working_dir, fname), 'r')
+		inputfile = open(inputfile, 'r')
 		text = inputfile.read()
 		inputfile.close()
 		try:
