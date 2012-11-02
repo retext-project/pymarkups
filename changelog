@@ -1,3 +1,9 @@
+Version 0.2.3, 2012-11-02
+=========================
+
+* Fix support for custom working directory in web module
+* Bug fixes in Markdown module and tests
+
 Version 0.2.2, 2012-10-02
 =========================
 
