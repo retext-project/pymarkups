@@ -3,7 +3,7 @@
 from distutils.core import setup
 import distutils.command.check
 
-version = '0.2.2'
+from markups import __version__ as version
 
 long_description = \
 """This module provides a wrapper around the various text markup languages,
