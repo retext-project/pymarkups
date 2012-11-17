@@ -15,7 +15,7 @@ builtin_markups = [MarkdownMarkup, ReStructuredTextMarkup]
 
 def get_custom_markups():
 	try:	
-		list_file = open(CONFIGURATION_DIR+'pymarkups.txt')
+		list_file = open(os.path.join(CONFIGURATION_DIR, 'pymarkups.txt'))
 	except IOError:
 		return []
 	else:
