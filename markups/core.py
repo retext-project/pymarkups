@@ -13,7 +13,7 @@ MATHJAX_WEB_URL = 'http://cdn.mathjax.org/mathjax/latest/MathJax.js'
 def get_pygments_stylesheet(selector):
 	try:
 		from pygments.formatters import HtmlFormatter
-	except:
+	except ImportError:
 		return ''
 	else:
 		return HtmlFormatter().get_style_defs(selector) + '\n'

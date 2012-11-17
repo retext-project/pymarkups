@@ -45,7 +45,7 @@ class WebLibrary(object):
 		templatefile = open(os.path.join(self.working_dir, 'template.html'))
 		try:
 			self.template = unicode(templatefile.read(), 'utf-8')
-		except:
+		except NameError:
 			# For Python 3
 			self.template = templatefile.read()
 		templatefile.close()
@@ -79,7 +79,7 @@ class WebLibrary(object):
 			try:
 				pagename = unicode(pagename, 'utf-8')
 				bn = unicode(bn, 'utf-8')
-			except:
+			except NameError:
 				pass # Not needed for Python 3
 			content = content.replace('%PAGENAME%', pagename)
 			content = content.replace('%SOURCEFILENAME%', fname)
