@@ -47,9 +47,13 @@ class ReStructuredTextMarkup(AbstractMarkup):
 		return self.publish_parts(text)['body']
 	
 	def get_stylesheet(self, text=''):
-		orig_stylesheet = self.publish_parts(text)['stylesheet']
+		origstyle = self.publish_parts(text)['stylesheet']
 		# Cut off <style> and </style> tags
-		return orig_stylesheet[25:-10] + get_pygments_stylesheet('.code')
+		stylestart = '<style type="text/css">'
+		stylesheet = ''
+		if stylestart in origstyle:
+			stylesheet = origstyle[origstyle.find(stylestart)+25:origstyle.rfind('</style>')]
+		return stylesheet + get_pygments_stylesheet('.code')
 	
 	def get_javascript(self, text='', webenv=False):
 		head = self.publish_parts(text)['head']
