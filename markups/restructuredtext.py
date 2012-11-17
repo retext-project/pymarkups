@@ -2,7 +2,7 @@
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2012
 
-from markups.core import *
+from markups.common import *
 from markups.abstract import AbstractMarkup
 
 class ReStructuredTextMarkup(AbstractMarkup):

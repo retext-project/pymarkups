@@ -5,7 +5,7 @@
 from __future__ import absolute_import
 
 import sys
-from markups.core import *
+from markups.common import *
 from markups.abstract import AbstractMarkup
 
 MATHJAX_CONFIG = '''

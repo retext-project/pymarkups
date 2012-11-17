@@ -3,7 +3,7 @@
 # Copyright: (C) Dmitry Shachnev, 2012
 
 import sys
-from markups.core import *
+from markups.common import *
 from markups.markdown import MarkdownMarkup
 from markups.restructuredtext import ReStructuredTextMarkup
 
