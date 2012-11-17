@@ -39,7 +39,7 @@ class MarkdownMarkup(AbstractMarkup):
 	def available():
 		try:
 			import markdown
-		except:
+		except ImportError:
 			return False
 		return True
 	

@@ -21,7 +21,7 @@ class ReStructuredTextMarkup(AbstractMarkup):
 	def available():
 		try:
 			import docutils.core
-		except:
+		except ImportError:
 			return False
 		return True
 	
