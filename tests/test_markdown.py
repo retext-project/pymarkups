@@ -4,7 +4,7 @@
 
 from markups import MarkdownMarkup
 import os
-import sys
+import unittest
 
 tables_source = \
 '''th1 | th2
@@ -84,60 +84,47 @@ def create_extensions_txt(extensions_list):
 		extensions_txt.write(extension+'\n')
 	extensions_txt.close()
 
-def fail_test(message):
-	sys.exit('Markdown test failed: '+message)
-
-def test_extensions_loading():
-	markup = MarkdownMarkup()
-	if markup._check_extension_exists('nonexistent'):
-		fail_test('failed to detect nonexistent extension')
-	if not markup._check_extension_exists('meta'):
-		fail_test('meta extension marked as nonexistent')
-
-def test_extra():
-	markup = MarkdownMarkup()
-	html = markup.get_document_body(tables_source)
-	if html != tables_output:
-		sys.stderr.write(html)
-		fail_test('tables extension not working')
-	html = markup.get_document_body(deflists_source)
-	if html != deflists_output:
-		sys.stderr.write(html)
-		fail_test('def_list extension not working')
-
-def test_remove_extra():
-	create_extensions_txt(['remove_extra'])
-	markup = MarkdownMarkup()
-	html = markup.get_document_body(tables_source)
-	os.remove('markdown-extensions.txt')
-	if html == tables_output:
-		fail_test('remove_extra not working')
-
-def test_meta():
-	create_extensions_txt(['meta'])
-	markup = MarkdownMarkup()
-	os.remove('markdown-extensions.txt')
-	title = markup.get_document_title('Title: Hello, world!\n\nSome text here.')
-	if title != 'Hello, world!':
-		fail_test('meta not working')
-
-def test_mathjax():
-	create_extensions_txt(['mathjax'])
-	markup = MarkdownMarkup()
-	os.remove('markdown-extensions.txt')
-	# Escaping should work
-	if markup.get_javascript('Hello, \\$2+2$!'):
-		fail_test('get_javascript() returned non-empty string')
-	js = markup.get_javascript(mathjax_source)
-	if not '<script' in js:
-		fail_test('mathjax script not included')
-	body = markup.get_document_body(mathjax_source)
-	if body != mathjax_output:
-		fail_test('mathjax not working')
+class MarkdownTest(unittest.TestCase):
+	def test_extensions_loading(self):
+		markup = MarkdownMarkup()
+		self.assertFalse(markup._check_extension_exists('nonexistent'))
+		self.assertTrue(markup._check_extension_exists('meta'))
+	
+	def test_extra(self):
+		markup = MarkdownMarkup()
+		html = markup.get_document_body(tables_source)
+		self.assertEqual(tables_output, html)
+		html = markup.get_document_body(deflists_source)
+		self.assertEqual(deflists_output, html)
+	
+	def test_remove_extra(self):
+		create_extensions_txt(['remove_extra'])
+		markup = MarkdownMarkup()
+		html = markup.get_document_body(tables_source)
+		os.remove('markdown-extensions.txt')
+		self.assertNotEqual(html, tables_output)
+	
+	def test_meta(self):
+		create_extensions_txt(['meta'])
+		markup = MarkdownMarkup()
+		os.remove('markdown-extensions.txt')
+		title = markup.get_document_title('Title: Hello, world!\n\nSome text here.')
+		self.assertEqual('Hello, world!', title)
+	
+	def test_mathjax(self):
+		create_extensions_txt(['mathjax'])
+		markup = MarkdownMarkup()
+		os.remove('markdown-extensions.txt')
+		# Escaping should work
+		self.assertEqual('', markup.get_javascript('Hello, \\$2+2$!'))
+		js = markup.get_javascript(mathjax_source)
+		self.assertTrue('<script' in js)
+		body = markup.get_document_body(mathjax_source)
+		self.assertEqual(mathjax_output, body)
+	
+	def tearDown(self):
+		if os.path.exists('markdown-extensions.txt'):
+			os.remove('markdown-extensions.txt')
 
 if __name__ == '__main__':
-	test_extensions_loading()
-	test_extra()
-	test_remove_extra()
-	test_meta()
-	test_mathjax()
+	unittest.main()
