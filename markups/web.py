@@ -79,7 +79,7 @@ class WebLibrary(object):
 			try:
 				pagename = unicode(pagename, 'utf-8')
 				bn = unicode(bn, 'utf-8')
-			except NameError:
+			except (NameError, TypeError):
 				pass # Not needed for Python 3
 			content = content.replace('%PAGENAME%', pagename)
 			content = content.replace('%SOURCEFILENAME%', fname)
