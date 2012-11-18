@@ -1,8 +1,7 @@
 #!/usr/bin/python
 
-from distutils.core import setup
-import distutils.command.check
-
+import sys
+from distutils.core import setup, Command
 from markups import __version__ as version
 
 long_description = \
@@ -37,16 +36,21 @@ classifiers = ['Development Status :: 4 - Beta',
 	'Programming Language :: Python :: 3.0',
 	'Programming Language :: Python :: 3.1',
 	'Programming Language :: Python :: 3.2',
+	'Programming Language :: Python :: 3.3',
 	'Topic :: Text Processing :: Markup',
 	'Topic :: Text Processing :: General',
 	'Topic :: Software Development :: Libraries :: Python Modules'
 ]
 
-class run_tests(distutils.command.check.check):
+class run_tests(Command):
+	user_options = []
+	
+	def initialize_options(self): pass
+	def finalize_options(self): pass
+	
 	def run(self):
-		import tests, sys
-		oldargv, sys.argv = sys.argv, ['setup.py check', '-v']
-		distutils.command.check.check.run(self)
+		import tests
+		oldargv, sys.argv = sys.argv, ['setup.py test', '-v']
 		try:
 			tests.main()
 		except SystemExit as e:
@@ -54,15 +58,30 @@ class run_tests(distutils.command.check.check):
 				raise
 		sys.argv = oldargv
 
-setup(name='Markups',
-	version=version,
-	description='A wrapper around various text markups',
-	long_description=long_description,
-	author='Dmitry Shachnev',
-	author_email='mitya57@gmail.com',
-	url='http://launchpad.net/python-markups',
-	packages=['markups'],
-	license='BSD',
-	classifiers=classifiers,
-	cmdclass={'check': run_tests},
-)
+# The above command doesn't work with Python 2, so let's use one from
+# setuptools there
+if sys.version_info[0] < 3:
+	try:
+		from setuptools.command.test import test as run_tests
+	except ImportError:
+		run_tests = None
+
+setup_args = {
+	'name': 'Markups',
+	'version': version,
+	'description': 'A wrapper around various text markups',
+	'long_description': long_description,
+	'author': 'Dmitry Shachnev',
+	'author_email': 'mitya57@gmail.com',
+	'url': 'http://launchpad.net/python-markups',
+	'packages': ['markups'],
+	'license': 'BSD',
+	'classifiers': classifiers
+}
+
+if run_tests:
+	setup_args['cmdclass'] = {'test': run_tests}
+	if sys.version_info[0] < 3:
+		setup_args['test_suite'] = 'tests'
+
+setup(**setup_args)
