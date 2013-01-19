@@ -72,6 +72,11 @@
 import re
 import os.path
 
+try:
+	chr = unichr # For Python 2.x
+except NameError:
+	pass
+
 # Some common constants and functions
 (LANGUAGE_HOME_PAGE, MODULE_HOME_PAGE, SYNTAX_DOCUMENTATION) = range(3)
 CONFIGURATION_DIR = (os.environ.get('XDG_CONFIG_HOME') or
