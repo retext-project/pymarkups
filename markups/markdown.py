@@ -152,7 +152,7 @@ class MarkdownMarkup(AbstractMarkup):
 		return ('<script type="text/javascript" src="' + get_mathjax_url(webenv)
 		+ '?config=TeX-AMS-MML_HTMLorMML"></script>' + MATHJAX_CONFIG)
 	
-	def get_document_body(self, text):
+	def _process_text(self, text):
 		self.md.reset()
 		converted_text = self.md.convert(text) + '\n'
 		if self.enable_cache:
