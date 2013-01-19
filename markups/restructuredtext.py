@@ -43,7 +43,7 @@ class ReStructuredTextMarkup(AbstractMarkup):
 	def get_document_title(self, text):
 		return self.publish_parts(text)['title']
 	
-	def get_document_body(self, text):
+	def _process_text(self, text):
 		return self.publish_parts(text)['body']
 	
 	def get_stylesheet(self, text=''):

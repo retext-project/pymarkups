@@ -13,14 +13,18 @@ class AbstractMarkup(object):
 		self.enable_cache = False
 		self.cache = {}
 	
+	def _process_text(self, text):
+		raise NotImplementedError
+	
 	def available():
 		return True
 	
 	def get_document_title(self, text):
 		return ''
 	
-	def get_document_body(self, text):
-		raise NotImplementedError()
+	def get_document_body(self, text, fixers='q'):
+		text = educate(text, fixers)
+		return self._process_text(text)
 	
 	def get_stylesheet(self, text=''):
 		return ''
