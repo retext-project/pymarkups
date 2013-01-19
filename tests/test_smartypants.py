@@ -15,7 +15,7 @@ class SmartyTest(unittest.TestCase):
 	
 	def test_dates(self):
 		self.assertEqual(ed("1440--80's"), "1440–80’s")
-		self.assertEqual(ed("'80s"), "’80s")
+		self.assertEqual(ed("'80s"), "‘80s")
 	
 	def test_ellipses_and_dashes(self):
 		self.assertEqual(ed('em-dashes (---) and ellipes (...)'),

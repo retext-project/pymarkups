@@ -186,7 +186,7 @@ def educate_quotes(s):
 
 	s = opening_single_quotes_regex.sub(r'\1'+chr(8216), s)
 	s = closing_single_quotes_regex.sub(r'\1'+chr(8217), s)
-	s = closing_single_quotes_regex_2.sub(r'\1'+chr(8217), s)
+	s = closing_single_quotes_regex_2.sub(r'\1'+chr(8217)+r'\2', s)
 
 	# Any remaining single quotes should be opening ones:
 	s = s.replace("'", chr(8216))
