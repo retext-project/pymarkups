@@ -106,7 +106,7 @@ class MarkdownTest(unittest.TestCase):
 		# Escaping should work
 		self.assertEqual('', markup.get_javascript('Hello, \\$2+2$!'))
 		js = markup.get_javascript(mathjax_source)
-		self.assertTrue('<script' in js)
+		self.assertIn('<script', js)
 		body = markup.get_document_body(mathjax_source)
 		self.assertEqual(mathjax_output, body)
 	
