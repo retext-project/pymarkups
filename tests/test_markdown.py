@@ -78,12 +78,6 @@ r'''<p><span class="math">$i_1$</span> some text \$escaped\$ <span class="math">
 <p>\$$escaped\$$ \[escaped]</p>
 '''
 
-def create_extensions_txt(extensions_list):
-	extensions_txt = open('markdown-extensions.txt', 'w')
-	for extension in extensions_list:
-		extensions_txt.write(extension+'\n')
-	extensions_txt.close()
-
 class MarkdownTest(unittest.TestCase):
 	def test_extensions_loading(self):
 		markup = MarkdownMarkup()
@@ -98,23 +92,17 @@ class MarkdownTest(unittest.TestCase):
 		self.assertEqual(deflists_output, html)
 	
 	def test_remove_extra(self):
-		create_extensions_txt(['remove_extra'])
-		markup = MarkdownMarkup()
+		markup = MarkdownMarkup(extensions=['remove_extra'])
 		html = markup.get_document_body(tables_source)
-		os.remove('markdown-extensions.txt')
 		self.assertNotEqual(html, tables_output)
 	
 	def test_meta(self):
-		create_extensions_txt(['meta'])
-		markup = MarkdownMarkup()
-		os.remove('markdown-extensions.txt')
+		markup = MarkdownMarkup(extensions=['meta'])
 		title = markup.get_document_title('Title: Hello, world!\n\nSome text here.')
 		self.assertEqual('Hello, world!', title)
 	
 	def test_mathjax(self):
-		create_extensions_txt(['mathjax'])
-		markup = MarkdownMarkup()
-		os.remove('markdown-extensions.txt')
+		markup = MarkdownMarkup(extensions=['mathjax'])
 		# Escaping should work
 		self.assertEqual('', markup.get_javascript('Hello, \\$2+2$!'))
 		js = markup.get_javascript(mathjax_source)
