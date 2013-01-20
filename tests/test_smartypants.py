@@ -5,7 +5,7 @@
 # Copyright: (C) Dmitry Shachnev, 2012
 
 from markups.common import educate as ed
-from markups import MarkdownMarkup
+from markups import MarkdownMarkup, ReStructuredTextMarkup
 import unittest
 
 try:
@@ -27,6 +27,12 @@ class SmartyTest(unittest.TestCase):
 	def test_ellipses_and_dashes(self):
 		self.assertEqual(ed('em-dashes (---) and ellipes (...)'),
 			u('em-dashes (—) and ellipes (…)'))
+	
+	def test_restructuredtext_converting(self):
+		m = ReStructuredTextMarkup()
+		body = m.get_document_body('"It\'s cool, isn\'t it?" --- she said.')
+		expected = u('<p>“It’s cool, isn’t it?” — she said.</p>\n')
+		self.assertEqual(body, expected)
 
 expected_table_body = u(
 '''<table>
