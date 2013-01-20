@@ -95,17 +95,20 @@ class MarkdownMarkup(AbstractMarkup):
 			patterns.append(pattern)
 		return patterns
 	
-	def __init__(self, filename=None):
+	def __init__(self, filename=None, extensions=None):
 		AbstractMarkup.__init__(self, filename)
 		import markdown
-		self.extensions = self._load_extensions_list_from_file(
-			os.path.join(CONFIGURATION_DIR, 'markdown-extensions.txt'))
-		local_directory = os.path.split(filename)[0] if filename else '.'
-		if not local_directory: local_directory = '.'
-		self.extensions += self._load_extensions_list_from_file(
-			os.path.join(local_directory, 'markdown-extensions.txt'))
-		# Remove duplicate entries
-		self.extensions = list(set(self.extensions))
+		if extensions is None:
+			self.extensions = self._load_extensions_list_from_file(
+				os.path.join(CONFIGURATION_DIR, 'markdown-extensions.txt'))
+			local_directory = os.path.split(filename)[0] if filename else '.'
+			if not local_directory: local_directory = '.'
+			self.extensions += self._load_extensions_list_from_file(
+				os.path.join(local_directory, 'markdown-extensions.txt'))
+			# Remove duplicate entries
+			self.extensions = list(set(self.extensions))
+		else:
+			self.extensions = extensions
 		# We have two virtual extensions
 		if 'remove_extra' in self.extensions:
 			self.extensions.remove('remove_extra')
