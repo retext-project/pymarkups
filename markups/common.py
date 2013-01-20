@@ -98,6 +98,33 @@ def get_mathjax_url(webenv):
 	else:
 		return MATHJAX_WEB_URL
 
+def tokenize(s):
+	"""Taken from SmartyPants.py. Based on the tokenize() subroutine from
+	Brad Choate's MTRegex plugin.
+	http://www.bradchoate.com/past/mtregex.php"""
+	
+	pos = 0
+	length = len(s)
+	tokens = []
+	
+	depth = 6
+	nested_tags = "|".join(['(?:<(?:[^<>]',] * depth) + (')*>)' * depth)
+	tag_soup = re.compile(r"(?s)([^<]*)(<!--.*?--\s*>|<[^>]*>)")
+	
+	token_match = tag_soup.search(s)
+	previous_end = 0
+	while token_match is not None:
+		if token_match.group(1):
+			tokens.append(['text', token_match.group(1)])
+		tokens.append(['tag', token_match.group(2)])
+		previous_end = token_match.end()
+		token_match = tag_soup.search(s, token_match.end())
+	
+	if previous_end < len(s):
+		tokens.append(['text', s[previous_end:]])
+	
+	return tokens
+
 ##########################################
 #  SmartyPants API for converting ASCII  #
 #  quotes/dashes to proper Unicode ones  #
@@ -156,7 +183,6 @@ opening_single_quotes_regex = re.compile(r"""
 	--          | # dashes, or
 	&[mn]dash;  | # named dash entities
 	%s          | # or decimal entities
-	&\#x201[34];  # or hex
 )
 '       # the quote
 (?=\w)  # followed by a word character
@@ -209,11 +235,83 @@ def educate_ellipses(s):
 def educate_dashes_oldschool(s):
 	return s.replace('---', chr(8212)).replace('--', chr(8211))
 
-def educate(s, fixers='qed'):
-	if 'q' in fixers:
-		s = educate_quotes(s)
-	if 'e' in fixers:
-		s = educate_ellipses(s)
-	if 'd' in fixers:
-		s = educate_dashes_oldschool(s)
+def process_escapes(s):
+	r"""
+	Escape Value
+	------ -----
+	\\     &#92;
+	\"     &#34;
+	\'     &#39;
+	\.     &#46;
+	\-     &#45;
+	\`     &#96;
+	"""
+	s = re.sub(r'\\\\', '&#92;', s)
+	s = re.sub(r'\\"',  '&#34;', s)
+	s = re.sub(r"\\'",  '&#39;', s)
+	s = re.sub(r'\\\.',  '&#46;', s)
+	s = re.sub(r'\\-',  '&#45;', s)
+	s = re.sub(r'\\`',  '&#96;', s)
 	return s
+
+tags_to_skip_regex = re.compile(r"<(/)?(pre|code|kbd|script|math)[^>]*>", re.I)
+
+def educate(text, fixers='qed'):
+	tokens = tokenize(text)
+	result = []
+	skipped_tag_stack = []
+	in_pre = False
+	prev_token_last_char = ""
+	
+	# This is a cheat, used to get some context for one-character tokens
+	# that consist of just a quote char. What we do is remember the last
+	# character of the previous text token, to use as context to curl
+	# single-character quote tokens correctly.
+	
+	for cur_token in tokens:
+		if cur_token[0] == "tag":
+			# Don't mess with quotes inside some tags.  This does not handle self <closing/> tags!
+			result.append(cur_token[1])
+			skip_match = tags_to_skip_regex.match(cur_token[1])
+			if skip_match is not None:
+				if not skip_match.group(1):
+					skipped_tag_stack.append(skip_match.group(2).lower())
+					in_pre = True
+				else:
+					if len(skipped_tag_stack) > 0:
+						if skip_match.group(2).lower() == skipped_tag_stack[-1]:
+							skipped_tag_stack.pop()
+						else:
+							pass
+					if len(skipped_tag_stack) == 0:
+						in_pre = False
+		else:
+			t = cur_token[1]
+			last_char = t[-1:] # Remember last char of this token before processing.
+			if not in_pre:
+				oldstr = t
+				t = process_escapes(t)
+				if 'd' in fixers:
+					t = educate_dashes_oldschool(t)
+				if 'e' in fixers:
+					t = educate_ellipses(t)
+				if 'q' in fixers:
+					if t == "'":
+						# Special case: single-character ' token
+						if re.match("\S", prev_token_last_char):
+							t = chr(8217)
+						else:
+							t = chr(8216)
+					elif t == '"':
+						# Special case: single-character " token
+						if re.match("\S", prev_token_last_char):
+							t = chr(8221)
+						else:
+							t = chr(8220)
+					else:
+						# Normal case:
+						t = educate_quotes(t)
+			prev_token_last_char = last_char
+			result.append(t)
+	
+	return "".join(result)
