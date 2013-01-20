@@ -29,9 +29,10 @@ class ReStructuredTextTest(unittest.TestCase):
 		markup = ReStructuredTextMarkup()
 		self.assertEqual('', markup.get_javascript('Hello, world!'))
 		js = markup.get_javascript('Hello, :math:`2+2`!')
-		self.assertTrue('<script' in js)
+		self.assertIn('<script', js)
 		body = markup.get_document_body('Hello, :math:`2+2`!')
-		self.assertTrue('<span class="math">' in body and r'\(2+2\)</span>' in body)
+		self.assertIn('<span class="math">', body)
+		self.assertIn(r'\(2+2\)</span>', body)
 
 if __name__ == '__main__':
 	unittest.main()
