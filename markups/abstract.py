@@ -22,9 +22,8 @@ class AbstractMarkup(object):
 	def get_document_title(self, text):
 		return ''
 	
-	def get_document_body(self, text, fixers='q'):
-		text = educate(text, fixers)
-		return self._process_text(text)
+	def get_document_body(self, text, fixers='qed'):
+		return educate(self._process_text(text), fixers)
 	
 	def get_stylesheet(self, text=''):
 		return ''
