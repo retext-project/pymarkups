@@ -292,6 +292,7 @@ def educate(text, fixers='qed'):
 				oldstr = t
 				t = process_escapes(t)
 				if 'd' in fixers:
+					t = re.sub('&quot;', '"', t)
 					t = educate_dashes_oldschool(t)
 				if 'e' in fixers:
 					t = educate_ellipses(t)
