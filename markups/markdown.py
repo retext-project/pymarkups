@@ -8,14 +8,12 @@ import sys
 from markups.common import *
 from markups.abstract import AbstractMarkup
 
-MATHJAX_CONFIG = '''
-<script type="text/x-mathjax-config">
+MATHJAX_CONFIG = \
+'''<script type="text/x-mathjax-config">
 MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [ ["$", "$"], ["\\\\(", "\\\\)"] ],
-    processEscapes: true,
-    processClass: "math"
-  },
+  config: ["MMLorHTML.js"],
+  jax: ["input/TeX", "output/HTML-CSS", "output/NativeMML"],
+  extensions: ["MathMenu.js", "MathZoom.js"],
   TeX: {
     equationNumbers: {autoNumber: "AMS"}
   }
@@ -66,15 +64,18 @@ class MarkdownMarkup(AbstractMarkup):
 	
 	def _get_mathjax_patterns(self, markdown):
 		def handle_match_inline(m):
-			node = markdown.util.etree.Element('span')
-			node.set('class', 'math')
-			node.text = markdown.util.AtomicString(m.group(2) + m.group(3) + m.group(4))
+			node = markdown.util.etree.Element('script')
+			node.set('type', 'math/tex')
+			node.text = markdown.util.AtomicString(m.group(3))
 			return node
 		
 		def handle_match(m):
-			node = markdown.util.etree.Element('div')
-			node.set('class', 'math')
-			node.text = markdown.util.AtomicString(m.group(2) + m.group(3) + m.group(4))
+			node = markdown.util.etree.Element('script')
+			node.set('type', 'math/tex; mode=display')
+			node.text = markdown.util.AtomicString(m.group(3))
+			if '\\begin' in m.group(2):
+				node.text = markdown.util.AtomicString(m.group(2) +
+				m.group(3) + m.group(4))
 			return node
 		
 		inlinemathpatterns = (
@@ -123,7 +124,6 @@ class MarkdownMarkup(AbstractMarkup):
 				self.extensions.remove(extension)
 		self.md = markdown.Markdown(self.extensions, output_format='html4')
 		if self.mathjax:
-			self.body_tag = 'class="tex2jax_ignore"'
 			patterns = self._get_mathjax_patterns(markdown)
 			for i in range(len(patterns)):
 				self.md.inlinePatterns.add('mathjax%d' % i, patterns[i], '<escape')
@@ -150,10 +150,10 @@ class MarkdownMarkup(AbstractMarkup):
 			body = self.cache['body']
 		else:
 			body = self.get_document_body(text)
-		if not 'class="math"' in body:
+		if not '<script type="math/tex' in body:
 			return ''
-		return ('<script type="text/javascript" src="' + get_mathjax_url(webenv)
-		+ '?config=TeX-AMS-MML_HTMLorMML"></script>' + MATHJAX_CONFIG)
+		return (MATHJAX_CONFIG + '<script type="text/javascript" src="'
+		+ get_mathjax_url(webenv) + '"></script>')
 	
 	def _process_text(self, text):
 		self.md.reset()
