@@ -58,13 +58,9 @@ class run_tests(Command):
 				raise
 		sys.argv = oldargv
 
-# The above command doesn't work with Python 2, so let's use one from
-# setuptools there
+# The above command doesn't work with Python 2
 if sys.version_info[0] < 3:
-	try:
-		from setuptools.command.test import test as run_tests
-	except ImportError:
-		run_tests = None
+	run_tests = None
 
 setup_args = {
 	'name': 'Markups',
@@ -81,7 +77,5 @@ setup_args = {
 
 if run_tests:
 	setup_args['cmdclass'] = {'test': run_tests}
-	if sys.version_info[0] < 3:
-		setup_args['test_suite'] = 'tests'
 
 setup(**setup_args)
