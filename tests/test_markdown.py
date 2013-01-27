@@ -66,19 +66,25 @@ $$m_1$$
 '''
 
 mathjax_output = \
-r'''<p><span class="math">$i_1$</span> some text \$escaped\$ <span class="math">$i_2$</span></p>
-<p><span class="math">\(i_3\)</span> some text <span class="math">\(i_4\)</span></p>
-<p>\(escaped)</p>
-<p>
-<div class="math">$$m_1$$</div>
+r'''<p>
+<script type="math/tex">i_1</script> some text \$escaped\$ <script type="math/tex">i_2</script>
 </p>
 <p>
-<div class="math">\[m_2\]</div>
+<script type="math/tex">i_3</script> some text <script type="math/tex">i_4</script>
+</p>
+<p>\(escaped)</p>
+<p>
+<script type="math/tex; mode=display">m_1</script>
+</p>
+<p>
+<script type="math/tex; mode=display">m_2</script>
 </p>
 <p>\$$escaped\$$ \[escaped]</p>
 '''
 
 class MarkdownTest(unittest.TestCase):
+	maxDiff = None
+	
 	def test_extensions_loading(self):
 		markup = MarkdownMarkup()
 		self.assertFalse(markup._check_extension_exists('nonexistent'))
