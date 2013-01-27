@@ -85,6 +85,12 @@ class SmartyMarkdownTest(unittest.TestCase):
 			'    code with a "quote"\n'
 			'    code with a --- dash')
 		self.assertEqual(body, expected_code_body)
+	
+	def test_mathjax(self):
+		m = MarkdownMarkup(extensions=['mathjax'])
+		body = m.get_document_body('$1 -- 2$ -- 3')
+		self.assertEqual(body,
+			u('<p>\n<script type="math/tex">1 -- 2</script> – 3</p>\n'))
 
 if __name__ == '__main__':
 	unittest.main()
