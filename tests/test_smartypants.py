@@ -5,7 +5,7 @@
 # Copyright: (C) Dmitry Shachnev, 2012
 
 from markups.common import educate as ed
-from markups import MarkdownMarkup, ReStructuredTextMarkup
+from markups import MarkdownMarkup
 import unittest
 
 try:
@@ -28,8 +28,8 @@ class SmartyTest(unittest.TestCase):
 		self.assertEqual(ed('em-dashes (---) and ellipes (...)'),
 			u('em-dashes (—) and ellipes (…)'))
 	
-	def test_restructuredtext_converting(self):
-		m = ReStructuredTextMarkup()
+	def test_markdown_converting(self):
+		m = MarkdownMarkup()
 		body = m.get_document_body('"It\'s cool, isn\'t it?" --- she said.')
 		expected = u('<p>“It’s cool, isn’t it?” — she said.</p>\n')
 		self.assertEqual(body, expected)
