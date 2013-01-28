@@ -35,7 +35,7 @@ class ReStructuredTextMarkup(AbstractMarkup):
 			return self.cache['rest_parts']
 		overrides = {'math_output': 'MathJax'}
 		parts = self._publish_parts(text, writer_name='html',
-			 settings_overrides=overrides)
+			settings_overrides=overrides)
 		if self.enable_cache:
 			self.cache['rest_parts'] = parts
 		return parts
@@ -43,7 +43,9 @@ class ReStructuredTextMarkup(AbstractMarkup):
 	def get_document_title(self, text):
 		return self.publish_parts(text)['title']
 	
-	def _process_text(self, text):
+	def get_document_body(self, text, fixers=None):
+		# Disable SmartyPants here, Docutils has its own fixer
+		# http://docutils.sourceforge.net/docs/user/config.html#smart-quotes
 		return self.publish_parts(text)['body']
 	
 	def get_stylesheet(self, text=''):
