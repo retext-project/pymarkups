@@ -4,8 +4,9 @@
 
 from __future__ import absolute_import
 
+import os
 import sys
-from markups.common import *
+import markups.common as common
 from markups.abstract import AbstractMarkup
 
 MATHJAX_CONFIG = \
@@ -25,9 +26,9 @@ class MarkdownMarkup(AbstractMarkup):
 	"""Markdown language"""
 	name = 'Markdown'
 	attributes = {
-		LANGUAGE_HOME_PAGE: 'http://daringfireball.net/projects/markdown/',
-		MODULE_HOME_PAGE: 'https://github.com/Waylan/Python-Markdown/',
-		SYNTAX_DOCUMENTATION: 'http://daringfireball.net/projects/markdown/syntax'
+		common.LANGUAGE_HOME_PAGE: 'http://daringfireball.net/projects/markdown/',
+		common.MODULE_HOME_PAGE: 'https://github.com/Waylan/Python-Markdown/',
+		common.SYNTAX_DOCUMENTATION: 'http://daringfireball.net/projects/markdown/syntax'
 	}
 	
 	file_extensions = ('.md', '.mkd', '.mkdn', '.mdwn', '.mdown', '.markdown')
@@ -101,7 +102,7 @@ class MarkdownMarkup(AbstractMarkup):
 		import markdown
 		if extensions is None:
 			self.extensions = self._load_extensions_list_from_file(
-				os.path.join(CONFIGURATION_DIR, 'markdown-extensions.txt'))
+				os.path.join(common.CONFIGURATION_DIR, 'markdown-extensions.txt'))
 			local_directory = os.path.split(filename)[0] if filename else '.'
 			if not local_directory: local_directory = '.'
 			self.extensions += self._load_extensions_list_from_file(
@@ -140,7 +141,7 @@ class MarkdownMarkup(AbstractMarkup):
 	
 	def get_stylesheet(self, text=''):
 		if 'codehilite' in self.extensions:
-			return get_pygments_stylesheet('.codehilite')
+			return common.get_pygments_stylesheet('.codehilite')
 		return ''
 	
 	def get_javascript(self, text='', webenv=False):
@@ -153,7 +154,7 @@ class MarkdownMarkup(AbstractMarkup):
 		if not '<script type="math/tex' in body:
 			return ''
 		return (MATHJAX_CONFIG + '<script type="text/javascript" src="'
-		+ get_mathjax_url(webenv) + '"></script>')
+		+ common.get_mathjax_url(webenv) + '"></script>')
 	
 	def get_document_body(self, text):
 		self.md.reset()

@@ -2,16 +2,16 @@
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2012
 
-from markups.common import *
+import markups.common as common
 from markups.abstract import AbstractMarkup
 
 class ReStructuredTextMarkup(AbstractMarkup):
 	"""reStructuredText language"""
 	name = 'reStructuredText'
 	attributes = {
-		LANGUAGE_HOME_PAGE: 'http://docutils.sourceforge.net/rst.html',
-		MODULE_HOME_PAGE: 'http://docutils.sourceforge.net/',
-		SYNTAX_DOCUMENTATION: 'http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html'
+		common.LANGUAGE_HOME_PAGE: 'http://docutils.sourceforge.net/rst.html',
+		common.MODULE_HOME_PAGE: 'http://docutils.sourceforge.net/',
+		common.SYNTAX_DOCUMENTATION: 'http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html'
 	}
 	
 	file_extensions = ('.rst', '.rest')
@@ -53,7 +53,7 @@ class ReStructuredTextMarkup(AbstractMarkup):
 		stylesheet = ''
 		if stylestart in origstyle:
 			stylesheet = origstyle[origstyle.find(stylestart)+25:origstyle.rfind('</style>')]
-		return stylesheet + get_pygments_stylesheet('.code')
+		return stylesheet + common.get_pygments_stylesheet('.code')
 	
 	def get_javascript(self, text='', webenv=False):
 		head = self.publish_parts(text)['head']
@@ -61,5 +61,6 @@ class ReStructuredTextMarkup(AbstractMarkup):
 		end_position = head.rfind('</script>')
 		if start_position >= 0 and end_position >= 0:
 			mjurl = head[start_position:end_position+9]+'\n'
-			return mjurl.replace(MATHJAX_WEB_URL, get_mathjax_url(webenv))
+			return mjurl.replace(common.MATHJAX_WEB_URL,
+				common.get_mathjax_url(webenv))
 		return ''
