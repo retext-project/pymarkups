@@ -155,7 +155,7 @@ class MarkdownMarkup(AbstractMarkup):
 		return (MATHJAX_CONFIG + '<script type="text/javascript" src="'
 		+ get_mathjax_url(webenv) + '"></script>')
 	
-	def _process_text(self, text):
+	def get_document_body(self, text):
 		self.md.reset()
 		converted_text = self.md.convert(text) + '\n'
 		if self.enable_cache:
