@@ -43,9 +43,7 @@ class ReStructuredTextMarkup(AbstractMarkup):
 	def get_document_title(self, text):
 		return self.publish_parts(text)['title']
 	
-	def get_document_body(self, text, fixers=None):
-		# Disable SmartyPants here, Docutils has its own fixer
-		# http://docutils.sourceforge.net/docs/user/config.html#smart-quotes
+	def get_document_body(self, text):
 		return self.publish_parts(text)['body']
 	
 	def get_stylesheet(self, text=''):
