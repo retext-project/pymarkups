@@ -2,8 +2,9 @@
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2012
 
+import os
 import sys
-from markups.common import *
+from markups.common import CONFIGURATION_DIR
 from markups.markdown import MarkdownMarkup
 from markups.restructuredtext import ReStructuredTextMarkup
 
