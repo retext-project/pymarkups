@@ -54,13 +54,15 @@ the family Rosaceae.</dd>
 mathjax_source = \
 r'''$i_1$ some text \$escaped\$ $i_2$
 
-\(i_3\) some text \(i_4\)
+\(\LaTeX\) \\(escaped\)
 
-\\(escaped\)
+$$m_1$$ text $$m_2$$
 
-$$m_1$$
+\[m_3\] text \[m_4\]
 
-\[m_2\]
+\( \sin \alpha \) text \( \sin \beta \)
+
+\[ \alpha \] text \[ \beta \]
 
 \$$escaped\$$ \\[escaped\]
 '''
@@ -70,14 +72,18 @@ r'''<p>
 <script type="math/tex">i_1</script> some text \$escaped\$ <script type="math/tex">i_2</script>
 </p>
 <p>
-<script type="math/tex">i_3</script> some text <script type="math/tex">i_4</script>
-</p>
-<p>\(escaped)</p>
+<script type="math/tex">\LaTeX</script> \(escaped)</p>
 <p>
-<script type="math/tex; mode=display">m_1</script>
+<script type="math/tex; mode=display">m_1</script> text <script type="math/tex; mode=display">m_2</script>
 </p>
 <p>
-<script type="math/tex; mode=display">m_2</script>
+<script type="math/tex; mode=display">m_3</script> text <script type="math/tex; mode=display">m_4</script>
+</p>
+<p>
+<script type="math/tex"> \sin \alpha </script> text <script type="math/tex"> \sin \beta </script>
+</p>
+<p>
+<script type="math/tex; mode=display"> \alpha </script> text <script type="math/tex; mode=display"> \beta </script>
 </p>
 <p>\$$escaped\$$ \[escaped]</p>
 '''
