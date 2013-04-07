@@ -81,11 +81,11 @@ class MarkdownMarkup(AbstractMarkup):
 		
 		inlinemathpatterns = (
 			markdown.inlinepatterns.Pattern(r'(?<!\\|\$)(\$)([^\$]+)(\$)'),
-			markdown.inlinepatterns.Pattern(r'(?<!\\)(\\\()([^\\)]+)(\\\))')
+			markdown.inlinepatterns.Pattern(r'(?<!\\)(\\\()(.+?)(\\\))')
 		)
 		mathpatterns = (
 			markdown.inlinepatterns.Pattern(r'(?<!\\)(\$\$)([^\$]+)(\$\$)'),
-			markdown.inlinepatterns.Pattern(r'(?<!\\)(\\\[)(.+)(\\\])'),
+			markdown.inlinepatterns.Pattern(r'(?<!\\)(\\\[)(.+?)(\\\])'),
 			markdown.inlinepatterns.Pattern(r'(?<!\\)(\\begin{[a-z]+\*?})(.+)(\\end{[a-z]+\*?})')
 		)
 		patterns = []
