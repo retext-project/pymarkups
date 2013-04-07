@@ -58,10 +58,6 @@ class run_tests(Command):
 				raise
 		sys.argv = oldargv
 
-# The above command doesn't work with Python 2
-if sys.version_info[0] < 3:
-	run_tests = None
-
 setup_args = {
 	'name': 'Markups',
 	'version': version,
@@ -75,7 +71,7 @@ setup_args = {
 	'classifiers': classifiers
 }
 
-if run_tests:
+if sys.version_info[0] >= 3:
 	setup_args['cmdclass'] = {'test': run_tests}
 
 setup(**setup_args)
