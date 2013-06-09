@@ -126,8 +126,8 @@ class MarkdownMarkup(AbstractMarkup):
 		self.md = markdown.Markdown(self.extensions, output_format='html4')
 		if self.mathjax:
 			patterns = self._get_mathjax_patterns(markdown)
-			for i in range(len(patterns)):
-				self.md.inlinePatterns.add('mathjax%d' % i, patterns[i], '<escape')
+			for i, pattern in enumerate(patterns):
+				self.md.inlinePatterns.add('mathjax%d' % i, pattern, '<escape')
 	
 	def get_document_title(self, text):
 		if 'meta' not in self.extensions:
