@@ -88,6 +88,23 @@ r'''<p>
 <p>\$$escaped\$$ \[escaped]</p>
 '''
 
+mathjax_multiline_source = \
+r'''
+$$
+\TeX
+\LaTeX
+$$
+'''
+
+mathjax_multiline_output = \
+'''<p>
+<script type="math/tex; mode=display">
+\TeX
+\LaTeX
+</script>
+</p>
+'''
+
 class MarkdownTest(unittest.TestCase):
 	maxDiff = None
 	
@@ -121,6 +138,11 @@ class MarkdownTest(unittest.TestCase):
 		self.assertIn('<script', js)
 		body = markup.get_document_body(mathjax_source)
 		self.assertEqual(mathjax_output, body)
+	
+	def test_mathjax_multiline(self):
+		markup = MarkdownMarkup(extensions=['mathjax'])
+		body = markup.get_document_body(mathjax_multiline_source)
+		self.assertEqual(mathjax_multiline_output, body)
 	
 	def tearDown(self):
 		if os.path.exists('markdown-extensions.txt'):
