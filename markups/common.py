@@ -11,13 +11,15 @@ CONFIGURATION_DIR = (os.environ.get('XDG_CONFIG_HOME') or
 MATHJAX_LOCAL_URL = 'file:///usr/share/javascript/mathjax/MathJax.js'
 MATHJAX_WEB_URL = 'http://cdn.mathjax.org/mathjax/latest/MathJax.js'
 
-def get_pygments_stylesheet(selector):
+PYGMENTS_STYLE = 'default'
+
+def get_pygments_stylesheet(selector, style=None):
 	try:
 		from pygments.formatters import HtmlFormatter
 	except ImportError:
 		return ''
 	else:
-		return HtmlFormatter().get_style_defs(selector) + '\n'
+		return HtmlFormatter(style=(style or PYGMENTS_STYLE)).get_style_defs(selector) + '\n'
 
 def get_mathjax_url(webenv):
 	if os.path.exists(MATHJAX_LOCAL_URL[7:]) and not webenv:
