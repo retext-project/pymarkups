@@ -14,12 +14,16 @@ MATHJAX_WEB_URL = 'http://cdn.mathjax.org/mathjax/latest/MathJax.js'
 PYGMENTS_STYLE = 'default'
 
 def get_pygments_stylesheet(selector, style=None):
+	if style is None:
+		style = PYGMENTS_STYLE
+	if style == '':
+		return ''
 	try:
 		from pygments.formatters import HtmlFormatter
 	except ImportError:
 		return ''
 	else:
-		return HtmlFormatter(style=(style or PYGMENTS_STYLE)).get_style_defs(selector) + '\n'
+		return HtmlFormatter(style=style).get_style_defs(selector) + '\n'
 
 def get_mathjax_url(webenv):
 	if os.path.exists(MATHJAX_LOCAL_URL[7:]) and not webenv:
