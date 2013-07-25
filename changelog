@@ -1,3 +1,13 @@
+Version 0.3, 2013-07-25
+=======================
+
+* MathJax support in Markdown has been improved and no longer relies
+  on tex2jax extension
+* It is now possible to pass extensions list to MarkdownMarkup
+  constructor
+* Pygments style is now configurable
+* Testsuite improvements
+
 Version 0.2.3, 2012-11-02
 =========================
 
