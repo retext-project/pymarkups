@@ -95,7 +95,7 @@ class WebLibrary(object):
 			outputfile = open(os.path.join(htmldir, bn+'.html'), 'w')
 			try:
 				outputfile.write(content.encode('utf-8'))
-			except:
+			except TypeError:
 				# For Python 3
 				outputfile.write(content)
 			outputfile.close()
