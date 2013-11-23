@@ -8,6 +8,7 @@ class AbstractMarkup(object):
 	file_extensions = ()
 	
 	def __init__(self, filename=None):
+		self.filename = filename
 		self.enable_cache = False
 		self.cache = {}
 	
