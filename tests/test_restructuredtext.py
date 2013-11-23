@@ -36,5 +36,18 @@ class ReStructuredTextTest(unittest.TestCase):
 		self.assertIn('<span class="math">', body)
 		self.assertIn(r'\(2+2\)</span>', body)
 
+	def test_errors(self):
+		markup = ReStructuredTextMarkup('/dev/null',
+			settings_overrides = {'warning_stream': False})
+		body = markup.get_document_body('`') # unclosed role
+		self.assertIn('system-message', body)
+		self.assertIn('/dev/null', body)
+
+	def test_errors_overridden(self):
+		markup = ReStructuredTextMarkup('/dev/null',
+			settings_overrides = {'report_level': 4})
+		body = markup.get_document_body('`') # unclosed role
+		self.assertNotIn('system-message', body)
+
 if __name__ == '__main__':
 	unittest.main()
