@@ -4,29 +4,29 @@
 
 class AbstractMarkup(object):
 	"""Abstract class for markup languages"""
-	
+
 	file_extensions = ()
-	
+
 	def __init__(self, filename=None):
 		self.filename = filename
 		self.enable_cache = False
 		self.cache = {}
-	
+
 	def available():
 		return True
-	
+
 	def get_document_title(self, text):
 		return ''
-	
+
 	def get_document_body(self, text):
 		raise NotImplementedError
-	
+
 	def get_stylesheet(self, text=''):
 		return ''
-	
+
 	def get_javascript(self, text='', webenv=False):
 		return ''
-	
+
 	def get_whole_html(self, text, custom_headers='', include_stylesheet=True,
 	                   fallback_title='', webenv=False):
 		self.enable_cache = True

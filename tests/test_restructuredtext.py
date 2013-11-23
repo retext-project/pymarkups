@@ -26,7 +26,7 @@ class ReStructuredTextTest(unittest.TestCase):
 		self.assertEqual(text_expected, text_from_cache)
 		self.assertEqual(title_expected, title)
 		self.assertEqual(title_expected, title_from_cache)
-	
+
 	def test_mathjax_loading(self):
 		markup = ReStructuredTextMarkup()
 		self.assertEqual('', markup.get_javascript('Hello, world!'))
