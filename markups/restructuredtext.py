@@ -25,7 +25,9 @@ class ReStructuredTextMarkup(AbstractMarkup):
 			return False
 		return True
 	
-	def __init__(self, filename=None):
+	def __init__(self, filename=None, settings_overrides=None):
+		self.overrides = settings_overrides or {}
+		self.overrides.update({'math_output': 'MathJax'})
 		AbstractMarkup.__init__(self, filename)
 		from docutils.core import publish_parts
 		self._publish_parts = publish_parts
@@ -33,9 +35,8 @@ class ReStructuredTextMarkup(AbstractMarkup):
 	def publish_parts(self, text):
 		if 'rest_parts' in self.cache:
 			return self.cache['rest_parts']
-		overrides = {'math_output': 'MathJax'}
-		parts = self._publish_parts(text, writer_name='html',
-			settings_overrides=overrides)
+		parts = self._publish_parts(text, source_path=self.filename,
+			writer_name='html', settings_overrides=self.overrides)
 		if self.enable_cache:
 			self.cache['rest_parts'] = parts
 		return parts
