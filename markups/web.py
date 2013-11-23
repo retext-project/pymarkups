@@ -25,22 +25,22 @@ class WebLibrary(object):
 			self.generator_info = app_data[APP_NAME] + ' ' + app_data[APP_VERSION]
 		else:
 			self.generator_info = app_data[APP_NAME]
-	
+
 	def update_all(self):
 		"""Process all documents in the directory"""
 		def is_file(path):
 			return os.path.isfile(os.path.join(self.working_dir, path))
-		
+	
 		self._init_template()
 		for fname in filter(is_file, os.listdir(self.working_dir)):
 			self._process_page(fname)
-	
+
 	def update(self, filename):
 		"""Process one file in the directory"""
 		self._init_template()
 		if os.path.exists(os.path.join(self.working_dir, filename)):
 			self._process_page(filename)
-	
+
 	def _init_template(self):
 		templatefile = open(os.path.join(self.working_dir, 'template.html'))
 		try:
@@ -51,7 +51,7 @@ class WebLibrary(object):
 		templatefile.close()
 		self.template = self.template.replace('%GENERATOR%', self.generator_info)
 		self.template = self.template.replace('%APPINFO%', self.app_info)
-	
+
 	def _process_page(self, fname):
 		inputfile = os.path.join(self.working_dir, fname)
 		markup = markups.get_markup_for_file_name(inputfile)

@@ -30,10 +30,10 @@ class MarkdownMarkup(AbstractMarkup):
 		common.MODULE_HOME_PAGE: 'https://github.com/Waylan/Python-Markdown/',
 		common.SYNTAX_DOCUMENTATION: 'http://daringfireball.net/projects/markdown/syntax'
 	}
-	
+
 	file_extensions = ('.md', '.mkd', '.mkdn', '.mdwn', '.mdown', '.markdown')
 	default_extension = '.mkd'
-	
+
 	@staticmethod
 	def available():
 		try:
@@ -41,7 +41,7 @@ class MarkdownMarkup(AbstractMarkup):
 		except ImportError:
 			return False
 		return True
-	
+
 	def _load_extensions_list_from_file(self, filename):
 		try:
 			extensions_file = open(filename)
@@ -51,7 +51,7 @@ class MarkdownMarkup(AbstractMarkup):
 			extensions = [line.rstrip() for line in extensions_file]
 			extensions_file.close()
 			return extensions
-	
+
 	def _check_extension_exists(self, extension_name):
 		try:
 			__import__('markdown.extensions.'+extension_name, {}, {},
@@ -62,14 +62,14 @@ class MarkdownMarkup(AbstractMarkup):
 			except ImportError:
 				return False
 		return True
-	
+
 	def _get_mathjax_patterns(self, markdown):
 		def handle_match_inline(m):
 			node = markdown.util.etree.Element('script')
 			node.set('type', 'math/tex')
 			node.text = markdown.util.AtomicString(m.group(3))
 			return node
-		
+	
 		def handle_match(m):
 			node = markdown.util.etree.Element('script')
 			node.set('type', 'math/tex; mode=display')
@@ -78,7 +78,7 @@ class MarkdownMarkup(AbstractMarkup):
 				node.text = markdown.util.AtomicString(m.group(2) +
 				m.group(3) + m.group(4))
 			return node
-		
+	
 		inlinemathpatterns = (
 			markdown.inlinepatterns.Pattern(r'(?<!\\|\$)(\$)([^\$]+)(\$)'),
 			markdown.inlinepatterns.Pattern(r'(?<!\\)(\\\()(.+?)(\\\))')
@@ -96,7 +96,7 @@ class MarkdownMarkup(AbstractMarkup):
 			pattern.handleMatch = handle_match
 			patterns.append(pattern)
 		return patterns
-	
+
 	def __init__(self, filename=None, extensions=None):
 		AbstractMarkup.__init__(self, filename)
 		import markdown
@@ -128,7 +128,7 @@ class MarkdownMarkup(AbstractMarkup):
 			patterns = self._get_mathjax_patterns(markdown)
 			for i, pattern in enumerate(patterns):
 				self.md.inlinePatterns.add('mathjax%d' % i, pattern, '<escape')
-	
+
 	def get_document_title(self, text):
 		if 'meta' not in self.extensions:
 			return ''
@@ -138,12 +138,12 @@ class MarkdownMarkup(AbstractMarkup):
 			return str.join(' ', self.md.Meta['title'])
 		else:
 			return ''
-	
+
 	def get_stylesheet(self, text=''):
 		if 'codehilite' in self.extensions:
 			return common.get_pygments_stylesheet('.codehilite')
 		return ''
-	
+
 	def get_javascript(self, text='', webenv=False):
 		if not self.mathjax:
 			return ''
@@ -155,7 +155,7 @@ class MarkdownMarkup(AbstractMarkup):
 			return ''
 		return (MATHJAX_CONFIG + '<script type="text/javascript" src="'
 		+ common.get_mathjax_url(webenv) + '"></script>')
-	
+
 	def get_document_body(self, text):
 		self.md.reset()
 		converted_text = self.md.convert(text) + '\n'

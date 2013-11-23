@@ -44,10 +44,10 @@ classifiers = ['Development Status :: 4 - Beta',
 
 class run_tests(Command):
 	user_options = []
-	
+
 	def initialize_options(self): pass
 	def finalize_options(self): pass
-	
+
 	def run(self):
 		import tests
 		oldargv, sys.argv = sys.argv, ['setup.py test', '-v']

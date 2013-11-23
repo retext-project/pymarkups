@@ -35,7 +35,7 @@ tables_output = \
 
 deflists_source = \
 '''Apple
-:   Pomaceous fruit of plants of the genus Malus in 
+:   Pomaceous fruit of plants of the genus Malus in
     the family Rosaceae.
 
 Orange
@@ -44,7 +44,7 @@ Orange
 deflists_output = \
 '''<dl>
 <dt>Apple</dt>
-<dd>Pomaceous fruit of plants of the genus Malus in 
+<dd>Pomaceous fruit of plants of the genus Malus in
 the family Rosaceae.</dd>
 <dt>Orange</dt>
 <dd>The fruit of an evergreen tree of the genus Citrus.</dd>
@@ -107,29 +107,29 @@ mathjax_multiline_output = \
 
 class MarkdownTest(unittest.TestCase):
 	maxDiff = None
-	
+
 	def test_extensions_loading(self):
 		markup = MarkdownMarkup()
 		self.assertFalse(markup._check_extension_exists('nonexistent'))
 		self.assertTrue(markup._check_extension_exists('meta'))
-	
+
 	def test_extra(self):
 		markup = MarkdownMarkup()
 		html = markup.get_document_body(tables_source)
 		self.assertEqual(tables_output, html)
 		html = markup.get_document_body(deflists_source)
 		self.assertEqual(deflists_output, html)
-	
+
 	def test_remove_extra(self):
 		markup = MarkdownMarkup(extensions=['remove_extra'])
 		html = markup.get_document_body(tables_source)
 		self.assertNotEqual(html, tables_output)
-	
+
 	def test_meta(self):
 		markup = MarkdownMarkup(extensions=['meta'])
 		title = markup.get_document_title('Title: Hello, world!\n\nSome text here.')
 		self.assertEqual('Hello, world!', title)
-	
+
 	def test_mathjax(self):
 		markup = MarkdownMarkup(extensions=['mathjax'])
 		# Escaping should work
@@ -138,12 +138,12 @@ class MarkdownTest(unittest.TestCase):
 		self.assertIn('<script', js)
 		body = markup.get_document_body(mathjax_source)
 		self.assertEqual(mathjax_output, body)
-	
+
 	def test_mathjax_multiline(self):
 		markup = MarkdownMarkup(extensions=['mathjax'])
 		body = markup.get_document_body(mathjax_multiline_source)
 		self.assertEqual(mathjax_multiline_output, body)
-	
+
 	def tearDown(self):
 		if os.path.exists('markdown-extensions.txt'):
 			os.remove('markdown-extensions.txt')
