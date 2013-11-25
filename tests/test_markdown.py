@@ -105,6 +105,7 @@ mathjax_multiline_output = \
 </p>
 '''
 
+@unittest.skipUnless(MarkdownMarkup.available(), 'Markdown not available')
 class MarkdownTest(unittest.TestCase):
 	maxDiff = None
 
