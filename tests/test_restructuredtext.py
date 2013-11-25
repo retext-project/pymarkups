@@ -11,6 +11,7 @@ basic_text = \
 
 This is an example **reStructuredText** document.'''
 
+@unittest.skipUnless(ReStructuredTextMarkup.available(), 'Docutils not available')
 class ReStructuredTextTest(unittest.TestCase):
 	def test_basic(self):
 		markup = ReStructuredTextMarkup()
