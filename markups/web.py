@@ -12,6 +12,9 @@ site = 'https://launchpad.net/python-markups'
 APP_NAME, APP_VERSION, APP_SITE = range(3)
 default_app_data = ('python-markups', __version__, site)
 
+class WebUpdateError(Exception):
+	pass
+
 class WebLibrary(object):
 	def __init__(self, working_dir='.', app_data=default_app_data):
 		"""Construct a new WebLibrary object"""
@@ -28,11 +31,14 @@ class WebLibrary(object):
 
 	def update_all(self):
 		"""Process all documents in the directory"""
-		def is_file(path):
-			return os.path.isfile(os.path.join(self.working_dir, path))
+		def is_supported_file(path):
+			filename = os.path.join(self.working_dir, path)
+			if not os.path.isfile(filename):
+				return False
+			return (markups.get_markup_for_file_name(filename) is not None)
 	
 		self._init_template()
-		for fname in filter(is_file, os.listdir(self.working_dir)):
+		for fname in filter(is_supported_file, os.listdir(self.working_dir)):
 			self._process_page(fname)
 
 	def update(self, filename):
@@ -40,6 +46,8 @@ class WebLibrary(object):
 		self._init_template()
 		if os.path.exists(os.path.join(self.working_dir, filename)):
 			self._process_page(filename)
+		else:
+			raise WebUpdateError('File not found.')
 
 	def _init_template(self):
 		templatefile = open(os.path.join(self.working_dir, 'template.html'))
@@ -56,7 +64,7 @@ class WebLibrary(object):
 		inputfile = os.path.join(self.working_dir, fname)
 		markup = markups.get_markup_for_file_name(inputfile)
 		if not markup:
-			return
+			raise WebUpdateError('No suitable markup found.')
 		bn, ext = os.path.splitext(fname)
 		html = pagename = ''
 		inputfile = open(inputfile, 'r')

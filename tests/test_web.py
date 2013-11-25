@@ -32,6 +32,16 @@ class WebTest(unittest.TestCase):
 		self.lib.update_all()
 		self.assertTrue(os.path.exists(self.get_file('html/page.html')))
 
+	def test_exceptions(self):
+		self.assertRaisesRegex(markups.web.WebUpdateError,
+			'File not found.', self.lib.update, 'nosuchfile.txt')
+		with open(self.get_file('test.unknown'), 'w'):
+			pass
+		self.assertRaisesRegex(markups.web.WebUpdateError,
+			'No suitable markup found.', self.lib.update,
+			'test.unknown')
+		os.remove(self.get_file('test.unknown'))
+
 	@classmethod
 	def tearDownClass(cls):
 		if os.path.exists(cls.get_file('html/page.html')):
