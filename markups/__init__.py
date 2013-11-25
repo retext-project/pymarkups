@@ -7,10 +7,11 @@ import sys
 from markups.common import CONFIGURATION_DIR
 from markups.markdown import MarkdownMarkup
 from markups.restructuredtext import ReStructuredTextMarkup
+from markups.textile import TextileMarkup
 
 __version__ = '0.3'
 
-builtin_markups = [MarkdownMarkup, ReStructuredTextMarkup]
+builtin_markups = [MarkdownMarkup, ReStructuredTextMarkup, TextileMarkup]
 
 # Public API
 
