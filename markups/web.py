@@ -12,7 +12,7 @@ site = 'https://launchpad.net/python-markups'
 APP_NAME, APP_VERSION, APP_SITE = range(3)
 default_app_data = ('python-markups', __version__, site)
 
-class WebUpdateError(Exception):
+class WebUpdateError(IOError):
 	pass
 
 class WebLibrary(object):
