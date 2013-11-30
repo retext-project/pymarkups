@@ -1,3 +1,10 @@
+Version 0.4, 2013-11-30
+=======================
+
+* Add Textile markup
+* reStructuredText markup now supports file names and settings overrides
+* Web module now raises WebUpdateError when updating fails
+
 Version 0.3, 2013-07-25
 =======================
 

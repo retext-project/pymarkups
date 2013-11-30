@@ -9,7 +9,8 @@ from markups.markdown import MarkdownMarkup
 from markups.restructuredtext import ReStructuredTextMarkup
 from markups.textile import TextileMarkup
 
-__version__ = '0.3'
+__version_tuple__ = (0, 4)
+__version__ = '.'.join(map(str, __version_tuple__))
 
 builtin_markups = [MarkdownMarkup, ReStructuredTextMarkup, TextileMarkup]
 
