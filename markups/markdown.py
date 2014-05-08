@@ -81,14 +81,16 @@ class MarkdownMarkup(AbstractMarkup):
 			return node
 	
 		inlinemathpatterns = (
-			markdown.inlinepatterns.Pattern(r'(?<!\\|\$)(\$)([^\$]+)(\$)'),
-			markdown.inlinepatterns.Pattern(r'(?<!\\)(\\\()(.+?)(\\\))')
+			markdown.inlinepatterns.Pattern(r'(?<!\\|\$)(\$)([^\$]+)(\$)'),  #  $...$
+			markdown.inlinepatterns.Pattern(r'(?<!\\)(\\\()(.+?)(\\\))')     # \(...\)
 		)
 		mathpatterns = (
-			markdown.inlinepatterns.Pattern(r'(?<!\\)(\$\$)([^\$]+)(\$\$)'),
-			markdown.inlinepatterns.Pattern(r'(?<!\\)(\\\[)(.+?)(\\\])'),
+			markdown.inlinepatterns.Pattern(r'(?<!\\)(\$\$)([^\$]+)(\$\$)'), # $$...$$
+			markdown.inlinepatterns.Pattern(r'(?<!\\)(\\\[)(.+?)(\\\])'),    # \[...\]
 			markdown.inlinepatterns.Pattern(r'(?<!\\)(\\begin{[a-z]+\*?})(.+)(\\end{[a-z]+\*?})')
 		)
+		if not self.mathjax:
+			inlinemathpatterns = inlinemathpatterns[1:]
 		patterns = []
 		for pattern in inlinemathpatterns:
 			pattern.handleMatch = handle_match_inline
@@ -125,10 +127,9 @@ class MarkdownMarkup(AbstractMarkup):
 				sys.stderr.write('Failed loading extension %s\n' % extension)
 				self.extensions.remove(extension)
 		self.md = markdown.Markdown(self.extensions, output_format='html4')
-		if self.mathjax:
-			patterns = self._get_mathjax_patterns(markdown)
-			for i, pattern in enumerate(patterns):
-				self.md.inlinePatterns.add('mathjax%d' % i, pattern, '<escape')
+		patterns = self._get_mathjax_patterns(markdown)
+		for i, pattern in enumerate(patterns):
+			self.md.inlinePatterns.add('mathjax%d' % i, pattern, '<escape')
 
 	def get_document_title(self, text):
 		if 'meta' not in self.extensions:
@@ -146,8 +147,6 @@ class MarkdownMarkup(AbstractMarkup):
 		return ''
 
 	def get_javascript(self, text='', webenv=False):
-		if not self.mathjax:
-			return ''
 		if 'body' in self.cache:
 			body = self.cache['body']
 		else:

@@ -131,6 +131,13 @@ class MarkdownTest(unittest.TestCase):
 		title = markup.get_document_title('Title: Hello, world!\n\nSome text here.')
 		self.assertEqual('Hello, world!', title)
 
+	def test_default_math(self):
+		# by default $...$ delimeter should be disabled
+		markup = MarkdownMarkup(extensions=[])
+		self.assertEqual('<p>$1$</p>\n', markup.get_document_body('$1$'))
+		self.assertEqual('<p>\n<script type="math/tex; mode=display">1</script>\n</p>\n',
+			markup.get_document_body('$$1$$'))
+
 	def test_mathjax(self):
 		markup = MarkdownMarkup(extensions=['mathjax'])
 		# Escaping should work
