@@ -48,7 +48,8 @@ class MarkdownMarkup(AbstractMarkup):
 		except IOError:
 			return []
 		else:
-			extensions = [line.rstrip() for line in extensions_file]
+			extensions = [line.rstrip() for line in extensions_file
+                                      if not line.startswith('#')]
 			extensions_file.close()
 			return extensions
 
