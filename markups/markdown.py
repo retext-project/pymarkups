@@ -49,7 +49,7 @@ class MarkdownMarkup(AbstractMarkup):
 			return []
 		else:
 			extensions = [line.rstrip() for line in extensions_file
-                                      if not line.startswith('#')]
+			              if not line.startswith('#')]
 			extensions_file.close()
 			return extensions
 
@@ -134,7 +134,7 @@ class MarkdownMarkup(AbstractMarkup):
 	def get_document_title(self, text):
 		if 'meta' not in self.extensions:
 			return ''
-		if not 'body' in self.cache:
+		if not 'body' in self._cache:
 			self.get_document_body(text)
 		if hasattr(self.md, 'Meta') and 'title' in self.md.Meta:
 			return str.join(' ', self.md.Meta['title'])
@@ -147,8 +147,8 @@ class MarkdownMarkup(AbstractMarkup):
 		return ''
 
 	def get_javascript(self, text='', webenv=False):
-		if 'body' in self.cache:
-			body = self.cache['body']
+		if 'body' in self._cache:
+			body = self._cache['body']
 		else:
 			body = self.get_document_body(text)
 		if not '<script type="math/tex' in body:
@@ -159,6 +159,6 @@ class MarkdownMarkup(AbstractMarkup):
 	def get_document_body(self, text):
 		self.md.reset()
 		converted_text = self.md.convert(text) + '\n'
-		if self.enable_cache:
-			self.cache['body'] = converted_text
+		if self._enable_cache:
+			self._cache['body'] = converted_text
 		return converted_text

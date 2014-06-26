@@ -17,7 +17,7 @@ class ReStructuredTextTest(unittest.TestCase):
 		markup = ReStructuredTextMarkup()
 		text = markup.get_document_body(basic_text)
 		title = markup.get_document_title(basic_text)
-		markup.enable_cache = True
+		markup._enable_cache = True
 		text_from_cache = markup.get_document_body(basic_text)
 		title_from_cache = markup.get_document_title(basic_text)
 		text_expected = \

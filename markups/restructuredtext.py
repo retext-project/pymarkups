@@ -33,12 +33,12 @@ class ReStructuredTextMarkup(AbstractMarkup):
 		self._publish_parts = publish_parts
 
 	def publish_parts(self, text):
-		if 'rest_parts' in self.cache:
-			return self.cache['rest_parts']
+		if 'rest_parts' in self._cache:
+			return self._cache['rest_parts']
 		parts = self._publish_parts(text, source_path=self.filename,
 			writer_name='html', settings_overrides=self.overrides)
-		if self.enable_cache:
-			self.cache['rest_parts'] = parts
+		if self._enable_cache:
+			self._cache['rest_parts'] = parts
 		return parts
 
 	def get_document_title(self, text):

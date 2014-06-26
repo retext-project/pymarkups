@@ -9,8 +9,8 @@ class AbstractMarkup(object):
 
 	def __init__(self, filename=None):
 		self.filename = filename
-		self.enable_cache = False
-		self.cache = {}
+		self._enable_cache = False
+		self._cache = {}
 
 	def available():
 		return True
@@ -29,7 +29,7 @@ class AbstractMarkup(object):
 
 	def get_whole_html(self, text, custom_headers='', include_stylesheet=True,
 	                   fallback_title='', webenv=False):
-		self.enable_cache = True
+		self._enable_cache = True
 		body = self.get_document_body(text)
 		stylesheet = ('<style type="text/css">\n' + self.get_stylesheet(text)
 			+ '</style>\n' if include_stylesheet else '')
@@ -38,8 +38,8 @@ class AbstractMarkup(object):
 			title = fallback_title
 		title_string = ('<title>' + title + '</title>\n') if title else ''
 		javascript = self.get_javascript(text, webenv)
-		self.enable_cache = False
-		self.cache = {}
+		self._enable_cache = False
+		self._cache = {}
 		return (
 		'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">\n'
 		'<html>\n<head>\n'
