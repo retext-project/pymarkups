@@ -126,6 +126,13 @@ class MarkdownTest(unittest.TestCase):
 		html = markup.get_document_body(tables_source)
 		self.assertNotEqual(html, tables_output)
 
+	def test_remove_extra_document_extension(self):
+		markup = MarkdownMarkup(extensions=[])
+		html = markup.get_document_body(
+		    'Required-Extensions: meta\n'
+		    '                     remove_extra\n\n' + tables_source)
+		self.assertNotIn(html, '<table>')
+
 	def test_meta(self):
 		markup = MarkdownMarkup(extensions=['meta'])
 		title = markup.get_document_title('Title: Hello, world!\n\n'
@@ -147,6 +154,18 @@ class MarkdownTest(unittest.TestCase):
 		self.assertIn('<script', js)
 		body = markup.get_document_body(mathjax_source)
 		self.assertEqual(mathjax_output, body)
+
+	def test_mathjax_document_extension(self):
+		markup = MarkdownMarkup()
+		text = ('Foo: bar\n'
+		        'Required-Extensions: mathjax\n\n') + mathjax_source
+		body = markup.get_document_body(text)
+		self.assertEqual(mathjax_output, body)
+		self.assertIn('i_1</script>', body)
+		text = ('Foo\n\n' # Not a meta line anymore
+		        'Required-Extensions: mathjax\n\n') + mathjax_source
+		body = markup.get_document_body(text)
+		self.assertNotIn('i_1</script>', body)
 
 	def test_mathjax_multiline(self):
 		markup = MarkdownMarkup(extensions=['mathjax'])
