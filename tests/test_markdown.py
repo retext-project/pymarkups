@@ -128,7 +128,8 @@ class MarkdownTest(unittest.TestCase):
 
 	def test_meta(self):
 		markup = MarkdownMarkup(extensions=['meta'])
-		title = markup.get_document_title('Title: Hello, world!\n\nSome text here.')
+		title = markup.get_document_title('Title: Hello, world!\n\n'
+		                                  'Some text here.')
 		self.assertEqual('Hello, world!', title)
 
 	def test_default_math(self):
@@ -151,10 +152,6 @@ class MarkdownTest(unittest.TestCase):
 		markup = MarkdownMarkup(extensions=['mathjax'])
 		body = markup.get_document_body(mathjax_multiline_source)
 		self.assertEqual(mathjax_multiline_output, body)
-
-	def tearDown(self):
-		if os.path.exists('markdown-extensions.txt'):
-			os.remove('markdown-extensions.txt')
 
 if __name__ == '__main__':
 	unittest.main()
