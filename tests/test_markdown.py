@@ -133,6 +133,11 @@ class MarkdownTest(unittest.TestCase):
 		    '                     remove_extra\n\n' + tables_source)
 		self.assertNotIn(html, '<table>')
 
+	def test_remove_extra_removes_mathjax(self):
+		markup = MarkdownMarkup()
+		html = markup.get_document_body('$$1$$')
+		self.assertNotIn(html, 'math/tex')
+
 	def test_meta(self):
 		markup = MarkdownMarkup(extensions=['meta'])
 		title = markup.get_document_title('Title: Hello, world!\n\n'
