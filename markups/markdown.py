@@ -133,6 +133,9 @@ class MarkdownMarkup(AbstractMarkup):
 		if self.mathjax:
 			extensions.remove('mathjax')
 		for extension in extensions:
+			if not extension:
+				extensions.remove(extension)
+				continue
 			if not self._check_extension_exists(extension):
 				sys.stderr.write('Extension "%s" does not exist.\n' % extension)
 				extensions.remove(extension)
