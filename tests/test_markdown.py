@@ -3,7 +3,6 @@
 # Copyright: (C) Dmitry Shachnev, 2012
 
 from markups import MarkdownMarkup
-import os
 import unittest
 
 tables_source = \
