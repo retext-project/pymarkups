@@ -5,6 +5,7 @@
 from __future__ import absolute_import
 
 import os
+import re
 import sys
 import markups.common as common
 from markups.abstract import AbstractMarkup
@@ -22,8 +23,7 @@ MathJax.Hub.Config({
 </script>
 '''
 
-class MetaObject(object):
-	Meta = None
+extensions_re = re.compile(r'required.extensions: ([ \w]+)', flags=re.IGNORECASE)
 
 class MarkdownMarkup(AbstractMarkup):
 	"""Markdown language"""
@@ -65,12 +65,11 @@ class MarkdownMarkup(AbstractMarkup):
 		return extensions
 
 	def _get_document_extensions(self, text):
-		from markdown.extensions.meta import MetaPreprocessor
-		meta_obj = MetaObject()
-		MetaPreprocessor(meta_obj).run(text.split('\n'))
-		if 'required-extensions' not in meta_obj.Meta:
-			return []
-		return meta_obj.Meta['required-extensions'] + ['meta']
+		firstline = text.splitlines()[0]
+		match = extensions_re.search(firstline)
+		if match:
+			return match.group(1).strip().split(' ')
+		return []
 
 	def _check_extension_exists(self, extension_name):
 		try:
@@ -152,10 +151,10 @@ class MarkdownMarkup(AbstractMarkup):
 		self._apply_extensions()
 
 	def get_document_title(self, text):
-		if 'meta' not in self.extensions:
-			return ''
 		if not 'body' in self._cache:
 			self.get_document_body(text)
+		if 'meta' not in self.extensions:
+			return ''
 		if hasattr(self.md, 'Meta') and 'title' in self.md.Meta:
 			return str.join(' ', self.md.Meta['title'])
 		else:
