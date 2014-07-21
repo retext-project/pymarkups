@@ -68,7 +68,7 @@ class MarkdownMarkup(AbstractMarkup):
 		firstline = text.splitlines()[0]
 		match = extensions_re.search(firstline)
 		if match:
-			return match.group(1).strip().split(' ')
+			return match.group(1).strip().split()
 		return []
 
 	def _check_extension_exists(self, extension_name):
