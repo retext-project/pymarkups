@@ -1,0 +1,6 @@
+build
+dist
+MANIFEST
+Markups.egg-info
+__pycache__
+*.pyc
