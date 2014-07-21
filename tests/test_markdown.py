@@ -126,7 +126,7 @@ class MarkdownTest(unittest.TestCase):
 	def test_remove_extra(self):
 		markup = MarkdownMarkup(extensions=['remove_extra'])
 		html = markup.get_document_body(tables_source)
-		self.assertNotEqual(html, tables_output)
+		self.assertNotIn(html, '<table>')
 
 	def test_remove_extra_document_extension(self):
 		markup = MarkdownMarkup(extensions=[])
