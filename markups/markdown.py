@@ -88,7 +88,7 @@ class MarkdownMarkup(AbstractMarkup):
 			node.set('type', 'math/tex')
 			node.text = self.markdown.util.AtomicString(m.group(3))
 			return node
-	
+
 		def handle_match(m):
 			node = self.markdown.util.etree.Element('script')
 			node.set('type', 'math/tex; mode=display')
@@ -97,7 +97,7 @@ class MarkdownMarkup(AbstractMarkup):
 				node.text = self.markdown.util.AtomicString(m.group(2) +
 				m.group(3) + m.group(4))
 			return node
-	
+
 		inlinemathpatterns = (
 			self.markdown.inlinepatterns.Pattern(r'(?<!\\|\$)(\$)([^\$]+)(\$)'),  #  $...$
 			self.markdown.inlinepatterns.Pattern(r'(?<!\\)(\\\()(.+?)(\\\))')     # \(...\)

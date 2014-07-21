@@ -36,7 +36,7 @@ class WebLibrary(object):
 			if not os.path.isfile(filename):
 				return False
 			return (markups.get_markup_for_file_name(filename) is not None)
-	
+
 		self._init_template()
 		for fname in filter(is_supported_file, os.listdir(self.working_dir)):
 			self._process_page(fname)
