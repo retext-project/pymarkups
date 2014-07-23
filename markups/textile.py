@@ -8,7 +8,9 @@ import markups.common as common
 from markups.abstract import AbstractMarkup
 
 class TextileMarkup(AbstractMarkup):
-	"""Textile language"""
+	"""Markup class for Textile language.
+	Inherits :class:`~markups.abstract.AbstractMarkup`.
+	"""
 	name = 'Textile'
 	attributes = {
 		common.LANGUAGE_HOME_PAGE: 'http://textile.sitemonks.com/',

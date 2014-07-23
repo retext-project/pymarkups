@@ -17,6 +17,10 @@ builtin_markups = [MarkdownMarkup, ReStructuredTextMarkup, TextileMarkup]
 # Public API
 
 def get_custom_markups():
+	"""
+	:returns: list of registered :doc:`custom markups <custom_markups>`
+	:rtype: list of markup classes
+	"""
 	try:
 		list_file = open(os.path.join(CONFIGURATION_DIR, 'pymarkups.txt'))
 	except IOError:
@@ -34,9 +38,19 @@ def get_custom_markups():
 		return custom_markups
 
 def get_all_markups():
+	"""
+	:returns: list of all markups (both standard and custom ones)
+	:rtype: list of markup classes
+	"""
 	return builtin_markups + get_custom_markups()
 
 def get_available_markups():
+	"""
+	:returns: list of all available markups (markups whose
+	          :meth:`~markups.abstract.AbstractMarkup.available`
+	          method returns True)
+	:rtype: list of markup classes
+	"""
 	available_markups = []
 	for markup in get_all_markups():
 		if markup.available():
@@ -44,6 +58,18 @@ def get_available_markups():
 	return available_markups
 
 def get_markup_for_file_name(filename, return_class=False):
+	"""
+	:param filename: name of the file
+	:type filename: str
+	:param return_class: if true, this function will return
+	                     a class rather than an instance
+	:type return_class: bool
+
+	:returns: a markup with
+	          :attr:`~markups.abstract.AbstractMarkup.file_extensions`
+                  attribute containing extension of `filename`, if found,
+	          otherwise ``None``
+	"""
 	markup_class = None
 	for markup in get_all_markups():
 		for extension in markup.file_extensions:
@@ -55,6 +81,12 @@ def get_markup_for_file_name(filename, return_class=False):
 		return markup_class(filename=filename)
 
 def find_markup_class_by_name(name):
+	"""
+	:returns: a markup with
+	          :attr:`~markups.abstract.AbstractMarkup.name`
+	          attribute matching `name`, if found, otherwise ``None``
+	:rtype: class
+	"""
 	for markup in get_all_markups():
 		if markup.name.lower() == name.lower():
 			return markup

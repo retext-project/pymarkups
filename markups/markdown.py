@@ -26,7 +26,12 @@ MathJax.Hub.Config({
 extensions_re = re.compile(r'required.extensions: ([ \w]+)', flags=re.IGNORECASE)
 
 class MarkdownMarkup(AbstractMarkup):
-	"""Markdown language"""
+	"""Markup class for Markdown language.
+	Inherits :class:`~markups.abstract.AbstractMarkup`.
+
+	:param extensions: list of extension names
+	:type extensions: list
+	"""
 	name = 'Markdown'
 	attributes = {
 		common.LANGUAGE_HOME_PAGE: 'http://daringfireball.net/projects/markdown/',

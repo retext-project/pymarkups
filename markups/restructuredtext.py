@@ -6,7 +6,15 @@ import markups.common as common
 from markups.abstract import AbstractMarkup
 
 class ReStructuredTextMarkup(AbstractMarkup):
-	"""reStructuredText language"""
+	"""Markup class for reStructuredText language.
+	Inherits :class:`~markups.abstract.AbstractMarkup`.
+
+	:param settings_overrides: optional dictionary of overrides for the
+	                           `Docutils settings`_
+	:type settings_overrides: dict
+
+	.. _`Docutils settings`: http://docutils.sourceforge.net/docs/user/config.html
+	"""
 	name = 'reStructuredText'
 	attributes = {
 		common.LANGUAGE_HOME_PAGE: 'http://docutils.sourceforge.net/rst.html',
