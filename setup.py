@@ -4,6 +4,11 @@ import sys
 from distutils.core import setup, Command
 from markups import __version__ as version
 
+try:
+	from sphinx.setup_command import BuildDoc
+except ImportError:
+	BuildDoc = None
+
 long_description = \
 """This module provides a wrapper around the various text markup languages,
 such as Markdown_ and reStructuredText_ (these two are supported by default).
@@ -59,6 +64,12 @@ class run_tests(Command):
 				raise
 		sys.argv = oldargv
 
+cmdclass = {}
+if sys.version_info[0] >= 3:
+	cmdclass['test'] = run_tests
+if BuildDoc:
+	cmdclass['build_sphinx'] = BuildDoc
+
 setup_args = {
 	'name': 'Markups',
 	'version': version,
@@ -69,10 +80,7 @@ setup_args = {
 	'url': 'http://launchpad.net/python-markups',
 	'packages': ['markups'],
 	'license': 'BSD',
+	'cmdclass': cmdclass,
 	'classifiers': classifiers
 }
-
-if sys.version_info[0] >= 3:
-	setup_args['cmdclass'] = {'test': run_tests}
-
 setup(**setup_args)
