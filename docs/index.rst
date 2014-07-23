@@ -25,3 +25,14 @@ Contents
    interface
    standard_markups
    custom_markups
+
+Links
+=====
+
+* Python-Markups source code is hosted on GitHub_.
+* You can get the source tarball from PyPI_.
+* It is also packaged in Debian_.
+
+.. _GitHub: https://github.com/mitya57/pymarkups
+.. _PyPI: https://pypi.python.org/pypi/Markups
+.. _Debian: http://packages.debian.org/sid/source/pymarkups
