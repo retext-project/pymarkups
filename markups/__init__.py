@@ -69,6 +69,13 @@ def get_markup_for_file_name(filename, return_class=False):
 	          :attr:`~markups.abstract.AbstractMarkup.file_extensions`
                   attribute containing extension of `filename`, if found,
 	          otherwise ``None``
+
+	>>> import markups
+	>>> markup = markups.get_markup_for_file_name('foo.mkd')
+	>>> markup.get_document_body('**Test**')
+	'<p><strong>Test</strong></p>\\n'
+	>>> markups.get_markup_for_file_name('bar.rst', return_class=True)
+	<class 'markups.restructuredtext.ReStructuredTextMarkup'>
 	"""
 	markup_class = None
 	for markup in get_all_markups():
@@ -86,6 +93,10 @@ def find_markup_class_by_name(name):
 	          :attr:`~markups.abstract.AbstractMarkup.name`
 	          attribute matching `name`, if found, otherwise ``None``
 	:rtype: class
+
+	>>> import markups
+	>>> markups.find_markup_class_by_name('textile')
+	<class 'markups.textile.TextileMarkup'>
 	"""
 	for markup in get_all_markups():
 		if markup.name.lower() == name.lower():

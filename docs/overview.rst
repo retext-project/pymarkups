@@ -2,6 +2,19 @@
 API overview
 ============
 
+For the very basic usage of Python-Markups, one should import
+some markup class from :mod:`markups`, create an instance
+of that class, and use the methods provided by
+:class:`~markups.abstract.AbstractMarkup`:
+
+>>> import markups
+>>> markup = markups.ReStructuredTextMarkup()
+>>> markup.get_document_body('*reStructuredText* test')
+'<p><em>reStructuredText</em> test</p>\n'
+
+For advanced usage (like dynamically choosing the markup class),
+one may use one of the functions documented below.
+
 Getting lists of available markups
 ==================================
 
