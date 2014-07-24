@@ -25,6 +25,7 @@ Contents
    interface
    standard_markups
    custom_markups
+   changelog
 
 Links
 =====
