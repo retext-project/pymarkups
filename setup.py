@@ -9,6 +9,11 @@ try:
 except ImportError:
 	BuildDoc = None
 
+try:
+	from setuptools.command.upload_docs import upload_docs
+except ImportError:
+	upload_docs = None
+
 long_description = \
 """This module provides a wrapper around the various text markup languages,
 such as Markdown_ and reStructuredText_ (these two are supported by default).
@@ -69,6 +74,8 @@ if sys.version_info[0] >= 3:
 	cmdclass['test'] = run_tests
 if BuildDoc:
 	cmdclass['build_sphinx'] = BuildDoc
+if upload_docs:
+	cmdclass['upload_docs'] = upload_docs
 
 setup_args = {
 	'name': 'Markups',
