@@ -36,4 +36,4 @@ Links
 
 .. _GitHub: https://github.com/mitya57/pymarkups
 .. _PyPI: https://pypi.python.org/pypi/Markups
-.. _Debian: http://packages.debian.org/sid/source/pymarkups
+.. _Debian: https://packages.debian.org/sid/source/pymarkups
