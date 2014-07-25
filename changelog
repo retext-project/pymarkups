@@ -1,3 +1,16 @@
+Version 0.5, 2014-07-25
+=======================
+
+* Improvements to Markdown markup:
+
+  + All math delimeters except ``$...$`` are now enabled by
+    default
+  + ``remove_extra`` extension now disables formulas support
+  + It is now possible to specify required extensions in the
+    first line of the file
+
+* Add Sphinx documentation
+
 Version 0.4, 2013-11-30
 =======================
 
