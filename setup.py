@@ -84,7 +84,7 @@ setup_args = {
 	'long_description': long_description,
 	'author': 'Dmitry Shachnev',
 	'author_email': 'mitya57@gmail.com',
-	'url': 'http://launchpad.net/python-markups',
+	'url': 'https://github.com/mitya57/pymarkups',
 	'packages': ['markups'],
 	'license': 'BSD',
 	'cmdclass': cmdclass,
