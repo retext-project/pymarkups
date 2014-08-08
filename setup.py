@@ -60,14 +60,10 @@ class run_tests(Command):
 	def finalize_options(self): pass
 
 	def run(self):
-		import tests
-		oldargv, sys.argv = sys.argv, ['setup.py test', '-v']
-		try:
-			tests.main()
-		except SystemExit as e:
-			if e.code:
-				raise
-		sys.argv = oldargv
+		from unittest.main import main
+		testprogram = main(module=None, argv=sys.argv[:1], verbosity=2, exit=False)
+		if not testprogram.result.wasSuccessful():
+			sys.exit(1)
 
 cmdclass = {}
 if sys.version_info[0] >= 3:
