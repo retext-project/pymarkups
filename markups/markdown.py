@@ -70,8 +70,8 @@ class MarkdownMarkup(AbstractMarkup):
 		return extensions
 
 	def _get_document_extensions(self, text):
-		firstline = text.splitlines()[0]
-		match = extensions_re.search(firstline)
+		lines = text.splitlines()
+		match = extensions_re.search(lines[0]) if lines else None
 		if match:
 			return match.group(1).strip().split()
 		return []

@@ -111,6 +111,10 @@ mathjax_multiline_output = \
 class MarkdownTest(unittest.TestCase):
 	maxDiff = None
 
+	def test_empty_file(self):
+		markup = MarkdownMarkup()
+		self.assertEqual(markup.get_document_body(''), '\n')
+
 	def test_extensions_loading(self):
 		markup = MarkdownMarkup()
 		self.assertFalse(markup._check_extension_exists('nonexistent'))
