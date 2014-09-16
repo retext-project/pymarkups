@@ -1,3 +1,10 @@
+Version 0.5.1, 2014-09-16
+=========================
+
+* Fixed Markdown markup crash on empty files.
+* Include documentation in the tarballs.
+* Testsuite improvements.
+
 Version 0.5, 2014-07-25
 =======================
 
