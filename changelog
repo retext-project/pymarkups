@@ -1,3 +1,8 @@
+Version 0.5.2, 2014-11-05
+=========================
+
+* Fixed loading of Markdown extensions with options.
+
 Version 0.5.1, 2014-09-16
 =========================
 
