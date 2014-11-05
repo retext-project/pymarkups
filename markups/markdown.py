@@ -77,6 +77,8 @@ class MarkdownMarkup(AbstractMarkup):
 		return []
 
 	def _check_extension_exists(self, extension_name):
+		if '(' in extension_name:
+			extension_name = extension_name[:extension_name.find('(')]
 		try:
 			__import__('markdown.extensions.'+extension_name, {}, {},
 			['markdown.extensions'])

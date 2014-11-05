@@ -118,7 +118,15 @@ class MarkdownTest(unittest.TestCase):
 	def test_extensions_loading(self):
 		markup = MarkdownMarkup()
 		self.assertFalse(markup._check_extension_exists('nonexistent'))
+		self.assertFalse(markup._check_extension_exists('nonexistent(someoption)'))
 		self.assertTrue(markup._check_extension_exists('meta'))
+		self.assertTrue(markup._check_extension_exists('meta(someoption)'))
+
+	def test_extensions_parameters(self):
+		markup = MarkdownMarkup(extensions=['toc(anchorlink=1)'])
+		html = markup.get_document_body('## Header')
+		self.assertEqual(html,
+			'<h2 id="header"><a class="toclink" href="#header">Header</a></h2>\n')
 
 	def test_extra(self):
 		markup = MarkdownMarkup()
