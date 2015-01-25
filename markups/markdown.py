@@ -23,7 +23,7 @@ MathJax.Hub.Config({
 </script>
 '''
 
-extensions_re = re.compile(r'required.extensions: ([ \w]+)', flags=re.IGNORECASE)
+extensions_re = re.compile(r'required.extensions: ([ \w\.\(\),=_]+)', flags=re.IGNORECASE)
 
 class MarkdownMarkup(AbstractMarkup):
 	"""Markup class for Markdown language.

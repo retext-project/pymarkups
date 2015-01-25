@@ -128,6 +128,13 @@ class MarkdownTest(unittest.TestCase):
 		self.assertEqual(html,
 			'<h2 id="header"><a class="toclink" href="#header">Header</a></h2>\n')
 
+	def test_document_extensions_parameters(self):
+		markup = MarkdownMarkup(extensions=[])
+		toc_header = '<!--- Required extensions: toc(anchorlink=1) --->\n\n'
+		html = markup.get_document_body(toc_header + '## Header')
+		self.assertEqual(html, toc_header +
+			'<h2 id="header"><a class="toclink" href="#header">Header</a></h2>\n')
+
 	def test_extra(self):
 		markup = MarkdownMarkup()
 		html = markup.get_document_body(tables_source)
