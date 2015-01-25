@@ -86,7 +86,9 @@ class MarkdownMarkup(AbstractMarkup):
 		prefixes = ('markdown.extensions.', '', 'mdx_')
 		for prefix in prefixes:
 			try:
-				importlib.import_module(prefix + extension_name)
+				module = importlib.import_module(prefix + extension_name)
+				if not hasattr(module, 'makeExtension'):
+					continue
 			except (ImportError, ValueError):
 				pass
 			else:
