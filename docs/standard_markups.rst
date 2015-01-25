@@ -9,7 +9,7 @@ Markdown markup
 
 Markdown_ markup uses Python-Markdown_ as a backend.
 
-There are several ways to enable `Python-Markdown extensions`.
+There are several ways to enable `Python-Markdown extensions`_.
 
 * List extensions in a file named :file:`markdown-extensions.txt` in
   the :ref:`configuration directory <configuration-directory>`,
@@ -69,7 +69,7 @@ The file extension associated with reStructuredText markup is ``.rst``.
 Textile markup
 ==============
 
-This markup provides support for Textile language. It uses python-textile_
+This markup provides support for Textile_ language. It uses python-textile_
 module.
 
 The file extension associated with Textile markup is ``.textile``.
