@@ -11,7 +11,7 @@ if sys.version_info[0] < 3:
 	raise ImportError('Python 3.x is required.')
 
 __version__ = markups.__version__
-site = 'https://launchpad.net/python-markups'
+site = 'https://github.com/mitya57/pymarkups'
 
 APP_NAME, APP_VERSION, APP_SITE = range(3)
 default_app_data = ('python-markups', __version__, site)
