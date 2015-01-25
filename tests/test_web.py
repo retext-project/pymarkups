@@ -2,10 +2,15 @@
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2012
 
-import markups.web
 import os
+import sys
 import unittest
 from markups.restructuredtext import ReStructuredTextMarkup
+
+if sys.version_info[0] < 3:
+	raise unittest.SkipTest('Python 3.x is required')
+
+import markups.web
 
 class WebTest(unittest.TestCase):
 	@classmethod
@@ -48,9 +53,6 @@ class WebTest(unittest.TestCase):
 			os.remove(cls.get_file('html/page.html'))
 		if os.path.exists(cls.get_file('html')):
 			os.rmdir(cls.get_file('html'))
-
-if not hasattr(WebTest, 'assertRaisesRegex'):
-	WebTest.assertRaisesRegex = WebTest.assertRaisesRegexp
 
 if __name__ == '__main__':
 	unittest.main()

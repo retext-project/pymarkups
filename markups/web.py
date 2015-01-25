@@ -4,7 +4,11 @@
 
 import os
 import markups
+import sys
 from email.utils import formatdate
+
+if sys.version_info[0] < 3:
+	raise ImportError('Python 3.x is required.')
 
 __version__ = markups.__version__
 site = 'https://launchpad.net/python-markups'
@@ -51,11 +55,7 @@ class WebLibrary(object):
 
 	def _init_template(self):
 		templatefile = open(os.path.join(self.working_dir, 'template.html'))
-		try:
-			self.template = unicode(templatefile.read(), 'utf-8')
-		except NameError:
-			# For Python 3
-			self.template = templatefile.read()
+		self.template = templatefile.read()
 		templatefile.close()
 		self.template = self.template.replace('%GENERATOR%', self.generator_info)
 		self.template = self.template.replace('%APPINFO%', self.app_info)
@@ -70,11 +70,6 @@ class WebLibrary(object):
 		inputfile = open(inputfile, 'r')
 		text = inputfile.read()
 		inputfile.close()
-		try:
-			text = unicode(text, 'utf-8')
-		except NameError:
-			# Not needed for Python 3
-			pass
 		markup.enable_cache = True
 		html = markup.get_document_body(text).rstrip()
 		pagename = markup.get_document_title(text)
@@ -84,11 +79,6 @@ class WebLibrary(object):
 		if html or bn == 'index':
 			content = self.template
 			content = content.replace('%CONTENT%', html)
-			try:
-				pagename = unicode(pagename, 'utf-8')
-				bn = unicode(bn, 'utf-8')
-			except (NameError, TypeError):
-				pass # Not needed for Python 3
 			content = content.replace('%PAGENAME%', pagename)
 			content = content.replace('%SOURCEFILENAME%', fname)
 			content = content.replace('%EXTRAHEADERS%', javascript)
@@ -101,9 +91,5 @@ class WebLibrary(object):
 			if not os.path.exists(htmldir):
 				os.mkdir(htmldir)
 			outputfile = open(os.path.join(htmldir, bn+'.html'), 'w')
-			try:
-				outputfile.write(content.encode('utf-8'))
-			except TypeError:
-				# For Python 3
-				outputfile.write(content)
+			outputfile.write(content)
 			outputfile.close()
