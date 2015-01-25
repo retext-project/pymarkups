@@ -123,6 +123,19 @@ class MarkdownTest(unittest.TestCase):
 		self.assertEqual(markup._canonicalize_extension_name('meta(someoption)'),
 			'markdown.extensions.meta(someoption)')
 
+	def test_loading_extensions_by_module_name(self):
+		markup = MarkdownMarkup(extensions=['markdown.extensions.footnotes'])
+		source = ('Footnotes[^1] have a label and the content.\n\n'
+		          '[^1]: This is a footnote content.')
+		html = markup.get_document_body(source)
+		self.assertIn('<sup', html)
+		self.assertIn('footnote-backref', html)
+
+	def test_removing_duplicate_extensions(self):
+		markup = MarkdownMarkup(extensions=['remove_extra', 'toc', 'markdown.extensions.toc'])
+		self.assertEqual(len(markup.extensions), 1)
+		self.assertIn('markdown.extensions.toc', markup.extensions)
+
 	def test_extensions_parameters(self):
 		markup = MarkdownMarkup(extensions=['toc(anchorlink=1)'])
 		html = markup.get_document_body('## Header')
