@@ -32,10 +32,9 @@ def get_custom_markups():
 		for markup_name in custom_markups_names:
 			try:
 				module = importlib.import_module(markup_name)
-			except ImportError:
-				sys.stderr.write('Warning: cannot import module %r.\n' % markup_name)
-			else:
 				custom_markups.append(module.markup)
+			except (ImportError, AttributeError):
+				sys.stderr.write('Warning: cannot import module %r.\n' % markup_name)
 		return custom_markups
 
 def get_all_markups():
