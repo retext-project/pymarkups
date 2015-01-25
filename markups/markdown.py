@@ -4,6 +4,7 @@
 
 from __future__ import absolute_import
 
+import importlib
 import os
 import re
 import sys
@@ -76,80 +77,48 @@ class MarkdownMarkup(AbstractMarkup):
 			return match.group(1).strip().split()
 		return []
 
-	def _check_extension_exists(self, extension_name):
-		if '(' in extension_name:
-			extension_name = extension_name[:extension_name.find('(')]
-		try:
-			__import__('markdown.extensions.'+extension_name, {}, {},
-			['markdown.extensions'])
-		except ImportError:
+	def _canonicalize_extension_name(self, extension_name):
+		lb = extension_name.find('(')
+		if lb >= 0:
+			extension_name, parameters = extension_name[:lb], extension_name[lb:]
+		else:
+			parameters = ''
+		prefixes = ('markdown.extensions.', '', 'mdx_')
+		for prefix in prefixes:
 			try:
-				__import__('mdx_'+extension_name)
-			except ImportError:
-				return False
-		return True
-
-	def _get_mathjax_patterns(self):
-		def handle_match_inline(m):
-			node = self.markdown.util.etree.Element('script')
-			node.set('type', 'math/tex')
-			node.text = self.markdown.util.AtomicString(m.group(3))
-			return node
-
-		def handle_match(m):
-			node = self.markdown.util.etree.Element('script')
-			node.set('type', 'math/tex; mode=display')
-			node.text = self.markdown.util.AtomicString(m.group(3))
-			if '\\begin' in m.group(2):
-				node.text = self.markdown.util.AtomicString(m.group(2) +
-				m.group(3) + m.group(4))
-			return node
-
-		inlinemathpatterns = (
-			self.markdown.inlinepatterns.Pattern(r'(?<!\\|\$)(\$)([^\$]+)(\$)'),  #  $...$
-			self.markdown.inlinepatterns.Pattern(r'(?<!\\)(\\\()(.+?)(\\\))')     # \(...\)
-		)
-		mathpatterns = (
-			self.markdown.inlinepatterns.Pattern(r'(?<!\\)(\$\$)([^\$]+)(\$\$)'), # $$...$$
-			self.markdown.inlinepatterns.Pattern(r'(?<!\\)(\\\[)(.+?)(\\\])'),    # \[...\]
-			self.markdown.inlinepatterns.Pattern(r'(?<!\\)(\\begin{[a-z]+\*?})(.+)(\\end{[a-z]+\*?})')
-		)
-		if not self.mathjax:
-			inlinemathpatterns = inlinemathpatterns[1:]
-		patterns = []
-		for pattern in inlinemathpatterns:
-			pattern.handleMatch = handle_match_inline
-			patterns.append(pattern)
-		for pattern in mathpatterns:
-			pattern.handleMatch = handle_match
-			patterns.append(pattern)
-		return patterns
+				importlib.import_module(prefix + extension_name)
+			except (ImportError, ValueError):
+				pass
+			else:
+				return prefix + extension_name + parameters
 
 	def _apply_extensions(self):
 		extensions = (self.requested_extensions or
 			self.global_extensions) + self.document_extensions
-		# Remove duplicate entries
-		extensions = list(set(extensions))
-		# We have two "virtual" extensions
-		self.mathjax = ('mathjax' in extensions)
-		self.remove_mathjax = ('remove_extra' in extensions)
-		if 'remove_extra' in extensions:
-			extensions.remove('remove_extra')
-		elif 'extra' not in extensions:
-			extensions.append('extra')
-		if self.mathjax:
-			extensions.remove('mathjax')
+		extensions_final = []
+		should_push_extra = True
+		should_push_mathjax = (True, False)
 		for extension in extensions:
-			if not extension:
-				extensions.remove(extension)
-				continue
-			if not self._check_extension_exists(extension):
-				sys.stderr.write('Extension "%s" does not exist.\n' % extension)
-				extensions.remove(extension)
-		self.md = self.markdown.Markdown(extensions, output_format='html4')
-		for i, pattern in enumerate(self._get_mathjax_patterns()):
-			self.md.inlinePatterns.add('mathjax%d' % i, pattern, '<escape')
-		self.extensions = extensions
+			if extension == 'mathjax':
+				should_push_mathjax = (True, True)
+			elif extension == 'remove_extra':
+				should_push_extra = False
+				should_push_mathjax = (False, )
+			else:
+				canonical_name = self._canonicalize_extension_name(extension)
+				if not canonical_name:
+					sys.stderr.write('Extension "%s" does not exist.\n' %
+						extension)
+					continue
+				if canonical_name not in extensions_final:
+					extensions_final.append(canonical_name)
+		if should_push_extra:
+			extensions_final.append('markdown.extensions.extra')
+		if should_push_mathjax[0]:
+			extensions_final.append('markups.mdx_mathjax(enable_dollar_delimiter=%r)' %
+				should_push_mathjax[1])
+		self.md = self.markdown.Markdown(extensions_final, output_format='html4')
+		self.extensions = extensions_final
 
 	def __init__(self, filename=None, extensions=None):
 		AbstractMarkup.__init__(self, filename)
@@ -163,7 +132,7 @@ class MarkdownMarkup(AbstractMarkup):
 	def get_document_title(self, text):
 		if not 'body' in self._cache:
 			self.get_document_body(text)
-		if 'meta' not in self.extensions:
+		if 'markdown.extensions.meta' not in self.extensions:
 			return ''
 		if hasattr(self.md, 'Meta') and 'title' in self.md.Meta:
 			return str.join(' ', self.md.Meta['title'])
@@ -171,7 +140,7 @@ class MarkdownMarkup(AbstractMarkup):
 			return ''
 
 	def get_stylesheet(self, text=''):
-		if 'codehilite' in self.extensions:
+		if 'markdown.extensions.codehilite' in self.extensions:
 			return common.get_pygments_stylesheet('.codehilite')
 		return ''
 
