@@ -18,6 +18,10 @@ To check if the module was found by Python-Markups, one can check
 if the module is present in return value of
 :func:`~markups.get_custom_markups` function.
 
+.. versionchanged:: 0.6
+   The third-party markup is now a normal Python module, not
+   necessarily a file in ``markups`` namespace.
+
 Importing third-party modules
 =============================
 
