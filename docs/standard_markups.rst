@@ -74,7 +74,7 @@ module.
 
 The file extension associated with Textile markup is ``.textile``.
 
-.. _Textile: http://textile.sitemonks.com/
+.. _Textile: http://en.wikipedia.org/wiki/Textile_(markup_language)
 .. _python-textile: https://github.com/sebix/python-textile
 
 .. autoclass:: markups.TextileMarkup
