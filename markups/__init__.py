@@ -2,6 +2,7 @@
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2012-2014
 
+import importlib
 import os
 import sys
 from markups.common import CONFIGURATION_DIR
@@ -30,9 +31,9 @@ def get_custom_markups():
 		custom_markups = []
 		for markup_name in custom_markups_names:
 			try:
-				module = __import__('markups.'+markup_name, {}, {}, ['markups'])
+				module = importlib.import_module(markup_name)
 			except ImportError:
-				sys.stderr.write('Warning: cannot import module markups.'+markup_name+'\n')
+				sys.stderr.write('Warning: cannot import module %r.\n' % markup_name)
 			else:
 				custom_markups.append(module.markup)
 		return custom_markups

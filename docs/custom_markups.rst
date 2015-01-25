@@ -5,16 +5,12 @@ Custom Markups
 Registering the markup module
 =============================
 
-Any third-party markup should be placed in the same directory
-as built-in markups. To get that directory, use:
-
->>> import markups
->>> print(markups.__path__)
-
+A third-party markup is a Python module that can be installed
+the usual way.
 Every module should have :data:`markup` property pointing to
 the markup class.
 
-To register the markup, one should append the markup name to
+To register the markup, one should append the full module name to
 file named ``pymarkups.txt`` in the
 :ref:`configuration directory <configuration-directory>`.
 
