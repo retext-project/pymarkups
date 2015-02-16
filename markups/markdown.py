@@ -89,7 +89,7 @@ class MarkdownMarkup(AbstractMarkup):
 				module = importlib.import_module(prefix + extension_name)
 				if not hasattr(module, 'makeExtension'):
 					continue
-			except (ImportError, ValueError):
+			except (ImportError, ValueError, TypeError):
 				pass
 			else:
 				return prefix + extension_name + parameters

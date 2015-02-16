@@ -119,6 +119,7 @@ class MarkdownTest(unittest.TestCase):
 		markup = MarkdownMarkup()
 		self.assertIsNone(markup._canonicalize_extension_name('nonexistent'))
 		self.assertIsNone(markup._canonicalize_extension_name('nonexistent(someoption)'))
+		self.assertIsNone(markup._canonicalize_extension_name('.foobar'))
 		self.assertEqual(markup._canonicalize_extension_name('meta'), 'markdown.extensions.meta')
 		self.assertEqual(markup._canonicalize_extension_name('meta(someoption)'),
 			'markdown.extensions.meta(someoption)')
