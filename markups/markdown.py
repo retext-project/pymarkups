@@ -7,7 +7,7 @@ from __future__ import absolute_import
 import importlib
 import os
 import re
-import sys
+import warnings
 import markups.common as common
 from markups.abstract import AbstractMarkup
 
@@ -109,8 +109,8 @@ class MarkdownMarkup(AbstractMarkup):
 			else:
 				canonical_name = self._canonicalize_extension_name(extension)
 				if not canonical_name:
-					sys.stderr.write('Extension "%s" does not exist.\n' %
-						extension)
+					warnings.warn('Extension "%s" does not exist.' %
+						extension, ImportWarning)
 					continue
 				if canonical_name not in extensions_final:
 					extensions_final.append(canonical_name)

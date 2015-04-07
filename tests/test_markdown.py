@@ -209,8 +209,10 @@ class MarkdownTest(unittest.TestCase):
 		body = markup.get_document_body(mathjax_multiline_source)
 		self.assertEqual(mathjax_multiline_output, body)
 
+	@unittest.skipUnless(hasattr(unittest.TestCase, 'assertWarnsRegex'), 'assertWarnsRegex is not supported')
 	def test_not_loading_sys(self):
-		markup = MarkdownMarkup(extensions=['sys'])
+		with self.assertWarnsRegex(ImportWarning, 'Extension "sys" does not exist.'):
+			markup = MarkdownMarkup(extensions=['sys'])
 		self.assertNotIn('sys', markup.extensions)
 
 if __name__ == '__main__':

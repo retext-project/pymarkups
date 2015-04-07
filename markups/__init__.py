@@ -4,7 +4,7 @@
 
 import importlib
 import os
-import sys
+import warnings
 from markups.common import CONFIGURATION_DIR
 from markups.markdown import MarkdownMarkup
 from markups.restructuredtext import ReStructuredTextMarkup
@@ -34,7 +34,8 @@ def get_custom_markups():
 				module = importlib.import_module(markup_name)
 				custom_markups.append(module.markup)
 			except (ImportError, AttributeError):
-				sys.stderr.write('Warning: cannot import module %r.\n' % markup_name)
+				warnings.warn('Warning: cannot import module %r.' %
+					markup_name, ImportWarning)
 		return custom_markups
 
 def get_all_markups():
