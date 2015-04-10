@@ -15,7 +15,7 @@ class APITest(unittest.TestCase):
 		markup_class = markups.get_markup_for_file_name('myfile.mkd', return_class=True)
 		self.assertEqual(markups.MarkdownMarkup, markup_class)
 		markup = markups.get_markup_for_file_name('myfile.mkd')
-		self.assertTrue(isinstance(markup, markups.MarkdownMarkup))
+		self.assertIsInstance(markup, markups.MarkdownMarkup)
 
 if __name__ == '__main__':
 	unittest.main()
