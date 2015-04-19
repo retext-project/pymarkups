@@ -107,6 +107,27 @@ mathjax_multiline_output = \
 </p>
 '''
 
+mathjax_multilevel_source = \
+r'''
+\begin{equation*}
+  \begin{pmatrix}
+    1 & 0\\
+    0 & 1
+  \end{pmatrix}
+\end{equation*}
+'''
+
+mathjax_multilevel_output = \
+r'''<p>
+<script type="math/tex; mode=display">\begin{equation*}
+  \begin{pmatrix}
+    1 & 0\\
+    0 & 1
+  \end{pmatrix}
+\end{equation*}</script>
+</p>
+'''
+
 @unittest.skipUnless(MarkdownMarkup.available(), 'Markdown not available')
 class MarkdownTest(unittest.TestCase):
 	maxDiff = None
@@ -208,6 +229,11 @@ class MarkdownTest(unittest.TestCase):
 		markup = MarkdownMarkup(extensions=['mathjax'])
 		body = markup.get_document_body(mathjax_multiline_source)
 		self.assertEqual(mathjax_multiline_output, body)
+
+	def test_mathjax_multilevel(self):
+		markup = MarkdownMarkup()
+		body = markup.get_document_body(mathjax_multilevel_source)
+		self.assertEqual(mathjax_multilevel_output, body)
 
 	@unittest.skipUnless(hasattr(unittest.TestCase, 'assertWarnsRegex'), 'assertWarnsRegex is not supported')
 	def test_not_loading_sys(self):
