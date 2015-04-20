@@ -119,7 +119,7 @@ class MarkdownMarkup(AbstractMarkup):
 		if should_push_mathjax[0]:
 			extensions_final.append('markups.mdx_mathjax(enable_dollar_delimiter=%r)' %
 				should_push_mathjax[1])
-		self.md = self.markdown.Markdown(extensions_final, output_format='html4')
+		self.md = self.markdown.Markdown(extensions=extensions_final, output_format='html4')
 		self.extensions = extensions_final
 
 	def __init__(self, filename=None, extensions=None):
