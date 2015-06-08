@@ -6,7 +6,7 @@ Usage example:
 >>> markup = markups.get_markup_for_file_name("myfile.rst")
 >>> markup.name
 'reStructuredText'
->>> markup.attributes[markups.SYNTAX_DOCUMENTATION]
+>>> markup.attributes[markups.common.SYNTAX_DOCUMENTATION]
 'http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html'
 >>> text = "Hello, world!\n=============\n\nThis is an example **reStructuredText** document."
 >>> markup.get_document_title(text)
