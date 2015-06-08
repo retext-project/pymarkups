@@ -5,10 +5,14 @@
 import os
 import markups
 import sys
+import warnings
 from email.utils import formatdate
 
 if sys.version_info[0] < 3:
 	raise ImportError('Python 3.x is required.')
+
+warnings.warn('Web module is deprecated and will be removed soon.',
+              DeprecationWarning)
 
 __version__ = markups.__version__
 site = 'https://github.com/mitya57/pymarkups'
