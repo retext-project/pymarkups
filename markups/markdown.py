@@ -140,7 +140,11 @@ class MarkdownMarkup(AbstractMarkup):
 			return ''
 
 	def get_stylesheet(self, text=''):
-		if 'markdown.extensions.codehilite' in self.extensions:
+		has_codehilite = False
+		for extension in self.extensions:
+			if extension.endswith('codehilite'):
+				has_codehilite = True
+		if has_codehilite:
 			return common.get_pygments_stylesheet('.codehilite')
 		return ''
 
