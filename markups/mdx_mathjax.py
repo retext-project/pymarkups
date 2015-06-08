@@ -2,6 +2,8 @@
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2015
 
+# Maintained in https://github.com/mitya57/python-markdown-math
+
 '''
 Math extension for Python-Markdown
 ==================================
