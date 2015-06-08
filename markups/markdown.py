@@ -134,8 +134,6 @@ class MarkdownMarkup(AbstractMarkup):
 	def get_document_title(self, text):
 		if not 'body' in self._cache:
 			self.get_document_body(text)
-		if 'markdown.extensions.meta' not in self.extensions:
-			return ''
 		if hasattr(self.md, 'Meta') and 'title' in self.md.Meta:
 			return str.join(' ', self.md.Meta['title'])
 		else:
