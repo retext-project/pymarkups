@@ -13,9 +13,6 @@ MATHJAX_WEB_URL = 'https://cdn.mathjax.org/mathjax/latest/MathJax.js'
 
 PYGMENTS_STYLE = 'default'
 
-class MarkupsWarning(RuntimeWarning):
-	pass
-
 def get_pygments_stylesheet(selector, style=None):
 	if style is None:
 		style = PYGMENTS_STYLE
