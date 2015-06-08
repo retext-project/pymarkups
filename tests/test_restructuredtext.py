@@ -1,6 +1,6 @@
 # This file is part of python-markups test suite
 # License: BSD
-# Copyright: (C) Dmitry Shachnev, 2012
+# Copyright: (C) Dmitry Shachnev, 2012-2014
 
 import unittest
 from markups import ReStructuredTextMarkup

@@ -1,6 +1,6 @@
 # This file is part of python-markups test suite
 # License: BSD
-# Copyright: (C) Dmitry Shachnev, 2012
+# Copyright: (C) Dmitry Shachnev, 2012-2015
 
 from markups import MarkdownMarkup
 import unittest
