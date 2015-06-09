@@ -1,12 +1,12 @@
 Version 0.6.1, 2015-04-19
 =========================
 
-* PyMarkups now uses warnings system instead of printing messages
-  to stderr.
+* PyMarkups now uses warnings system instead of printing messages to
+  stderr.
 * Improvements to Markdown markup:
 
-  + Fixed parsing math that contains nested environments
-    (thanks to Gautam Iyer for the patch).
+  + Fixed parsing math that contains nested environments (thanks to Gautam
+    Iyer for the patch).
   + Fixed crash on extensions names starting with dot.
 
 * Miscellaneous fixes.
@@ -21,8 +21,8 @@ Incompatible changes:
 
 Other changes:
 
-* Refactor the code related to Markdown extensions to make it
-  work with upcoming Python-Markdown releases.
+* Refactor the code related to Markdown extensions to make it work with
+  upcoming Python-Markdown releases.
 * MathJax extension is now in a separate module.
 
 Version 0.5.2, 2014-11-05
@@ -42,53 +42,51 @@ Version 0.5, 2014-07-25
 
 * Improvements to Markdown markup:
 
-  + All math delimeters except ``$...$`` are now enabled by
-    default
-  + ``remove_extra`` extension now disables formulas support
-  + It is now possible to specify required extensions in the
-    first line of the file
+  + All math delimeters except ``$...$`` are now enabled by default.
+  + ``remove_extra`` extension now disables formulas support.
+  + It is now possible to specify required extensions in the first line of
+    the file.
 
-* Add Sphinx documentation
+* Add Sphinx documentation.
 
 Version 0.4, 2013-11-30
 =======================
 
-* Add Textile markup
-* reStructuredText markup now supports file names and settings overrides
-* Web module now raises WebUpdateError when updating fails
+* Add Textile markup.
+* reStructuredText markup now supports file names and settings overrides.
+* Web module now raises WebUpdateError when updating fails.
 
 Version 0.3, 2013-07-25
 =======================
 
-* MathJax support in Markdown has been improved and no longer relies
-  on tex2jax extension
-* It is now possible to pass extensions list to MarkdownMarkup
-  constructor
-* Pygments style is now configurable
-* Testsuite improvements
+* MathJax support in Markdown has been improved and no longer relies on
+  tex2jax extension.
+* It is now possible to pass extensions list to MarkdownMarkup constructor.
+* Pygments style is now configurable.
+* Testsuite improvements.
 
 Version 0.2.3, 2012-11-02
 =========================
 
-* Fix support for custom working directory in web module
-* Bug fixes in Markdown module and tests
+* Fix support for custom working directory in web module.
+* Bug fixes in Markdown module and tests.
 
 Version 0.2.2, 2012-10-02
 =========================
 
-* Re-written math support for Markdown
-* Add tests to the tarball
-* Add example template for web module
-* Bug fixes in Markdown and web modules
+* Re-written math support for Markdown.
+* Add tests to the tarball.
+* Add example template for web module.
+* Bug fixes in Markdown and web modules.
 
 Version 0.2.1, 2012-09-09
 =========================
 
-* Add caching support, to speed up get_document_body function
-* Add testsuite
-* Fix some bugs in markdown module
+* Add caching support, to speed up get_document_body function.
+* Add testsuite.
+* Fix some bugs in markdown module.
 
 Version 0.2, 2012-09-04
 =======================
 
-* Initial release
+* Initial release.
