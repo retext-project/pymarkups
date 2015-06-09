@@ -1,3 +1,9 @@
+Version 0.6.2, 2015-05-09
+=========================
+
+* Markdown markup: fixed detection of codehilite extension with options.
+* Added a warning about deprecation of the markups.web module.
+
 Version 0.6.1, 2015-04-19
 =========================
 
