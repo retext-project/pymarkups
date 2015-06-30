@@ -1,18 +1,11 @@
 #!/usr/bin/env python3
 
 import sys
-from distutils.core import setup, Command
+try:
+	from setuptools import setup, Command
+except ImportError:
+	from distutils.core import setup, Command
 from markups import __version__ as version
-
-try:
-	from sphinx.setup_command import BuildDoc
-except ImportError:
-	BuildDoc = None
-
-try:
-	from setuptools.command.upload_docs import upload_docs
-except ImportError:
-	upload_docs = None
 
 long_description = \
 """This module provides a wrapper around the various text markup languages,
@@ -68,10 +61,6 @@ class run_tests(Command):
 cmdclass = {}
 if sys.version_info[0] >= 3:
 	cmdclass['test'] = run_tests
-if BuildDoc:
-	cmdclass['build_sphinx'] = BuildDoc
-if upload_docs:
-	cmdclass['upload_docs'] = upload_docs
 
 setup_args = {
 	'name': 'Markups',
