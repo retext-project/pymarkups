@@ -49,7 +49,7 @@ class MarkdownMarkup(AbstractMarkup):
 			import markdown
 		except ImportError:
 			return False
-		return markdown.version_info >= (2, 6)
+		return hasattr(markdown, 'version_info') and markdown.version_info >= (2, 6)
 
 	def _load_extensions_list_from_file(self, filename):
 		try:
