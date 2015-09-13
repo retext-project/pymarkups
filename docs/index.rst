@@ -34,6 +34,6 @@ Links
 * You can get the source tarball from PyPI_.
 * It is also packaged in Debian_.
 
-.. _GitHub: https://github.com/mitya57/pymarkups
+.. _GitHub: https://github.com/retext-project/pymarkups
 .. _PyPI: https://pypi.python.org/pypi/Markups
 .. _Debian: https://packages.debian.org/sid/source/pymarkups

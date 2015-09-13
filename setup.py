@@ -69,7 +69,7 @@ setup_args = {
 	'long_description': long_description,
 	'author': 'Dmitry Shachnev',
 	'author_email': 'mitya57@gmail.com',
-	'url': 'https://github.com/mitya57/pymarkups',
+	'url': 'https://github.com/retext-project/pymarkups',
 	'packages': ['markups'],
 	'license': 'BSD',
 	'cmdclass': cmdclass,
