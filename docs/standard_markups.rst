@@ -48,7 +48,7 @@ supported as well.
 
 .. _Markdown: http://daringfireball.net/projects/markdown/
 .. _Python-Markdown: https://pythonhosted.org/Markdown/
-.. _MathJax: http://www.mathjax.org/
+.. _MathJax: https://www.mathjax.org/
 .. _`Python-Markdown extensions`: http://pythonhosted.org/Markdown/extensions/
 .. _`Python-Markdown Extra`: http://pythonhosted.org/Markdown/extensions/extra.html
 
@@ -75,7 +75,7 @@ module.
 
 The file extension associated with Textile markup is ``.textile``.
 
-.. _Textile: http://en.wikipedia.org/wiki/Textile_(markup_language)
+.. _Textile: https://en.wikipedia.org/wiki/Textile_(markup_language)
 .. _python-textile: https://github.com/sebix/python-textile
 
 .. autoclass:: markups.TextileMarkup
