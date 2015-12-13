@@ -1,3 +1,6 @@
+.. image:: https://api.travis-ci.org/retext-project/pymarkups.svg
+   :alt: Travis CI status
+
 This module provides a wrapper around the various text markup languages,
 such as Markdown_ and reStructuredText_ (these two are supported by default).
 
