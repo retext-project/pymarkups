@@ -2,8 +2,10 @@
    :target: https://travis-ci.org/retext-project/pymarkups
    :alt: Travis CI status
 
-This module provides a wrapper around the various text markup languages,
-such as Markdown_ and reStructuredText_ (these two are supported by default).
+This module provides a wrapper around various text markup languages.
+
+Available by default are Markdown_, reStructuredText_ and Textile_, but you
+can easily add your own markups.
 
 Usage example:
 
@@ -28,6 +30,7 @@ Usage example:
 
 .. _Markdown: http://daringfireball.net/projects/markdown/
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
+.. _Textile: https://en.wikipedia.org/wiki/Textile_(markup_language)
 
 The release version can be downloaded from PyPI_.
 
