@@ -1,4 +1,5 @@
 .. image:: https://api.travis-ci.org/retext-project/pymarkups.svg
+   :target: https://travis-ci.org/retext-project/pymarkups
    :alt: Travis CI status
 
 This module provides a wrapper around the various text markup languages,
