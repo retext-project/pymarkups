@@ -181,19 +181,19 @@ class MarkdownTest(unittest.TestCase):
 	def test_remove_extra(self):
 		markup = MarkdownMarkup(extensions=['remove_extra'])
 		html = markup.get_document_body(tables_source)
-		self.assertNotIn(html, '<table>')
+		self.assertNotIn('<table>', html)
 
 	def test_remove_extra_document_extension(self):
 		markup = MarkdownMarkup(extensions=[])
 		html = markup.get_document_body(
 			'Required-Extensions: remove_extra\n\n' +
 			tables_source)
-		self.assertNotIn(html, '<table>')
+		self.assertNotIn('<table>', html)
 
 	def test_remove_extra_removes_mathjax(self):
 		markup = MarkdownMarkup()
 		html = markup.get_document_body('$$1$$')
-		self.assertNotIn(html, 'math/tex')
+		self.assertNotIn('math/tex', html)
 
 	def test_meta(self):
 		markup = MarkdownMarkup()
