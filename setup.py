@@ -11,7 +11,8 @@ from os.path import dirname, join
 with open(join(dirname(__file__), 'README.rst')) as readme_file:
 	long_description = '\n' + readme_file.read()
 
-classifiers = ['Development Status :: 4 - Beta',
+classifiers = [
+	'Development Status :: 5 - Production/Stable',
 	'License :: OSI Approved :: BSD License',
 	'Operating System :: OS Independent',
 	'Programming Language :: Python',
