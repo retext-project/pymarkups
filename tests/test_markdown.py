@@ -191,7 +191,7 @@ class MarkdownTest(unittest.TestCase):
 		self.assertNotIn('<table>', html)
 
 	def test_remove_extra_removes_mathjax(self):
-		markup = MarkdownMarkup()
+		markup = MarkdownMarkup(extensions=['remove_extra'])
 		html = markup.get_document_body('$$1$$')
 		self.assertNotIn('math/tex', html)
 
