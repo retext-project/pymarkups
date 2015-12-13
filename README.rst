@@ -32,6 +32,8 @@ Usage example:
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
 .. _Textile: https://en.wikipedia.org/wiki/Textile_(markup_language)
 
-The release version can be downloaded from PyPI_.
+The release version can be downloaded from PyPI_. The source code is hosted on
+GitHub_.
 
 .. _PyPI: http://pypi.python.org/pypi/Markups
+.. _GitHub: https://github.com/retext-project/pymarkups
