@@ -6,27 +6,10 @@ try:
 except ImportError:
 	from distutils.core import setup, Command
 from markups import __version__ as version
+from os.path import dirname, join
 
-long_description = \
-"""This module provides a wrapper around the various text markup languages,
-such as Markdown_ and reStructuredText_ (these two are supported by default).
-
-Usage example:
-
->>> markup = markups.get_markup_for_file_name("myfile.rst")
->>> markup.name
-'reStructuredText'
->>> markup.attributes[markups.SYNTAX_DOCUMENTATION]
-'http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html'
->>> text = "Hello, world!\\n=============\\n\\nThis is an example **reStructuredText** document."
->>> markup.get_document_title(text)
-'Hello, world!'
->>> markup.get_document_body(text)
-'<p>This is an example <strong>reStructuredText</strong> document.</p>\\n'
-
-.. _Markdown: http://daringfireball.net/projects/markdown/
-.. _reStructuredText: http://docutils.sourceforge.net/rst.html
-"""
+with open(join(dirname(__file__), 'README.rst')) as readme_file:
+	long_description = '\n' + readme_file.read()
 
 classifiers = ['Development Status :: 4 - Beta',
 	'License :: OSI Approved :: BSD License',
