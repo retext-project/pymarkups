@@ -24,7 +24,7 @@ class TextileMarkup(AbstractMarkup):
 	@staticmethod
 	def available():
 		try:
-			import textile
+			import textile.core
 		except ImportError:
 			return False
 		return True
