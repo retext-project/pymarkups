@@ -1,3 +1,10 @@
+Version 1.0.1, 2015-12-22
+=========================
+
+* The Textile markup now uses the recommended python-textile API.
+* Fixed warnings during installation.
+* Python-Markdown Math extension updated to the latest version.
+
 Version 1.0, 2015-12-13
 =======================
 
