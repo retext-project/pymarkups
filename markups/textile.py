@@ -24,15 +24,15 @@ class TextileMarkup(AbstractMarkup):
 	@staticmethod
 	def available():
 		try:
-			import textile.core
+			import textile
 		except ImportError:
 			return False
 		return True
 
 	def __init__(self, filename=None):
 		AbstractMarkup.__init__(self, filename)
-		from textile.core import Textile
-		self.parser = Textile()
+		from textile import textile
+		self.textile = textile
 
 	def get_document_body(self, text):
-		return self.parser.parse(text)
+		return self.textile(text)
