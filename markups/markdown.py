@@ -97,8 +97,8 @@ class MarkdownMarkup(AbstractMarkup):
 				return prefix + extension_name + parameters
 
 	def _apply_extensions(self):
-		extensions = (self.requested_extensions or
-			self.global_extensions) + self.document_extensions
+		extensions = (self.requested_extensions +
+			self.global_extensions + self.document_extensions)
 		extensions_final = []
 		should_push_extra = True
 		should_push_mathjax = (True, False)
@@ -133,7 +133,10 @@ class MarkdownMarkup(AbstractMarkup):
 		import markdown
 		self.markdown = markdown
 		self.requested_extensions = extensions or []
-		self.global_extensions = self._get_global_extensions(filename)
+		if extensions is None:
+			self.global_extensions = self._get_global_extensions(filename)
+		else:
+			self.global_extensions = []
 		self.document_extensions = []
 		_canonicalized_ext_names = {}
 		self._apply_extensions()
@@ -167,10 +170,8 @@ class MarkdownMarkup(AbstractMarkup):
 
 	def get_document_body(self, text):
 		self.md.reset()
-		document_extensions = self._get_document_extensions(text)
-		if document_extensions or self.document_extensions:
-			self.document_extensions = document_extensions
-			self._apply_extensions()
+		self.document_extensions = self._get_document_extensions(text)
+		self._apply_extensions()
 		converted_text = self.md.convert(text) + '\n'
 		if self._enable_cache:
 			self._cache['body'] = converted_text
