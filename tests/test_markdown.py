@@ -2,7 +2,7 @@
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2012-2015
 
-from markups import MarkdownMarkup
+from markups.markdown import MarkdownMarkup, _canonicalized_ext_names
 import unittest
 
 tables_source = \
@@ -163,6 +163,8 @@ class MarkdownTest(unittest.TestCase):
 		html = markup.get_document_body('## Header')
 		self.assertEqual(html,
 			'<h2 id="header"><a class="toclink" href="#header">Header</a></h2>\n')
+		self.assertEqual(_canonicalized_ext_names['toc(anchorlink=1)'],
+			'markdown.extensions.toc(anchorlink=1)')
 
 	def test_document_extensions_parameters(self):
 		markup = MarkdownMarkup(extensions=[])

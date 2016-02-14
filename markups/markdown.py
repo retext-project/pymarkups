@@ -26,6 +26,8 @@ MathJax.Hub.Config({
 
 extensions_re = re.compile(r'required.extensions: ([ \w\.\(\),=_]+)', flags=re.IGNORECASE)
 
+_canonicalized_ext_names = {}
+
 class MarkdownMarkup(AbstractMarkup):
 	"""Markup class for Markdown language.
 	Inherits :class:`~markups.abstract.AbstractMarkup`.
@@ -107,11 +109,15 @@ class MarkdownMarkup(AbstractMarkup):
 				should_push_extra = False
 				should_push_mathjax = (False, )
 			else:
-				canonical_name = self._canonicalize_extension_name(extension)
-				if not canonical_name:
-					warnings.warn('Extension "%s" does not exist.' %
-						extension, ImportWarning)
-					continue
+				if extension in _canonicalized_ext_names:
+					canonical_name = _canonicalized_ext_names[extension]
+				else:
+					canonical_name = self._canonicalize_extension_name(extension)
+					if canonical_name is None:
+						warnings.warn('Extension "%s" does not exist.' %
+							extension, ImportWarning)
+						continue
+					_canonicalized_ext_names[extension] = canonical_name
 				if canonical_name not in extensions_final:
 					extensions_final.append(canonical_name)
 		if should_push_extra:
@@ -129,6 +135,7 @@ class MarkdownMarkup(AbstractMarkup):
 		self.requested_extensions = extensions or []
 		self.global_extensions = self._get_global_extensions(filename)
 		self.document_extensions = []
+		_canonicalized_ext_names = {}
 		self._apply_extensions()
 
 	def get_document_title(self, text):
