@@ -1,3 +1,5 @@
+# vim: ts=8:sts=8:sw=8:noexpandtab
+
 # This file is part of python-markups module
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2012-2014
@@ -20,8 +22,6 @@ class AbstractMarkup(object):
 
 	def __init__(self, filename=None):
 		self.filename = filename
-		self._enable_cache = False
-		self._cache = {}
 
 	@staticmethod
 	def available():
@@ -34,28 +34,38 @@ class AbstractMarkup(object):
 		"""
 		return True
 
-	def get_document_title(self, text):
+	def convert(self, text):
+		"""
+		:returns: a ConvertedMarkup instance containing the markup converted to HTML
+		:rtype: ConvertedMarkup
+		"""
+		raise NotImplementedError
+
+
+class ConvertedMarkup(object):
+
+	def get_document_title(self):
 		"""
 		:returns: the document title
 		:rtype: str
 		"""
 		return ''
 
-	def get_document_body(self, text):
+	def get_document_body(self):
 		"""
 		:returns: the contents of the ``<body>`` HTML tag
 		:rtype: str
 		"""
 		raise NotImplementedError
 
-	def get_stylesheet(self, text=''):
+	def get_stylesheet(self):
 		"""
 		:returns: the contents of ``<style type="text/css">`` HTML tag
 		:rtype: str
 		"""
 		return ''
 
-	def get_javascript(self, text='', webenv=False):
+	def get_javascript(self, webenv=False):
 		"""
 		:returns: one or more HTML tags to be inserted into the document
 		          ``<head>``.
@@ -63,24 +73,21 @@ class AbstractMarkup(object):
 		"""
 		return ''
 
-	def get_whole_html(self, text, custom_headers='', include_stylesheet=True,
+	def get_whole_html(self, custom_headers='', include_stylesheet=True,
 	                   fallback_title='', webenv=False):
 		"""
 		:returns: the full contents of the HTML document (unless overridden
 		          this is a combination of the previous methods)
 		:rtype: str
 		"""
-		self._enable_cache = True
-		body = self.get_document_body(text)
-		stylesheet = ('<style type="text/css">\n' + self.get_stylesheet(text)
+		body = self.get_document_body()
+		stylesheet = ('<style type="text/css">\n' + self.get_stylesheet()
 			+ '</style>\n' if include_stylesheet else '')
-		title = self.get_document_title(text)
+		title = self.get_document_title()
 		if not title:
 			title = fallback_title
 		title_string = ('<title>' + title + '</title>\n') if title else ''
-		javascript = self.get_javascript(text, webenv)
-		self._enable_cache = False
-		self._cache = {}
+		javascript = self.get_javascript(webenv)
 		return (
 		'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">\n'
 		'<html>\n<head>\n'
