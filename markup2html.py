@@ -11,10 +11,12 @@ def export_file(args):
         text = input.read()
     if not markup:
         sys.exit('Markup not available.')
-    html = markup.get_whole_html(text,
-                                 include_stylesheet=args.include_stylesheet,
-                                 fallback_title=args.fallback_title,
-                                 webenv=args.web_environment)
+    converted = markup.convert(text)
+
+    html = converted.get_whole_html(include_stylesheet=args.include_stylesheet,
+                                    fallback_title=args.fallback_title,
+                                    webenv=args.web_environment)
+
     with open(args.output_file, 'w') as output:
         output.write(html)
 

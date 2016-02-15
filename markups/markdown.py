@@ -1,3 +1,5 @@
+# vim: ts=8:sts=8:sw=8:noexpandtab
+
 # This file is part of python-markups module
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2012-2015
@@ -9,7 +11,7 @@ import os
 import re
 import warnings
 import markups.common as common
-from markups.abstract import AbstractMarkup
+from markups.abstract import AbstractMarkup, ConvertedMarkup
 
 MATHJAX_CONFIG = \
 '''<script type="text/x-mathjax-config">
@@ -141,38 +143,36 @@ class MarkdownMarkup(AbstractMarkup):
 		_canonicalized_ext_names = {}
 		self._apply_extensions()
 
-	def get_document_title(self, text):
-		if not 'body' in self._cache:
-			self.get_document_body(text)
-		if hasattr(self.md, 'Meta') and 'title' in self.md.Meta:
-			return str.join(' ', self.md.Meta['title'])
-		else:
-			return ''
+	def convert(self, text):
 
-	def get_stylesheet(self, text=''):
-		has_codehilite = False
-		for extension in self.extensions:
-			if extension.endswith('codehilite'):
-				has_codehilite = True
-		if has_codehilite:
-			return common.get_pygments_stylesheet('.codehilite')
-		return ''
-
-	def get_javascript(self, text='', webenv=False):
-		if 'body' in self._cache:
-			body = self._cache['body']
-		else:
-			body = self.get_document_body(text)
-		if not '<script type="math/tex' in body:
-			return ''
-		return (MATHJAX_CONFIG + '<script type="text/javascript" src="'
-		+ common.get_mathjax_url(webenv) + '"></script>')
-
-	def get_document_body(self, text):
+		# Determine body
 		self.md.reset()
 		self.document_extensions = self._get_document_extensions(text)
 		self._apply_extensions()
-		converted_text = self.md.convert(text) + '\n'
-		if self._enable_cache:
-			self._cache['body'] = converted_text
-		return converted_text
+		body = self.md.convert(text) + '\n'
+
+		# Determine title
+		if hasattr(self.md, 'Meta') and 'title' in self.md.Meta:
+			title = str.join(' ', self.md.Meta['title'])
+		else:
+			title = ''
+
+		# Determine stylesheet
+		if any(extension.endswith('codehilite') for extension in self.extensions):
+			stylesheet = common.get_pygments_stylesheet('.codehilite')
+		else:
+			stylesheet = ''
+
+		return ConvertedMarkdown(body, title, stylesheet)
+
+class ConvertedMarkdown(ConvertedMarkup):
+
+	def get_javascript(self, webenv=False):
+		if '<script type="math/tex' in self.body:
+			javascript = (MATHJAX_CONFIG + '<script type="text/javascript" src="'
+		                                     + common.get_mathjax_url(webenv) + '"></script>')
+		else:
+			javascript = ''
+
+		return javascript
+

@@ -44,26 +44,32 @@ class AbstractMarkup(object):
 
 class ConvertedMarkup(object):
 
+	def __init__(self, body, title='', stylesheet='', javascript=''):
+		self.title = title
+		self.stylesheet = stylesheet
+		self.javascript = javascript
+		self.body = body
+
 	def get_document_title(self):
 		"""
 		:returns: the document title
 		:rtype: str
 		"""
-		return ''
+		return self.title
 
 	def get_document_body(self):
 		"""
 		:returns: the contents of the ``<body>`` HTML tag
 		:rtype: str
 		"""
-		raise NotImplementedError
+		return self.body
 
 	def get_stylesheet(self):
 		"""
 		:returns: the contents of ``<style type="text/css">`` HTML tag
 		:rtype: str
 		"""
-		return ''
+		return self.stylesheet
 
 	def get_javascript(self, webenv=False):
 		"""
@@ -71,7 +77,7 @@ class ConvertedMarkup(object):
 		          ``<head>``.
 		:rtype: str
 		"""
-		return ''
+		return self.javascript
 
 	def get_whole_html(self, custom_headers='', include_stylesheet=True,
 	                   fallback_title='', webenv=False):
