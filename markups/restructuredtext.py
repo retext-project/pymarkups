@@ -1,9 +1,11 @@
+# vim: ts=8:sts=8:sw=8:noexpandtab
+
 # This file is part of python-markups module
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2012-2014
 
 import markups.common as common
-from markups.abstract import AbstractMarkup
+from markups.abstract import AbstractMarkup, ConvertedMarkup
 
 class ReStructuredTextMarkup(AbstractMarkup):
 	"""Markup class for reStructuredText language.
@@ -40,36 +42,46 @@ class ReStructuredTextMarkup(AbstractMarkup):
 		from docutils.core import publish_parts
 		self._publish_parts = publish_parts
 
-	def publish_parts(self, text):
-		if 'rest_parts' in self._cache:
-			return self._cache['rest_parts']
+	def convert(self, text):
 		parts = self._publish_parts(text, source_path=self.filename,
 			writer_name='html', settings_overrides=self.overrides)
-		if self._enable_cache:
-			self._cache['rest_parts'] = parts
-		return parts
 
-	def get_document_title(self, text):
-		return self.publish_parts(text)['title']
+		# Determine head
+		head = parts['head']
 
-	def get_document_body(self, text):
-		return self.publish_parts(text)['body']
+		# Determine body
+		body = parts['body']
 
-	def get_stylesheet(self, text=''):
-		origstyle = self.publish_parts(text)['stylesheet']
+		# Determine title
+		title = parts['title']
+
+		# Determine stylesheet
+		origstyle = parts['stylesheet']
 		# Cut off <style> and </style> tags
 		stylestart = '<style type="text/css">'
 		stylesheet = ''
 		if stylestart in origstyle:
 			stylesheet = origstyle[origstyle.find(stylestart)+25:origstyle.rfind('</style>')]
-		return stylesheet + common.get_pygments_stylesheet('.code')
+		stylesheet += common.get_pygments_stylesheet('.code')
 
-	def get_javascript(self, text='', webenv=False):
-		head = self.publish_parts(text)['head']
-		start_position = head.find('<script ')
-		end_position = head.rfind('</script>')
+		return ConvertedRestructuredText(head, body, title, stylesheet)
+
+
+class ConvertedRestructuredText(ConvertedMarkup):
+
+	def __init__(self, head, body, title, stylesheet):
+		super(ConvertedRestructuredText, self).__init__(body, title, stylesheet)
+		self.head = head
+
+	def get_javascript(self, webenv=False):
+		start_position = self.head.find('<script ')
+		end_position = self.head.rfind('</script>')
 		if start_position >= 0 and end_position >= 0:
-			mjurl = head[start_position:end_position+9]+'\n'
-			return mjurl.replace(common.MATHJAX_WEB_URL,
-				common.get_mathjax_url(webenv))
-		return ''
+			mjurl = self.head[start_position:end_position+9]+'\n'
+			javascript = mjurl.replace(common.MATHJAX_WEB_URL,
+			                           common.get_mathjax_url(webenv))
+		else:
+			javascript = ''
+
+		return javascript
+

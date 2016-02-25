@@ -1,3 +1,5 @@
+# vim: ts=8:sts=8:sw=8:noexpandtab
+
 # This file is part of python-markups module
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2013-2015
@@ -5,7 +7,7 @@
 from __future__ import absolute_import
 
 import markups.common as common
-from markups.abstract import AbstractMarkup
+from markups.abstract import AbstractMarkup, ConvertedMarkup
 
 class TextileMarkup(AbstractMarkup):
 	"""Markup class for Textile language.
@@ -34,5 +36,6 @@ class TextileMarkup(AbstractMarkup):
 		from textile import textile
 		self.textile = textile
 
-	def get_document_body(self, text):
-		return self.textile(text)
+	def convert(self, text):
+		return ConvertedMarkup(self.textile(text))
+

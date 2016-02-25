@@ -9,7 +9,7 @@ import unittest
 class TextileTest(unittest.TestCase):
 	def test_textile(self):
 		markup = TextileMarkup()
-		html = markup.get_document_body('Hello, **world**!')
+		html = markup.convert('Hello, **world**!').get_document_body()
 		self.assertEqual(html, '\t<p>Hello, <b>world</b>!</p>')
 
 if __name__ == '__main__':

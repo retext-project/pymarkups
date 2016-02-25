@@ -1,9 +1,12 @@
+# vim: ts=8:sts=8:sw=8:noexpandtab
+
 # This file is part of python-markups test suite
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2012-2015
 
 from markups.markdown import MarkdownMarkup, _canonicalized_ext_names
 import unittest
+import warnings
 
 tables_source = \
 '''th1 | th2
@@ -132,9 +135,12 @@ r'''<p>
 class MarkdownTest(unittest.TestCase):
 	maxDiff = None
 
+	def setUp(self):
+		warnings.simplefilter("ignore", Warning)
+
 	def test_empty_file(self):
 		markup = MarkdownMarkup()
-		self.assertEqual(markup.get_document_body(''), '\n')
+		self.assertEqual(markup.convert('').get_document_body(), '\n')
 
 	def test_extensions_loading(self):
 		markup = MarkdownMarkup()
@@ -149,7 +155,7 @@ class MarkdownTest(unittest.TestCase):
 		markup = MarkdownMarkup(extensions=['markdown.extensions.footnotes'])
 		source = ('Footnotes[^1] have a label and the content.\n\n'
 		          '[^1]: This is a footnote content.')
-		html = markup.get_document_body(source)
+		html = markup.convert(source).get_document_body()
 		self.assertIn('<sup', html)
 		self.assertIn('footnote-backref', html)
 
@@ -160,7 +166,7 @@ class MarkdownTest(unittest.TestCase):
 
 	def test_extensions_parameters(self):
 		markup = MarkdownMarkup(extensions=['toc(anchorlink=1)'])
-		html = markup.get_document_body('## Header')
+		html = markup.convert('## Header').get_document_body()
 		self.assertEqual(html,
 			'<h2 id="header"><a class="toclink" href="#header">Header</a></h2>\n')
 		self.assertEqual(_canonicalized_ext_names['toc(anchorlink=1)'],
@@ -169,32 +175,32 @@ class MarkdownTest(unittest.TestCase):
 	def test_document_extensions_parameters(self):
 		markup = MarkdownMarkup(extensions=[])
 		toc_header = '<!--- Required extensions: toc(anchorlink=1) --->\n\n'
-		html = markup.get_document_body(toc_header + '## Header')
+		html = markup.convert(toc_header + '## Header').get_document_body()
 		self.assertEqual(html, toc_header +
 			'<h2 id="header"><a class="toclink" href="#header">Header</a></h2>\n')
 
 	def test_extra(self):
 		markup = MarkdownMarkup()
-		html = markup.get_document_body(tables_source)
+		html = markup.convert(tables_source).get_document_body()
 		self.assertEqual(tables_output, html)
-		html = markup.get_document_body(deflists_source)
+		html = markup.convert(deflists_source).get_document_body()
 		self.assertEqual(deflists_output, html)
 
 	def test_remove_extra(self):
 		markup = MarkdownMarkup(extensions=['remove_extra'])
-		html = markup.get_document_body(tables_source)
+		html = markup.convert(tables_source).get_document_body()
 		self.assertNotIn('<table>', html)
 
 	def test_remove_extra_document_extension(self):
 		markup = MarkdownMarkup(extensions=[])
-		html = markup.get_document_body(
+		html = markup.convert(
 			'Required-Extensions: remove_extra\n\n' +
-			tables_source)
+			tables_source).get_document_body()
 		self.assertNotIn('<table>', html)
 
 	def test_remove_extra_removes_mathjax(self):
 		markup = MarkdownMarkup(extensions=['remove_extra'])
-		html = markup.get_document_body('$$1$$')
+		html = markup.convert('$$1$$').get_document_body()
 		self.assertNotIn('math/tex', html)
 
 	def test_meta(self):
@@ -202,39 +208,39 @@ class MarkdownTest(unittest.TestCase):
 		text = ('Required-Extensions: meta\n'
 		        'Title: Hello, world!\n\n'
 		        'Some text here.')
-		title = markup.get_document_title(text)
+		title = markup.convert(text).get_document_title()
 		self.assertEqual('Hello, world!', title)
 
 	def test_default_math(self):
 		# by default $...$ delimeter should be disabled
 		markup = MarkdownMarkup(extensions=[])
-		self.assertEqual('<p>$1$</p>\n', markup.get_document_body('$1$'))
+		self.assertEqual('<p>$1$</p>\n', markup.convert('$1$').get_document_body())
 		self.assertEqual('<p>\n<script type="math/tex; mode=display">1</script>\n</p>\n',
-			markup.get_document_body('$$1$$'))
+			markup.convert('$$1$$').get_document_body())
 
 	def test_mathjax(self):
 		markup = MarkdownMarkup(extensions=['mathjax'])
 		# Escaping should work
-		self.assertEqual('', markup.get_javascript('Hello, \\$2+2$!'))
-		js = markup.get_javascript(mathjax_source)
+		self.assertEqual('', markup.convert('Hello, \\$2+2$!').get_javascript())
+		js = markup.convert(mathjax_source).get_javascript()
 		self.assertIn('<script', js)
-		body = markup.get_document_body(mathjax_source)
+		body = markup.convert(mathjax_source).get_document_body()
 		self.assertEqual(mathjax_output, body)
 
 	def test_mathjax_document_extension(self):
 		markup = MarkdownMarkup()
 		text = mathjax_header + mathjax_source
-		body = markup.get_document_body(text)
+		body = markup.convert(text).get_document_body()
 		self.assertEqual(mathjax_header + mathjax_output, body)
 
 	def test_mathjax_multiline(self):
 		markup = MarkdownMarkup(extensions=['mathjax'])
-		body = markup.get_document_body(mathjax_multiline_source)
+		body = markup.convert(mathjax_multiline_source).get_document_body()
 		self.assertEqual(mathjax_multiline_output, body)
 
 	def test_mathjax_multilevel(self):
 		markup = MarkdownMarkup()
-		body = markup.get_document_body(mathjax_multilevel_source)
+		body = markup.convert(mathjax_multilevel_source).get_document_body()
 		self.assertEqual(mathjax_multilevel_output, body)
 
 	@unittest.skipUnless(hasattr(unittest.TestCase, 'assertWarnsRegex'), 'assertWarnsRegex is not supported')

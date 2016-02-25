@@ -1,3 +1,5 @@
+# vim: ts=8:sts=8:sw=8:noexpandtab
+
 # This file is part of python-markups test suite
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2012-2014
@@ -15,39 +17,37 @@ This is an example **reStructuredText** document.'''
 class ReStructuredTextTest(unittest.TestCase):
 	def test_basic(self):
 		markup = ReStructuredTextMarkup()
-		text = markup.get_document_body(basic_text)
-		title = markup.get_document_title(basic_text)
-		markup._enable_cache = True
-		text_from_cache = markup.get_document_body(basic_text)
-		title_from_cache = markup.get_document_title(basic_text)
+		converted = markup.convert(basic_text)
+		text = converted.get_document_body()
+		title = converted.get_document_title()
+		stylesheet = converted.get_stylesheet()
 		text_expected = \
 		'<p>This is an example <strong>reStructuredText</strong> document.</p>\n'
 		title_expected = 'Hello, world!'
 		self.assertEqual(text_expected, text)
-		self.assertEqual(text_expected, text_from_cache)
 		self.assertEqual(title_expected, title)
-		self.assertEqual(title_expected, title_from_cache)
+		self.assertIn('.code', stylesheet)
 
 	def test_mathjax_loading(self):
 		markup = ReStructuredTextMarkup()
-		self.assertEqual('', markup.get_javascript('Hello, world!'))
-		js = markup.get_javascript('Hello, :math:`2+2`!')
+		self.assertEqual('', markup.convert('Hello, world!').get_javascript())
+		js = markup.convert('Hello, :math:`2+2`!').get_javascript()
 		self.assertIn('<script', js)
-		body = markup.get_document_body('Hello, :math:`2+2`!')
+		body = markup.convert('Hello, :math:`2+2`!').get_document_body()
 		self.assertIn('<span class="math">', body)
 		self.assertIn(r'\(2+2\)</span>', body)
 
 	def test_errors(self):
 		markup = ReStructuredTextMarkup('/dev/null',
-			settings_overrides = {'warning_stream': False})
-		body = markup.get_document_body('`') # unclosed role
+		                                settings_overrides = {'warning_stream': False})
+		body = markup.convert('`').get_document_body() # unclosed role
 		self.assertIn('system-message', body)
 		self.assertIn('/dev/null', body)
 
 	def test_errors_overridden(self):
 		markup = ReStructuredTextMarkup('/dev/null',
-			settings_overrides = {'report_level': 4})
-		body = markup.get_document_body('`') # unclosed role
+		                                settings_overrides = {'report_level': 4})
+		body = markup.convert('`').get_document_body() # unclosed role
 		self.assertNotIn('system-message', body)
 
 if __name__ == '__main__':
