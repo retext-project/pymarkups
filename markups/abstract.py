@@ -36,13 +36,17 @@ class AbstractMarkup(object):
 
 	def convert(self, text):
 		"""
-		:returns: a ConvertedMarkup instance containing the markup converted to HTML
+		:returns: a ConvertedMarkup instance (or a subclass thereof)
+		          containing the markup converted to HTML
 		:rtype: ConvertedMarkup
 		"""
 		raise NotImplementedError
 
 
 class ConvertedMarkup(object):
+	"""This class encapsulates the title, body, stylesheet and javascript
+	of a converted document.
+	"""
 
 	def __init__(self, body, title='', stylesheet='', javascript=''):
 		self.title = title

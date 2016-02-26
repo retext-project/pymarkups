@@ -9,7 +9,7 @@ of that class, and use the methods provided by
 
 >>> import markups
 >>> markup = markups.ReStructuredTextMarkup()
->>> markup.get_document_body('*reStructuredText* test')
+>>> markup.convert('*reStructuredText* test').get_document_body()
 '<p><em>reStructuredText</em> test</p>\n'
 
 For advanced usage (like dynamically choosing the markup class),

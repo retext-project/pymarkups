@@ -23,9 +23,10 @@ Usage example:
   ...
   ... This is an example **reStructuredText** document.
   ... """
-  >>> markup.get_document_title(text)
+  >>> result = markup.convert(text)
+  >>> result.get_document_title()
   'Hello, world!'
-  >>> markup.get_document_body(text)
+  >>> result.get_document_body()
   '<p>This is an example <strong>reStructuredText</strong> document.</p>\n'
 
 .. _Markdown: http://daringfireball.net/projects/markdown/
@@ -37,3 +38,13 @@ GitHub_.
 
 .. _PyPI: http://pypi.python.org/pypi/Markups
 .. _GitHub: https://github.com/retext-project/pymarkups
+
+The documentation is available online_ or can be generated from source by
+installing Sphinx_ and running:
+
+.. code::
+
+  python3 setup.py build_sphinx
+
+.. _online: http://pythonhosted.org/Markups/
+.. _Sphinx: https://pypi.python.org/pypi/Sphinx

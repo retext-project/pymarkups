@@ -35,29 +35,18 @@ case of success, and ``False`` in case of failure.
 Implementing methods
 ====================
 
-Any markup must inherit from :class:`~markups.abstract.AbstractMarkup`
-class.
+Any markup must inherit from :class:`~markups.abstract.AbstractMarkup`.
 
-Third-party markups must implement
-:meth:`~markups.abstract.AbstractMarkup.get_document_body` method, which
-is the main method of any markup.
+Third-party markups must implement :class:`~markups.abstract.AbstractMarkup`'s
+:meth:`~markups.abstract.AbstractMarkup.convert` method, which must perform the
+time-consuming part of markup conversion and return a newly constructed
+instance of (a subclass of) :class:`~markups.abstract.ConvertedMarkup`.
 
-Other methods that are optional:
+:class:`~markups.abstract.ConvertedMarkup` encapsulates the title, body,
+stylesheet and javascript of a converted document. Of these only the body is
+required during construction, the others default to an empty string.  If
+additional markup-specific state is required to implement
+:class:`~markups.abstract.ConvertedMarkup`, a subclass can be defined and an
+instance of it returned from :meth:`~markups.abstract.AbstractMarkup.convert`
+instead.
 
- * :meth:`~markups.abstract.AbstractMarkup.get_document_title`;
- * :meth:`~markups.abstract.AbstractMarkup.get_javascript`;
- * :meth:`~markups.abstract.AbstractMarkup.get_stylesheet`.
-
-Using the cache
-===============
-
-Markups are provided with :attr:`~markups.abstract.AbstractMarkup._cache`
-dictionary that can contain any data shared between subsequent calls to
-markup methods. Attribute :attr:`~markups.abstract._enable_cache`
-indicates whether or not the cache should be used (set to ``False`` by
-default).
-
-For example, :meth:`~markups.abstract.AbstractMarkup.get_whole_html`
-method sets :attr:`~markups.abstract._enable_cache` to ``True``, then
-subsequently retrieves document title, body, javascript and stylesheet,
-and sets :attr:`~markups.abstract._enable_cache` back to ``False``.
