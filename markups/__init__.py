@@ -73,7 +73,7 @@ def get_markup_for_file_name(filename, return_class=False):
 
 	>>> import markups
 	>>> markup = markups.get_markup_for_file_name('foo.mkd')
-	>>> markup.get_document_body('**Test**')
+	>>> markup.convert('**Test**').get_document_body()
 	'<p><strong>Test</strong></p>\\n'
 	>>> markups.get_markup_for_file_name('bar.rst', return_class=True)
 	<class 'markups.restructuredtext.ReStructuredTextMarkup'>
