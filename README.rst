@@ -36,15 +36,13 @@ Usage example:
 The release version can be downloaded from PyPI_. The source code is hosted on
 GitHub_.
 
-.. _PyPI: http://pypi.python.org/pypi/Markups
+.. _PyPI: https://pypi.python.org/pypi/Markups
 .. _GitHub: https://github.com/retext-project/pymarkups
 
 The documentation is available online_ or can be generated from source by
-installing Sphinx_ and running:
-
-.. code::
+installing Sphinx_ and running::
 
   python3 setup.py build_sphinx
 
-.. _online: http://pythonhosted.org/Markups/
-.. _Sphinx: https://pypi.python.org/pypi/Sphinx
+.. _online: https://pythonhosted.org/Markups/
+.. _Sphinx: http://www.sphinx-doc.org/en/stable/
