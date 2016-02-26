@@ -64,13 +64,13 @@ class ReStructuredTextMarkup(AbstractMarkup):
 			stylesheet = origstyle[origstyle.find(stylestart)+25:origstyle.rfind('</style>')]
 		stylesheet += common.get_pygments_stylesheet('.code')
 
-		return ConvertedRestructuredText(head, body, title, stylesheet)
+		return ConvertedReStructuredText(head, body, title, stylesheet)
 
 
-class ConvertedRestructuredText(ConvertedMarkup):
+class ConvertedReStructuredText(ConvertedMarkup):
 
 	def __init__(self, head, body, title, stylesheet):
-		super(ConvertedRestructuredText, self).__init__(body, title, stylesheet)
+		ConvertedMarkup.__init__(self, body, title, stylesheet)
 		self.head = head
 
 	def get_javascript(self, webenv=False):
