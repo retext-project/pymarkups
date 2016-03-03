@@ -84,4 +84,3 @@ class ConvertedReStructuredText(ConvertedMarkup):
 			javascript = ''
 
 		return javascript
-

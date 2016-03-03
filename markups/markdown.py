@@ -175,4 +175,3 @@ class ConvertedMarkdown(ConvertedMarkup):
 			javascript = ''
 
 		return javascript
-

@@ -38,4 +38,3 @@ class TextileMarkup(AbstractMarkup):
 
 	def convert(self, text):
 		return ConvertedMarkup(self.textile(text))
-
