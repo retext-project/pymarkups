@@ -1,9 +1,18 @@
 Version 2.0, TBD
 =========================
 
+Incompatible changes:
+
 * Changed the API of pymarkups to clearly separate the conversion step from
-  access to the various elements of the result.
-* Added a markup2html.py reference script to show API usage
+  access to the various elements of the result. The old API is deprecated
+  and will be removed in a future release. Please see the documentation for
+  details on using the new API.
+* The reStructuredText markup now includes document title and subtitle in
+  the HTML body.
+
+Other changes:
+
+* Added a ``markup2html.py`` reference script to show API usage.
 
 Version 1.0.1, 2015-12-22
 =========================
