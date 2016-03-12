@@ -11,6 +11,9 @@ basic_text = \
 '''Hello, world!
 =============
 
+Some subtitle
+~~~~~~~~~~~~~
+
 This is an example **reStructuredText** document.'''
 
 @unittest.skipUnless(ReStructuredTextMarkup.available(), 'Docutils not available')
@@ -21,8 +24,11 @@ class ReStructuredTextTest(unittest.TestCase):
 		text = converted.get_document_body()
 		title = converted.get_document_title()
 		stylesheet = converted.get_stylesheet()
-		text_expected = \
-		'<p>This is an example <strong>reStructuredText</strong> document.</p>\n'
+		text_expected = ('<div class="document" id="hello-world">\n'
+			'<h1 class="title">Hello, world!</h1>\n'
+			'<h2 class="subtitle" id="some-subtitle">Some subtitle</h2>\n'
+			'<p>This is an example <strong>reStructuredText</strong> document.</p>\n'
+			'</div>\n')
 		title_expected = 'Hello, world!'
 		self.assertEqual(text_expected, text)
 		self.assertEqual(title_expected, title)

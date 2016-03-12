@@ -50,7 +50,7 @@ class ReStructuredTextMarkup(AbstractMarkup):
 		head = parts['head']
 
 		# Determine body
-		body = parts['body']
+		body = parts['html_body']
 
 		# Determine title
 		title = parts['title']
