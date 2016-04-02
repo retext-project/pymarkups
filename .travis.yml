@@ -7,5 +7,6 @@ python:
   - "3.4"
   - "3.5"
   - "pypy"
+  - "pypy3"
 install: pip install Markdown docutils textile
 script: python -m unittest discover -s tests -v
