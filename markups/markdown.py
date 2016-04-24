@@ -26,7 +26,8 @@ MathJax.Hub.Config({
 </script>
 '''
 
-extensions_re = re.compile(r'required.extensions: ([ \w\.\(\),=_]+)', flags=re.IGNORECASE)
+extensions_re = re.compile(r'required.extensions: (.+)', flags=re.IGNORECASE)
+extension_name_re = re.compile(r'[a-z0-9_.]+(?:\([^)]+\))?', flags=re.IGNORECASE)
 
 _canonicalized_ext_names = {}
 
@@ -78,7 +79,7 @@ class MarkdownMarkup(AbstractMarkup):
 		lines = text.splitlines()
 		match = extensions_re.search(lines[0]) if lines else None
 		if match:
-			return match.group(1).strip().split()
+			return extension_name_re.findall(match.group(1))
 		return []
 
 	def _canonicalize_extension_name(self, extension_name):

@@ -178,6 +178,14 @@ class MarkdownTest(unittest.TestCase):
 		html = markup.convert(toc_header + '## Header').get_document_body()
 		self.assertEqual(html, toc_header +
 			'<h2 id="header"><a class="toclink" href="#header">Header</a></h2>\n')
+		toc_header = '<!--- Required extensions: toc(title=Table of contents, baselevel=3) wikilinks --->\n\n'
+		html = markup.convert(toc_header + '[TOC]\n\n# Header\n[[Link]]').get_document_body()
+		self.assertEqual(html, toc_header +
+			'<div class="toc"><span class="toctitle">Table of contents</span><ul>\n'
+			'<li><a href="#header">Header</a></li>\n'
+			'</ul>\n</div>\n'
+			'<h3 id="header">Header</h3>\n'
+			'<p><a class="wikilink" href="/Link/">Link</a></p>\n')
 
 	def test_extra(self):
 		markup = MarkdownMarkup()
