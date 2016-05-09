@@ -1,4 +1,4 @@
-Version 2.0, TBD
+Version 2.0.0, 2016-05-09
 =========================
 
 Incompatible changes:
@@ -13,6 +13,7 @@ Incompatible changes:
 Other changes:
 
 * Added a ``markup2html.py`` reference script to show API usage.
+* Improved support for specifying Markdown extensions in the document.
 
 Version 1.0.1, 2015-12-22
 =========================
