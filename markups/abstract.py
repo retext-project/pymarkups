@@ -77,6 +77,9 @@ class AbstractMarkup(object):
 class ConvertedMarkup(object):
 	"""This class encapsulates the title, body, stylesheet and javascript
 	of a converted document.
+
+	Instances of this class are created by :meth:`.AbstractMarkup.convert`
+	method, usually it should not be instantiated directly.
 	"""
 
 	def __init__(self, body, title='', stylesheet='', javascript=''):
@@ -111,6 +114,10 @@ class ConvertedMarkup(object):
 		:returns: one or more HTML tags to be inserted into the document
 		          ``<head>``.
 		:rtype: str
+		:param bool webenv: if true, the specific markups may optimize the
+		                    document for being used in the World Wide Web (for
+		                    example, a remote version of MathJax script can be
+		                    inserted instead of the local one).
 		"""
 		return self.javascript
 
@@ -120,6 +127,15 @@ class ConvertedMarkup(object):
 		:returns: the full contents of the HTML document (unless overridden
 		          this is a combination of the previous methods)
 		:rtype: str
+		:param str custom_headers: custom HTML to be inserted into the document
+		                           ``<head>``
+		:param bool include_stylesheet: if false, the stylesheet will not
+		                                be included in the document ``<head>``
+		:param str fallback_title: when impossible to get the ``<title>`` from
+		                           the document, this string can be used as a
+		                           fallback
+		:param bool webenv: like in :meth:`~.ConvertedMarkup.get_javascript`
+		                    above
 		"""
 		body = self.get_document_body()
 		stylesheet = ('<style type="text/css">\n' + self.get_stylesheet()
