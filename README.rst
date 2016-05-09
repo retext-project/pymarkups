@@ -26,8 +26,11 @@ Usage example:
   >>> result = markup.convert(text)
   >>> result.get_document_title()
   'Hello, world!'
-  >>> result.get_document_body()
-  '<p>This is an example <strong>reStructuredText</strong> document.</p>\n'
+  >>> print(result.get_document_body())  # doctest: +NORMALIZE_WHITESPACE
+  <div class="document" id="hello-world">
+  <h1 class="title">Hello, world!</h1>
+  <p>This is an example <strong>reStructuredText</strong> document.</p>
+  </div>
 
 .. _Markdown: http://daringfireball.net/projects/markdown/
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
