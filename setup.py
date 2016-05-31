@@ -53,6 +53,12 @@ setup_args = {
 	'author_email': 'mitya57@gmail.com',
 	'url': 'https://github.com/retext-project/pymarkups',
 	'packages': ['markups'],
+	'extras_require': {
+		'Markdown': ['Markdown>=2.6'],
+		'reStructuredText': ['docutils'],
+		'Textile': ['textile'],
+		'highlighting': ['Pygments'],
+	},
 	'license': 'BSD',
 	'cmdclass': cmdclass,
 	'classifiers': classifiers
