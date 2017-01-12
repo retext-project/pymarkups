@@ -37,7 +37,10 @@ class ReStructuredTextMarkup(AbstractMarkup):
 
 	def __init__(self, filename=None, settings_overrides=None):
 		self.overrides = settings_overrides or {}
-		self.overrides.update({'math_output': 'MathJax'})
+		self.overrides.update({
+			'math_output': 'MathJax',
+			'syntax_highlight': 'short',
+		})
 		AbstractMarkup.__init__(self, filename)
 		from docutils.core import publish_parts
 		self._publish_parts = publish_parts
