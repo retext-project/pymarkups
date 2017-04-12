@@ -9,7 +9,7 @@ import os.path
 CONFIGURATION_DIR = (os.getenv('XDG_CONFIG_HOME') or os.getenv('APPDATA') or
 	os.path.expanduser('~/.config'))
 MATHJAX_LOCAL_URL = 'file:///usr/share/javascript/mathjax/MathJax.js'
-MATHJAX_WEB_URL = 'https://cdn.mathjax.org/mathjax/latest/MathJax.js'
+MATHJAX_WEB_URL = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js'
 
 PYGMENTS_STYLE = 'default'
 
