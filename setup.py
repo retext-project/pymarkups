@@ -56,6 +56,7 @@ setup_args = {
 	'packages': ['markups'],
 	'extras_require': {
 		'Markdown': ['Markdown>=2.6'],
+		'CommonMark': ['CommonMark'],
 		'reStructuredText': ['docutils'],
 		'Textile': ['textile'],
 		'highlighting': ['Pygments'],
