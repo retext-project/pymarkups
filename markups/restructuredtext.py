@@ -7,7 +7,8 @@
 import markups.common as common
 from markups.abstract import AbstractMarkup, ConvertedMarkup
 from os.path import abspath, dirname, join
-from tempfile import TemporaryDirectory
+from tempfile import mkdtemp
+from shutil import rmtree
 
 
 class SphinxConfig(object):
@@ -22,9 +23,11 @@ class SphinxBuilder(object):
 	imagedir = "images"
 
 	def __init__(self):
-		self._outdir = TemporaryDirectory(prefix="pymarkups-")
-		self.outdir = self._outdir.name
+		self.outdir = mkdtemp(prefix="pymarkups-")
 		self.imgpath = join(self.outdir, self.imagedir)
+
+	def __del__(self):
+		rmtree(self.outdir)
 
 
 class SphinxEnvironment(object):
