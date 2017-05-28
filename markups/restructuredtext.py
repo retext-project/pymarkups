@@ -6,6 +6,41 @@
 
 import markups.common as common
 from markups.abstract import AbstractMarkup, ConvertedMarkup
+from os.path import abspath, dirname, join
+from tempfile import TemporaryDirectory
+
+
+class SphinxConfig(object):
+	graphviz_dot = 'dot'
+	graphviz_dot_args = []
+	graphviz_output_format = 'svg'
+	language = None
+
+
+class SphinxBuilder(object):
+	config = SphinxConfig()
+	imagedir = "images"
+
+	def __init__(self):
+		self._outdir = TemporaryDirectory(prefix="pymarkups-")
+		self.outdir = self._outdir.name
+		self.imgpath = join(self.outdir, self.imagedir)
+
+
+class SphinxEnvironment(object):
+	config = SphinxConfig()
+
+	def __init__(self, filename):
+		self._dir = abspath(dirname(filename)) if filename else None
+
+	def relfn2path(self, filename):
+		if self._dir and not filename.startswith("/"):
+			return None, join(self._dir, filename)
+		return None, filename
+
+	def note_dependency(self, filename):
+		pass
+
 
 class ReStructuredTextMarkup(AbstractMarkup):
 	"""Markup class for reStructuredText language.
@@ -44,6 +79,24 @@ class ReStructuredTextMarkup(AbstractMarkup):
 		AbstractMarkup.__init__(self, filename)
 		from docutils.core import publish_parts
 		self._publish_parts = publish_parts
+		self._register_sphinx_directives()
+
+	def _register_sphinx_directives(self):
+		from docutils.parsers.rst import directives
+		from docutils.writers._html_base import HTMLTranslator
+		from docutils.frontend import Values
+
+		try:
+			from sphinx.ext.graphviz import Graphviz, GraphvizSimple, html_visit_graphviz
+		except ImportError:
+			pass
+		else:
+			directives.register_directive('graphviz', Graphviz)
+			directives.register_directive('graph', GraphvizSimple)
+			directives.register_directive('digraph', GraphvizSimple)
+			HTMLTranslator.visit_graphviz = html_visit_graphviz
+			HTMLTranslator.builder = SphinxBuilder()
+			Values.env = SphinxEnvironment(self.filename)
 
 	def convert(self, text):
 		parts = self._publish_parts(text, source_path=self.filename,
