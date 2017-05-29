@@ -9,5 +9,9 @@ python:
   - "3.6"
   - "pypy"
   - "pypy3"
-install: pip install Markdown docutils textile
+addons:
+  apt:
+    packages:
+    - graphviz
+install: pip install Markdown docutils textile Sphinx
 script: python -m unittest discover -s tests -v
