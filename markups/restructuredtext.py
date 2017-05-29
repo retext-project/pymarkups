@@ -6,6 +6,7 @@
 
 import markups.common as common
 from markups.abstract import AbstractMarkup, ConvertedMarkup
+from distutils.version import LooseVersion
 from os.path import abspath, dirname, join
 from tempfile import mkdtemp
 from shutil import rmtree
@@ -68,10 +69,10 @@ class ReStructuredTextMarkup(AbstractMarkup):
 	@staticmethod
 	def available():
 		try:
-			import docutils.core
+			import docutils
 		except ImportError:
 			return False
-		return True
+		return LooseVersion(docutils.__version__) >= LooseVersion('0.13')
 
 	def __init__(self, filename=None, settings_overrides=None):
 		self.overrides = settings_overrides or {}
