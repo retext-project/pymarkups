@@ -10,6 +10,7 @@ from distutils.version import LooseVersion
 from os.path import abspath, dirname, join
 from tempfile import mkdtemp
 from shutil import rmtree
+import warnings
 
 
 class SphinxConfig(object):
@@ -29,6 +30,9 @@ class SphinxBuilder(object):
 
 	def __del__(self):
 		rmtree(self.outdir)
+
+	def warn(self, message):
+		warnings.warn(message, RuntimeWarning)
 
 
 class SphinxEnvironment(object):
