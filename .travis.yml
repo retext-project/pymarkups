@@ -13,5 +13,7 @@ addons:
   apt:
     packages:
     - graphviz
-install: pip install Markdown docutils textile Sphinx
+install:
+  - pip install Markdown docutils textile
+  - pip install Sphinx || echo "Failed to install Sphinx"
 script: python -m unittest discover -s tests -v
