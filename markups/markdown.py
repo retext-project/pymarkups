@@ -41,9 +41,9 @@ class MarkdownMarkup(AbstractMarkup):
 	"""
 	name = 'Markdown'
 	attributes = {
-		common.LANGUAGE_HOME_PAGE: 'http://daringfireball.net/projects/markdown/',
-		common.MODULE_HOME_PAGE: 'https://github.com/Waylan/Python-Markdown/',
-		common.SYNTAX_DOCUMENTATION: 'http://daringfireball.net/projects/markdown/syntax'
+		common.LANGUAGE_HOME_PAGE: 'https://daringfireball.net/projects/markdown/',
+		common.MODULE_HOME_PAGE: 'https://github.com/waylan/Python-Markdown',
+		common.SYNTAX_DOCUMENTATION: 'https://daringfireball.net/projects/markdown/syntax'
 	}
 
 	file_extensions = ('.md', '.mkd', '.mkdn', '.mdwn', '.mdown', '.markdown')

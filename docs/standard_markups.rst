@@ -46,7 +46,7 @@ The default file extension associated with Markdown markup is ``.mkd``,
 though many other extensions (including ``.md`` and ``.markdown``) are
 supported as well.
 
-.. _Markdown: http://daringfireball.net/projects/markdown/
+.. _Markdown: https://daringfireball.net/projects/markdown/
 .. _Python-Markdown: https://pythonhosted.org/Markdown/
 .. _MathJax: https://www.mathjax.org/
 .. _`Python-Markdown extensions`: http://pythonhosted.org/Markdown/extensions/

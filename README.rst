@@ -32,7 +32,7 @@ Usage example:
   <p>This is an example <strong>reStructuredText</strong> document.</p>
   </div>
 
-.. _Markdown: http://daringfireball.net/projects/markdown/
+.. _Markdown: https://daringfireball.net/projects/markdown/
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
 .. _Textile: https://en.wikipedia.org/wiki/Textile_(markup_language)
 
