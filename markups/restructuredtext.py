@@ -22,7 +22,7 @@ class SphinxConfig(object):
 
 class SphinxBuilder(object):
 	config = SphinxConfig()
-	imagedir = "images"
+	imagedir = "_images"
 
 	def __init__(self):
 		self.outdir = mkdtemp(prefix="pymarkups-")

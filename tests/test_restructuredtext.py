@@ -33,7 +33,7 @@ Some subtitle
 
 This is an example **reStructuredText** document.'''
 
-filename_re = re.compile(r'<object data="([a-zA-Z0-9/_-]+\.svg)" type="image/svg\+xml">')
+filename_re = re.compile(r'<(?:object data|img src)="([a-zA-Z0-9/_-]+\.svg)"')
 
 @unittest.skipUnless(ReStructuredTextMarkup.available(), 'Docutils not available')
 class ReStructuredTextTest(unittest.TestCase):
