@@ -28,7 +28,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Python-Markups'
-copyright = u'2016, Dmitry Shachnev'
+copyright = u'2017, Dmitry Shachnev'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

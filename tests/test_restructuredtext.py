@@ -2,7 +2,7 @@
 
 # This file is part of python-markups test suite
 # License: BSD
-# Copyright: (C) Dmitry Shachnev, 2012-2014
+# Copyright: (C) Dmitry Shachnev, 2012-2017
 
 from os import unlink
 from os.path import exists

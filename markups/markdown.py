@@ -2,7 +2,7 @@
 
 # This file is part of python-markups module
 # License: BSD
-# Copyright: (C) Dmitry Shachnev, 2012-2015
+# Copyright: (C) Dmitry Shachnev, 2012-2017
 
 from __future__ import absolute_import
 
