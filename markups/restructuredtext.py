@@ -138,13 +138,7 @@ class ConvertedReStructuredText(ConvertedMarkup):
 		self.head = head
 
 	def get_javascript(self, webenv=False):
-		start_position = self.head.find('<script ')
-		end_position = self.head.rfind('</script>')
-		if start_position >= 0 and end_position >= 0:
-			mjurl = self.head[start_position:end_position+9]+'\n'
-			javascript = mjurl.replace(common.MATHJAX_WEB_URL,
-			                           common.get_mathjax_url(webenv))
-		else:
-			javascript = ''
-
-		return javascript
+		if 'MathJax.js?config=TeX-AMS_CHTML' not in self.head:
+			return ''
+		return ('<script type="text/javascript" src="%s?config=TeX-AMS_CHTML"></script>\n' %
+		        common.get_mathjax_url(webenv))
