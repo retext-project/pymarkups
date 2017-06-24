@@ -6,48 +6,6 @@
 
 import markups.common as common
 from markups.abstract import AbstractMarkup, ConvertedMarkup
-from distutils.version import LooseVersion
-from os.path import abspath, dirname, join
-from tempfile import mkdtemp
-from shutil import rmtree
-import warnings
-
-
-class SphinxConfig(object):
-	graphviz_dot = 'dot'
-	graphviz_dot_args = []
-	graphviz_output_format = 'svg'
-	language = None
-
-
-class SphinxBuilder(object):
-	config = SphinxConfig()
-	imagedir = "_images"
-
-	def __init__(self):
-		self.outdir = mkdtemp(prefix="pymarkups-")
-		self.imgpath = join(self.outdir, self.imagedir)
-
-	def __del__(self):
-		rmtree(self.outdir)
-
-	def warn(self, message):
-		warnings.warn(message, RuntimeWarning)
-
-
-class SphinxEnvironment(object):
-	config = SphinxConfig()
-
-	def __init__(self, filename):
-		self._dir = abspath(dirname(filename)) if filename else None
-
-	def relfn2path(self, filename):
-		if self._dir and not filename.startswith("/"):
-			return None, join(self._dir, filename)
-		return None, filename
-
-	def note_dependency(self, filename):
-		pass
 
 
 class ReStructuredTextMarkup(AbstractMarkup):
@@ -73,10 +31,10 @@ class ReStructuredTextMarkup(AbstractMarkup):
 	@staticmethod
 	def available():
 		try:
-			import docutils
+			import docutils.core
 		except ImportError:
 			return False
-		return LooseVersion(docutils.__version__) >= LooseVersion('0.13')
+		return True
 
 	def __init__(self, filename=None, settings_overrides=None):
 		self.overrides = settings_overrides or {}
@@ -87,24 +45,6 @@ class ReStructuredTextMarkup(AbstractMarkup):
 		AbstractMarkup.__init__(self, filename)
 		from docutils.core import publish_parts
 		self._publish_parts = publish_parts
-		self._register_sphinx_directives()
-
-	def _register_sphinx_directives(self):
-		from docutils.parsers.rst import directives
-		from docutils.writers._html_base import HTMLTranslator
-		from docutils.frontend import Values
-
-		try:
-			from sphinx.ext.graphviz import Graphviz, GraphvizSimple, html_visit_graphviz
-		except ImportError:
-			pass
-		else:
-			directives.register_directive('graphviz', Graphviz)
-			directives.register_directive('graph', GraphvizSimple)
-			directives.register_directive('digraph', GraphvizSimple)
-			HTMLTranslator.visit_graphviz = html_visit_graphviz
-			HTMLTranslator.builder = SphinxBuilder()
-			Values.env = SphinxEnvironment(self.filename)
 
 	def convert(self, text):
 		parts = self._publish_parts(text, source_path=self.filename,
