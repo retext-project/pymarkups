@@ -1,3 +1,10 @@
+Version 2.0.1, 2017-06-24
+=========================
+
+* The new MathJax CDN is used, the old one will be shut down soon.
+* When using MathJax with Markdown, the AMSmath and AMSsymbols extensions are
+  now enabled.
+
 Version 2.0.0, 2016-05-09
 =========================
 
