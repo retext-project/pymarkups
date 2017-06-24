@@ -81,7 +81,7 @@ class ReStructuredTextMarkup(AbstractMarkup):
 	def __init__(self, filename=None, settings_overrides=None):
 		self.overrides = settings_overrides or {}
 		self.overrides.update({
-			'math_output': 'MathJax',
+			'math_output': 'MathJax %s?config=TeX-AMS_CHTML' % common.MATHJAX_WEB_URL,
 			'syntax_highlight': 'short',
 		})
 		AbstractMarkup.__init__(self, filename)
