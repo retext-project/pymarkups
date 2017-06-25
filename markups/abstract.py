@@ -4,16 +4,6 @@
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2012-2016
 
-from functools import wraps
-from warnings import warn
-
-def _deprecated(function_in):
-	@wraps(function_in)
-	def function_out(*args, **kwargs):
-		warn('Method %s() is deprecated. Please use convert() instead.' %
-		     function_in.__name__, DeprecationWarning, stacklevel=2)
-		return function_in(*args, **kwargs)
-	return function_out
 
 class AbstractMarkup(object):
 	"""Abstract class for markup languages.
@@ -52,26 +42,6 @@ class AbstractMarkup(object):
 		:rtype: ConvertedMarkup
 		"""
 		raise NotImplementedError
-
-	@_deprecated
-	def get_document_title(self, text):
-		return self.convert(text).get_document_title()
-
-	@_deprecated
-	def get_document_body(self, text):
-		return self.convert(text).get_document_body()
-
-	@_deprecated
-	def get_stylesheet(self, text=''):
-		return self.convert(text).get_stylesheet()
-
-	@_deprecated
-	def get_javascript(self, text='', **kwargs):
-		return self.convert(text).get_javascript(**kwargs)
-
-	@_deprecated
-	def get_whole_html(self, text, **kwargs):
-		return self.convert(text).get_whole_html(**kwargs)
 
 
 class ConvertedMarkup(object):
