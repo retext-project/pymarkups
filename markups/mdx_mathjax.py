@@ -51,12 +51,12 @@ class MathExtension(markdown.extensions.Extension):
         )
         if not self.getConfig('enable_dollar_delimiter'):
             inlinemathpatterns = inlinemathpatterns[1:]
-        for i, pattern in enumerate(inlinemathpatterns):
-            pattern.handleMatch = handle_match_inline
-            md.inlinePatterns.add('math-inline-%d' % i, pattern, '<escape')
         for i, pattern in enumerate(mathpatterns):
             pattern.handleMatch = handle_match
             md.inlinePatterns.add('math-%d' % i, pattern, '<escape')
+        for i, pattern in enumerate(inlinemathpatterns):
+            pattern.handleMatch = handle_match_inline
+            md.inlinePatterns.add('math-inline-%d' % i, pattern, '<escape')
 
 def makeExtension(*args, **kwargs):
     return MathExtension(*args, **kwargs)
