@@ -42,7 +42,7 @@ class MarkdownMarkup(AbstractMarkup):
 	name = 'Markdown'
 	attributes = {
 		common.LANGUAGE_HOME_PAGE: 'https://daringfireball.net/projects/markdown/',
-		common.MODULE_HOME_PAGE: 'https://github.com/waylan/Python-Markdown',
+		common.MODULE_HOME_PAGE: 'https://github.com/Python-Markdown/markdown',
 		common.SYNTAX_DOCUMENTATION: 'https://daringfireball.net/projects/markdown/syntax'
 	}
 
