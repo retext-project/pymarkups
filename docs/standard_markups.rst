@@ -47,10 +47,10 @@ though many other extensions (including ``.md`` and ``.markdown``) are
 supported as well.
 
 .. _Markdown: https://daringfireball.net/projects/markdown/
-.. _Python-Markdown: https://pythonhosted.org/Markdown/
+.. _Python-Markdown: https://python-markdown.github.io/
 .. _MathJax: https://www.mathjax.org/
-.. _`Python-Markdown extensions`: http://pythonhosted.org/Markdown/extensions/
-.. _`Python-Markdown Extra`: http://pythonhosted.org/Markdown/extensions/extra.html
+.. _`Python-Markdown extensions`: https://python-markdown.github.io/extensions/
+.. _`Python-Markdown Extra`: https://python-markdown.github.io/extensions/extra/
 
 .. autoclass:: markups.MarkdownMarkup
 
