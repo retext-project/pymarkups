@@ -26,7 +26,7 @@ class ReStructuredTextTest(unittest.TestCase):
 		stylesheet = converted.get_stylesheet()
 		text_expected = ('<div class="document" id="hello-world">\n'
 			'<h1 class="title">Hello, world!</h1>\n'
-			'<h2 class="subtitle" id="some-subtitle">Some subtitle</h2>\n'
+			'<p class="subtitle" id="some-subtitle">Some subtitle</p>\n'
 			'<p>This is an example <strong>reStructuredText</strong> document.</p>\n'
 			'</div>\n')
 		title_expected = 'Hello, world!'

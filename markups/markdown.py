@@ -133,7 +133,7 @@ class MarkdownMarkup(AbstractMarkup):
 				extension_configs[canonical_name] = config
 		self.md = self.markdown.Markdown(extensions=list(extension_names),
 		                                 extension_configs=extension_configs,
-		                                 output_format='html4')
+		                                 output_format='html5')
 		self.extensions = extension_names
 
 	def __init__(self, filename=None, extensions=None):

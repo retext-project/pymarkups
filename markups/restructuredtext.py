@@ -48,7 +48,7 @@ class ReStructuredTextMarkup(AbstractMarkup):
 
 	def convert(self, text):
 		parts = self._publish_parts(text, source_path=self.filename,
-			writer_name='html', settings_overrides=self.overrides)
+			writer_name='html5', settings_overrides=self.overrides)
 
 		# Determine head
 		head = parts['head']
