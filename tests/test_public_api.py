@@ -20,5 +20,10 @@ class APITest(unittest.TestCase):
 		markup = markups.get_markup_for_file_name('myfile.mkd')
 		self.assertIsInstance(markup, markups.MarkdownMarkup)
 
+	@unittest.skipUnless(markups.MarkdownMarkup.available(), 'Markdown not available')
+	def test_available_markups(self):
+		available_markups = markups.get_available_markups()
+		self.assertIn(markups.MarkdownMarkup, available_markups)
+
 if __name__ == '__main__':
 	unittest.main()
