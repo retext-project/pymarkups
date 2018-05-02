@@ -85,11 +85,6 @@ class MarkdownMarkup(AbstractMarkup):
 		return []
 
 	def _canonicalize_extension_name(self, extension_name):
-		lb = extension_name.find('(')
-		if lb >= 0:
-			extension_name, parameters = extension_name[:lb], extension_name[lb:]
-		else:
-			parameters = ''
 		prefixes = ('markdown.extensions.', '', 'mdx_')
 		for prefix in prefixes:
 			try:
@@ -99,39 +94,47 @@ class MarkdownMarkup(AbstractMarkup):
 			except (ImportError, ValueError, TypeError):
 				pass
 			else:
-				return prefix + extension_name + parameters
+				return prefix + extension_name
+
+	def _split_extension_config(self, extension_name):
+		"""Splits the configuration options from the extension name."""
+		lb = extension_name.find('(')
+		if lb == -1:
+			return extension_name, {}
+		extension_name, parameters = extension_name[:lb], extension_name[lb + 1:-1]
+		pairs = [x.split("=") for x in parameters.split(",")]
+		return extension_name, {x.strip(): y.strip() for (x, y) in pairs}
 
 	def _apply_extensions(self):
 		extensions = (self.requested_extensions +
 			self.global_extensions + self.document_extensions)
-		extensions_final = []
-		should_push_extra = True
-		should_push_mathjax = (True, False)
+		extension_names = {"markdown.extensions.extra", "markups.mdx_mathjax"}
+		extension_configs = {}
+
 		for extension in extensions:
 			if extension == 'mathjax':
-				should_push_mathjax = (True, True)
+				mathjax_config = {"enable_dollar_delimiter": True}
+				extension_configs["markups.mdx_mathjax"] = mathjax_config
 			elif extension == 'remove_extra':
-				should_push_extra = False
-				should_push_mathjax = (False, )
+				extension_names.remove("markdown.extensions.extra")
+				extension_names.remove("markups.mdx_mathjax")
 			else:
-				if extension in _canonicalized_ext_names:
-					canonical_name = _canonicalized_ext_names[extension]
+				name, config = self._split_extension_config(extension)
+				if name in _canonicalized_ext_names:
+					canonical_name = _canonicalized_ext_names[name]
 				else:
-					canonical_name = self._canonicalize_extension_name(extension)
+					canonical_name = self._canonicalize_extension_name(name)
 					if canonical_name is None:
 						warnings.warn('Extension "%s" does not exist.' %
 							extension, ImportWarning)
 						continue
-					_canonicalized_ext_names[extension] = canonical_name
-				if canonical_name not in extensions_final:
-					extensions_final.append(canonical_name)
-		if should_push_extra:
-			extensions_final.append('markdown.extensions.extra')
-		if should_push_mathjax[0]:
-			extensions_final.append('markups.mdx_mathjax(enable_dollar_delimiter=%r)' %
-				should_push_mathjax[1])
-		self.md = self.markdown.Markdown(extensions=extensions_final, output_format='html4')
-		self.extensions = extensions_final
+					_canonicalized_ext_names[name] = canonical_name
+				extension_names.add(canonical_name)
+				extension_configs[canonical_name] = config
+		self.md = self.markdown.Markdown(extensions=list(extension_names),
+		                                 extension_configs=extension_configs,
+		                                 output_format='html4')
+		self.extensions = extension_names
 
 	def __init__(self, filename=None, extensions=None):
 		AbstractMarkup.__init__(self, filename)

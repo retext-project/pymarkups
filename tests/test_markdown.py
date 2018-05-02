@@ -148,8 +148,9 @@ class MarkdownTest(unittest.TestCase):
 		self.assertIsNone(markup._canonicalize_extension_name('nonexistent(someoption)'))
 		self.assertIsNone(markup._canonicalize_extension_name('.foobar'))
 		self.assertEqual(markup._canonicalize_extension_name('meta'), 'markdown.extensions.meta')
-		self.assertEqual(markup._canonicalize_extension_name('meta(someoption)'),
-			'markdown.extensions.meta(someoption)')
+		name, parameters = markup._split_extension_config('toc(anchorlink=1, foo=bar)')
+		self.assertEqual(name, 'toc')
+		self.assertEqual(parameters, {'anchorlink': '1', 'foo': 'bar'})
 
 	def test_loading_extensions_by_module_name(self):
 		markup = MarkdownMarkup(extensions=['markdown.extensions.footnotes'])
@@ -169,8 +170,7 @@ class MarkdownTest(unittest.TestCase):
 		html = markup.convert('## Header').get_document_body()
 		self.assertEqual(html,
 			'<h2 id="header"><a class="toclink" href="#header">Header</a></h2>\n')
-		self.assertEqual(_canonicalized_ext_names['toc(anchorlink=1)'],
-			'markdown.extensions.toc(anchorlink=1)')
+		self.assertEqual(_canonicalized_ext_names['toc'], 'markdown.extensions.toc')
 
 	def test_document_extensions_parameters(self):
 		markup = MarkdownMarkup(extensions=[])
