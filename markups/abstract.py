@@ -4,6 +4,18 @@
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2012-2016
 
+whole_html_template = """<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+{custom_headers}<title>{title}</title>
+{stylesheet}{javascript}</head>
+<body>
+{body}
+</body>
+</html>
+"""
+
 
 class AbstractMarkup(object):
 	"""Abstract class for markup languages.
@@ -107,18 +119,14 @@ class ConvertedMarkup(object):
 		:param bool webenv: like in :meth:`~.ConvertedMarkup.get_javascript`
 		                    above
 		"""
-		body = self.get_document_body()
 		stylesheet = ('<style type="text/css">\n' + self.get_stylesheet()
 			+ '</style>\n' if include_stylesheet else '')
-		title = self.get_document_title()
-		if not title:
-			title = fallback_title
-		title_string = ('<title>' + title + '</title>\n') if title else ''
-		javascript = self.get_javascript(webenv)
-		return (
-		'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">\n'
-		'<html>\n<head>\n'
-		'<meta http-equiv="content-type" content="text/html; charset=utf-8">\n'
-		+ custom_headers + title_string + stylesheet + javascript
-		+ '</head>\n<body>\n' + body + '</body>\n</html>\n'
-		)
+
+		context = {
+			"body": self.get_document_body(),
+			"title": self.get_document_title() or fallback_title,
+			"javascript": self.get_javascript(webenv),
+			"stylesheet": stylesheet,
+			"custom_headers": custom_headers,
+		}
+		return whole_html_template.format(**context)

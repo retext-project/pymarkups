@@ -56,5 +56,14 @@ class ReStructuredTextTest(unittest.TestCase):
 		body = markup.convert('`').get_document_body() # unclosed role
 		self.assertNotIn('system-message', body)
 
+	def test_whole_html(self):
+		markup = ReStructuredTextMarkup()
+		text = basic_text + "\n\n.. math::\n   \sin \varphi"
+		html = markup.convert(text).get_whole_html()
+		self.assertIn("<title>Hello, world!</title>", html)
+		self.assertIn('<style type="text/css">', html)
+		self.assertIn('<script type="text/javascript"', html)
+		self.assertIn('This is an example', html)
+
 if __name__ == '__main__':
 	unittest.main()
