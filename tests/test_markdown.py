@@ -5,6 +5,8 @@
 # Copyright: (C) Dmitry Shachnev, 2012-2016
 
 from markups.markdown import MarkdownMarkup, _canonicalized_ext_names
+from os import remove
+from tempfile import NamedTemporaryFile
 import unittest
 import warnings
 
@@ -256,6 +258,16 @@ class MarkdownTest(unittest.TestCase):
 		with self.assertWarnsRegex(ImportWarning, 'Extension "sys" does not exist.'):
 			markup = MarkdownMarkup(extensions=['sys'])
 		self.assertNotIn('sys', markup.extensions)
+
+	def test_extensions_file(self):
+		f = NamedTemporaryFile(mode="w", delete=False)
+		f.write("foo\n# bar\nbaz\n")
+		f.close()
+		markup = MarkdownMarkup()
+		extensions = markup._load_extensions_list_from_file(f.name)
+		self.assertEqual(extensions, ["foo", "baz"])
+		remove(f.name)
+
 
 if __name__ == '__main__':
 	unittest.main()
