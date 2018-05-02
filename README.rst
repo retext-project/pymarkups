@@ -1,6 +1,9 @@
 .. image:: https://api.travis-ci.org/retext-project/pymarkups.svg
    :target: https://travis-ci.org/retext-project/pymarkups
    :alt: Travis CI status
+.. image:: https://codecov.io/gh/retext-project/pymarkups/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/retext-project/pymarkups
+   :alt: Coverage status
 
 This module provides a wrapper around various text markup languages.
 

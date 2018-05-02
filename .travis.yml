@@ -9,5 +9,6 @@ python:
   - "3.6"
   - "pypy"
   - "pypy3"
-install: pip install Markdown docutils textile
-script: python -m unittest discover -s tests -v
+install: pip install Markdown docutils textile codecov
+script: coverage run -m unittest discover -s tests -v
+after_success: codecov
