@@ -4,6 +4,7 @@ Version 2.1.0, TBD
 Incompatible changes:
 
 * The deprecated AbstractMarkup API has been removed.
+* Python 3.2 is no longer supported.
 
 Version 2.0.1, 2017-06-24
 =========================
