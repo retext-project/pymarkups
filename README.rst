@@ -42,7 +42,7 @@ Usage example:
 The release version can be downloaded from PyPI_. The source code is hosted on
 GitHub_.
 
-.. _PyPI: https://pypi.python.org/pypi/Markups
+.. _PyPI: https://pypi.org/project/Markups/
 .. _GitHub: https://github.com/retext-project/pymarkups
 
 The documentation is available online_ or can be generated from source by

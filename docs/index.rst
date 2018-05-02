@@ -35,5 +35,5 @@ Links
 * It is also packaged in Debian_.
 
 .. _GitHub: https://github.com/retext-project/pymarkups
-.. _PyPI: https://pypi.python.org/pypi/Markups
+.. _PyPI: https://pypi.org/project/Markups/
 .. _Debian: https://packages.debian.org/sid/source/pymarkups
