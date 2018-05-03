@@ -1,8 +1,8 @@
 # vim: ts=8:sts=8:sw=8:noexpandtab
 
 # This file is part of python-markups test suite
-# License: BSD
-# Copyright: (C) Dmitry Shachnev, 2012-2016
+# License: 3-clause BSD, see LICENSE file
+# Copyright: (C) Dmitry Shachnev, 2012-2018
 
 from markups.markdown import MarkdownMarkup, _canonicalized_ext_names
 from os import remove

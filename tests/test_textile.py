@@ -1,6 +1,6 @@
 # This file is part of python-markups test suite
-# License: BSD
-# Copyright: (C) Dmitry Shachnev, 2013
+# License: 3-clause BSD, see LICENSE file
+# Copyright: (C) Dmitry Shachnev, 2013-2018
 
 from markups import TextileMarkup
 import unittest
