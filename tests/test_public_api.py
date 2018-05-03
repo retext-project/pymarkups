@@ -3,6 +3,7 @@
 # Copyright: (C) Dmitry Shachnev, 2012-2015
 
 import markups
+from markups.common import get_pygments_stylesheet
 import unittest
 
 class APITest(unittest.TestCase):
@@ -24,3 +25,14 @@ class APITest(unittest.TestCase):
 	def test_available_markups(self):
 		available_markups = markups.get_available_markups()
 		self.assertIn(markups.MarkdownMarkup, available_markups)
+
+	def test_get_pygments_stylesheet(self):
+		try:
+			import pygments.formatters
+		except ImportError:
+			raise unittest.SkipTest("Pygments not available")
+		stylesheet = get_pygments_stylesheet(".selector")
+		self.assertIn(".selector .ch { color: #408080", stylesheet)
+		stylesheet = get_pygments_stylesheet(".selector", style="colorful")
+		self.assertIn(".selector .ch { color: #888888", stylesheet)
+		self.assertFalse(get_pygments_stylesheet(".selector", style=""))
