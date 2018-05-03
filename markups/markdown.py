@@ -108,16 +108,16 @@ class MarkdownMarkup(AbstractMarkup):
 	def _apply_extensions(self):
 		extensions = (self.requested_extensions +
 			self.global_extensions + self.document_extensions)
-		extension_names = {"markdown.extensions.extra", "markups.mdx_mathjax"}
+		extension_names = {"markdown.extensions.extra", "mdx_math"}
 		extension_configs = {}
 
 		for extension in extensions:
 			if extension == 'mathjax':
 				mathjax_config = {"enable_dollar_delimiter": True}
-				extension_configs["markups.mdx_mathjax"] = mathjax_config
+				extension_configs["mdx_math"] = mathjax_config
 			elif extension == 'remove_extra':
 				extension_names.remove("markdown.extensions.extra")
-				extension_names.remove("markups.mdx_mathjax")
+				extension_names.remove("mdx_math")
 			else:
 				name, config = self._split_extension_config(extension)
 				if name in _canonicalized_ext_names:

@@ -33,6 +33,7 @@ setup_args = {
 	'author_email': 'mitya57@gmail.com',
 	'url': 'https://github.com/retext-project/pymarkups',
 	'packages': ['markups'],
+	'install_requires': 'python-markdown-math',
 	'extras_require': {
 		'Markdown': ['Markdown>=2.6'],
 		'reStructuredText': ['docutils'],
