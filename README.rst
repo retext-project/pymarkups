@@ -4,6 +4,9 @@
 .. image:: https://codecov.io/gh/retext-project/pymarkups/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/retext-project/pymarkups
    :alt: Coverage status
+.. image:: https://readthedocs.org/projects/pymarkups/badge/?version=latest
+   :target: https://pymarkups.readthedocs.io/en/latest/
+   :alt: ReadTheDocs status
 
 This module provides a wrapper around various text markup languages.
 
