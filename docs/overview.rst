@@ -19,7 +19,6 @@ Getting lists of available markups
 
 .. autofunction:: markups.get_all_markups
 .. autofunction:: markups.get_available_markups
-.. autofunction:: markups.get_custom_markups
 
 Getting a specific markup
 =========================

@@ -9,5 +9,5 @@ python:
   - "pypy"
   - "pypy3"
 install: pip install Markdown docutils textile codecov
-script: coverage run -m unittest discover -s tests -v
+script: coverage run setup.py test
 after_success: codecov

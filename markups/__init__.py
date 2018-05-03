@@ -2,10 +2,7 @@
 # License: BSD
 # Copyright: (C) Dmitry Shachnev, 2012-2015
 
-import importlib
-import os
-import warnings
-from markups.common import CONFIGURATION_DIR
+import pkg_resources
 from markups.markdown import MarkdownMarkup
 from markups.restructuredtext import ReStructuredTextMarkup
 from markups.textile import TextileMarkup
@@ -17,33 +14,13 @@ builtin_markups = [MarkdownMarkup, ReStructuredTextMarkup, TextileMarkup]
 
 # Public API
 
-def get_custom_markups():
-	"""
-	:returns: list of registered :doc:`custom markups <custom_markups>`
-	:rtype: list of markup classes
-	"""
-	try:
-		list_file = open(os.path.join(CONFIGURATION_DIR, 'pymarkups.txt'))
-	except IOError:
-		return []
-	else:
-		custom_markups_names = [line.rstrip() for line in list_file]
-		custom_markups = []
-		for markup_name in custom_markups_names:
-			try:
-				module = importlib.import_module(markup_name)
-				custom_markups.append(module.markup)
-			except (ImportError, AttributeError):
-				warnings.warn('Warning: cannot import module %r.' %
-					markup_name, ImportWarning)
-		return custom_markups
-
 def get_all_markups():
 	"""
 	:returns: list of all markups (both standard and custom ones)
 	:rtype: list of markup classes
 	"""
-	return builtin_markups + get_custom_markups()
+	entry_points = pkg_resources.iter_entry_points("pymarkups")
+	return [entry_point.load() for entry_point in entry_points]
 
 def get_available_markups():
 	"""

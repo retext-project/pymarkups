@@ -39,6 +39,13 @@ setup_args = {
 		'Textile': ['textile'],
 		'highlighting': ['Pygments'],
 	},
+	'entry_points': {
+		'pymarkups': [
+			'markdown = markups.markdown:MarkdownMarkup',
+			'restructuredtext = markups.restructuredtext:ReStructuredTextMarkup',
+			'textile = markups.textile:TextileMarkup',
+		],
+	},
 	'license': 'BSD',
 	'classifiers': classifiers
 }

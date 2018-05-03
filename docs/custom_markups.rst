@@ -7,20 +7,36 @@ Registering the markup module
 
 A third-party markup is a Python module that can be installed
 the usual way.
-Every module should have :data:`markup` property pointing to
-the markup class.
 
-To register the markup, one should append the full module name to
-file named ``pymarkups.txt`` in the
-:ref:`configuration directory <configuration-directory>`.
+To register your markup class with PyMarkups, make it inherit from
+:class:`~markups.abstract.AbstractMarkup`, and add that class to
+your module's ``entry_points``, in the “pymarkups” entry point group.
+
+For example:
+
+.. code-block:: python
+
+   setup(
+       ...
+       entry_points={
+           'pymarkups': [
+               'mymarkup = mymodule:MyMarkupClass',
+           ],
+       },
+       ...
+   )
+
+See the `setuptools documentation`_ on entry points for details.
 
 To check if the module was found by Python-Markups, one can check
 if the module is present in return value of
-:func:`~markups.get_custom_markups` function.
+:func:`~markups.get_all_markups` function.
 
-.. versionchanged:: 0.6
-   The third-party markup is now a normal Python module, not
-   necessarily a file in ``markups`` namespace.
+.. versionchanged:: 3.0
+   The custom markups should be registered using the entry points
+   mechanism, the ``pymarkups.txt`` file is no longer supported.
+
+.. _`setuptools documentation`: https://setuptools.readthedocs.io/en/latest/setuptools.html#dynamic-discovery-of-services-and-plugins
 
 Importing third-party modules
 =============================

@@ -6,6 +6,8 @@ Incompatible changes:
 * The deprecated AbstractMarkup API has been removed.
 * Python 3.2 is no longer supported.
 * The output now uses HTML5 instead of HTML4.
+* The custom markups are now registered with entry points.
+* The ``get_custom_markups()`` method has been removed.
 
 Version 2.0.1, 2017-06-24
 =========================
