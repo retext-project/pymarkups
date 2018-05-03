@@ -24,7 +24,7 @@ There are several ways to enable `Python-Markdown extensions`_.
 * Finally, one can programmatically pass list of extension names to
   :class:`markups.MarkdownMarkup` constructor.
 
-Additionally to features provided by Python-Markdown, this markup also
+The `Math Markdown extension`_ is enabled by default. This extension
 supports a syntax for LaTeX-style math formulas (powered by MathJax_).
 The delimiters are:
 
@@ -35,8 +35,8 @@ Inline math       Standalone math
 ``\(...\)``       ``\[...\]``
 ================  ===============
 
-.. [#f1] To enable single-dollar-sign delimiter, one should enable
-   virtual ``mathjax`` extension.
+.. [#f1] To enable single-dollar-sign delimiter, one should add
+   ``mdx_math(enable_dollar_delimiter=1)`` to the extensions list.
 
 The `Python-Markdown Extra`_ set of extensions is enabled by default.
 To disable it, one can enable virtual ``remove_extra`` extension
@@ -50,6 +50,7 @@ supported as well.
 .. _Python-Markdown: https://python-markdown.github.io/
 .. _MathJax: https://www.mathjax.org/
 .. _`Python-Markdown extensions`: https://python-markdown.github.io/extensions/
+.. _`Math Markdown extension`: https://github.com/mitya57/python-markdown-math
 .. _`Python-Markdown Extra`: https://python-markdown.github.io/extensions/extra/
 
 .. autoclass:: markups.MarkdownMarkup
