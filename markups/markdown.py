@@ -17,7 +17,7 @@ MATHJAX_CONFIG = \
 '''<script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   config: ["MMLorHTML.js"],
-  jax: ["input/TeX", "output/HTML-CSS", "output/NativeMML"],
+  jax: ["input/TeX", "input/AsciiMath", "output/HTML-CSS", "output/NativeMML"],
   extensions: ["MathMenu.js", "MathZoom.js"],
   TeX: {
     extensions: ["AMSmath.js", "AMSsymbols.js"],
@@ -173,7 +173,7 @@ class MarkdownMarkup(AbstractMarkup):
 class ConvertedMarkdown(ConvertedMarkup):
 
 	def get_javascript(self, webenv=False):
-		if '<script type="math/tex' in self.body:
+		if '<script type="math/' in self.body:
 			javascript = (MATHJAX_CONFIG + '<script type="text/javascript" src="'
 		                                     + common.get_mathjax_url(webenv) + '"></script>')
 		else:

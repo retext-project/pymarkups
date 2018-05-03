@@ -253,6 +253,13 @@ class MarkdownTest(unittest.TestCase):
 		body = markup.convert(mathjax_multilevel_source).get_document_body()
 		self.assertEqual(mathjax_multilevel_output, body)
 
+	def test_mathjax_asciimath(self):
+		markup = MarkdownMarkup(extensions=['mdx_math(use_asciimath=1)'])
+		converted = markup.convert('\( [[a,b],[c,d]] \)')
+		body = converted.get_document_body()
+		self.assertIn('<script type="math/asciimath">', body)
+		self.assertIn('<script type="text/javascript"', converted.get_javascript())
+
 	@unittest.skipUnless(hasattr(unittest.TestCase, 'assertWarnsRegex'), 'assertWarnsRegex is not supported')
 	def test_not_loading_sys(self):
 		with self.assertWarnsRegex(ImportWarning, 'Extension "sys" does not exist.'):
