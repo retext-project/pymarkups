@@ -76,7 +76,7 @@ $$m_1$$ text $$m_2$$
 
 mathjax_output = \
 r'''<p>
-<script type="math/tex">i_1</script> some text \$escaped\$ <script type="math/tex">i_2</script>
+<script type="math/tex">i_1</script> some text $escaped$ <script type="math/tex">i_2</script>
 </p>
 <p>
 <script type="math/tex">\LaTeX</script> \(escaped)</p>
@@ -92,7 +92,7 @@ r'''<p>
 <p>
 <script type="math/tex; mode=display"> \alpha </script> text <script type="math/tex; mode=display"> \beta </script>
 </p>
-<p>\$$escaped\$$ \[escaped]</p>
+<p>$$escaped$$ \[escaped]</p>
 '''
 
 mathjax_multiline_source = \
