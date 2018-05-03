@@ -1,4 +1,4 @@
-Version 2.1.0, TBD
+Version 3.0.0, 2018-05-03
 =========================
 
 Incompatible changes:
@@ -8,7 +8,13 @@ Incompatible changes:
 * The output now uses HTML5 instead of HTML4.
 * The custom markups are now registered with entry points.
 * The ``get_custom_markups()`` method has been removed.
-* New dependency: ``python-markdown-math``.
+* New required dependency: python-markdown-math_.
+
+Other changes:
+
+* The upcoming Python-Markdown 3.x release is now supported.
+
+.. _python-markdown-math: https://pypi.org/project/python-markdown-math/
 
 Version 2.0.1, 2017-06-24
 =========================
