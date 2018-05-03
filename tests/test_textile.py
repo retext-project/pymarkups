@@ -11,6 +11,3 @@ class TextileTest(unittest.TestCase):
 		markup = TextileMarkup()
 		html = markup.convert('Hello, **world**!').get_document_body()
 		self.assertEqual(html, '\t<p>Hello, <b>world</b>!</p>')
-
-if __name__ == '__main__':
-	unittest.main()

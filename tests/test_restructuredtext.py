@@ -64,6 +64,3 @@ class ReStructuredTextTest(unittest.TestCase):
 		self.assertIn('<style type="text/css">', html)
 		self.assertIn('<script type="text/javascript"', html)
 		self.assertIn('This is an example', html)
-
-if __name__ == '__main__':
-	unittest.main()

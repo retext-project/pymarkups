@@ -24,6 +24,3 @@ class APITest(unittest.TestCase):
 	def test_available_markups(self):
 		available_markups = markups.get_available_markups()
 		self.assertIn(markups.MarkdownMarkup, available_markups)
-
-if __name__ == '__main__':
-	unittest.main()

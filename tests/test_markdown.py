@@ -267,7 +267,3 @@ class MarkdownTest(unittest.TestCase):
 		extensions = markup._load_extensions_list_from_file(f.name)
 		self.assertEqual(extensions, ["foo", "baz"])
 		remove(f.name)
-
-
-if __name__ == '__main__':
-	unittest.main()
