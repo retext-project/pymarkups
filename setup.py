@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 
-import sys
-try:
-	from setuptools import setup, Command
-except ImportError:
-	from distutils.core import setup, Command
+from setuptools import setup
 from markups import __version__ as version
 from os.path import dirname, join
 
@@ -28,22 +24,6 @@ classifiers = [
 	'Topic :: Software Development :: Libraries :: Python Modules'
 ]
 
-class run_tests(Command):
-	user_options = []
-
-	def initialize_options(self): pass
-	def finalize_options(self): pass
-
-	def run(self):
-		from unittest.main import main
-		testprogram = main(module=None, argv=sys.argv[:1], verbosity=2, exit=False)
-		if not testprogram.result.wasSuccessful():
-			sys.exit(1)
-
-cmdclass = {}
-if sys.version_info[0] >= 3:
-	cmdclass['test'] = run_tests
-
 setup_args = {
 	'name': 'Markups',
 	'version': version,
@@ -60,7 +40,6 @@ setup_args = {
 		'highlighting': ['Pygments'],
 	},
 	'license': 'BSD',
-	'cmdclass': cmdclass,
 	'classifiers': classifiers
 }
 setup(**setup_args)
