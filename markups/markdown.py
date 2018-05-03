@@ -146,7 +146,6 @@ class MarkdownMarkup(AbstractMarkup):
 		else:
 			self.global_extensions = []
 		self.document_extensions = []
-		_canonicalized_ext_names = {}
 		self._apply_extensions()
 
 	def convert(self, text):
