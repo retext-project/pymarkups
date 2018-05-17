@@ -56,6 +56,14 @@ class ReStructuredTextTest(unittest.TestCase):
 		body = markup.convert('`').get_document_body() # unclosed role
 		self.assertNotIn('system-message', body)
 
+	def test_errors_severe(self):
+		markup = ReStructuredTextMarkup(settings_overrides={'warning_stream': False})
+		text = "***************\nfaulty headline"
+		# The following line should not raise SystemMessage exception
+		body = markup.convert(text).get_document_body()
+		self.assertIn("system-message", body)
+		self.assertIn("Incomplete section title.", body)
+
 	def test_whole_html(self):
 		markup = ReStructuredTextMarkup()
 		text = basic_text + "\n\n.. math::\n   \sin \varphi"
