@@ -41,6 +41,7 @@ class ReStructuredTextMarkup(AbstractMarkup):
 		self.overrides.update({
 			'math_output': 'MathJax %s?config=TeX-AMS_CHTML' % common.MATHJAX_WEB_URL,
 			'syntax_highlight': 'short',
+			'halt_level': 5,  # Never convert system messages to exceptions
 		})
 		AbstractMarkup.__init__(self, filename)
 		from docutils.core import publish_parts
