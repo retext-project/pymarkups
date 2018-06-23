@@ -1,5 +1,6 @@
 include LICENSE
 include README.rst
 include changelog
+include markup2html.py
 recursive-include docs *.rst conf.py
 recursive-include tests *.py
