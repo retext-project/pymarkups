@@ -35,9 +35,9 @@ setup_args = {
 	'packages': ['markups'],
 	'install_requires': 'python-markdown-math',
 	'extras_require': {
-		'Markdown': ['Markdown>=2.6'],
-		'reStructuredText': ['docutils'],
-		'Textile': ['textile'],
+		'markdown': ['Markdown>=2.6'],
+		'restructuredtext': ['docutils'],
+		'textile': ['textile'],
 		'highlighting': ['Pygments'],
 	},
 	'entry_points': {
