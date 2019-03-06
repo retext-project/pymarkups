@@ -135,6 +135,7 @@ class MarkdownMarkup(AbstractMarkup):
 		                                 extension_configs=extension_configs,
 		                                 output_format='html5')
 		self.extensions = extension_names
+		self.extension_configs = extension_configs
 
 	def __init__(self, filename=None, extensions=None):
 		AbstractMarkup.__init__(self, filename)
@@ -163,8 +164,16 @@ class MarkdownMarkup(AbstractMarkup):
 			title = ''
 
 		# Determine stylesheet
-		if any(extension.endswith('codehilite') for extension in self.extensions):
-			stylesheet = common.get_pygments_stylesheet('.codehilite')
+		css_class = None
+
+		if 'markdown.extensions.codehilite' in self.extensions:
+			config = self.extension_configs.get('markdown.extensions.codehilite', {})
+			css_class = config.get('css_class', 'codehilite')
+			stylesheet = common.get_pygments_stylesheet('.%s' % css_class)
+		elif 'pymdownx.highlight' in self.extensions:
+			config = self.extension_configs.get('pymdownx.highlight', {})
+			css_class = config.get('css_class', 'highlight')
+			stylesheet = common.get_pygments_stylesheet('.%s' % css_class)
 		else:
 			stylesheet = ''
 

@@ -10,6 +10,11 @@ from tempfile import NamedTemporaryFile
 import unittest
 import warnings
 
+try:
+	import pymdownx
+except ImportError:
+	pymdownx = None
+
 tables_source = \
 '''th1 | th2
 --- | ---
@@ -274,3 +279,37 @@ class MarkdownTest(unittest.TestCase):
 		extensions = markup._load_extensions_list_from_file(f.name)
 		self.assertEqual(extensions, ["foo", "baz"])
 		remove(f.name)
+
+	def test_codehilite(self):
+		markup = MarkdownMarkup(extensions=["codehilite"])
+		converted = markup.convert('    :::python\n    import foo')
+		stylesheet = converted.get_stylesheet()
+		self.assertIn(".codehilite .k {", stylesheet)
+		body = converted.get_document_body()
+		self.assertIn('<div class="codehilite">', body)
+
+	def test_codehilite_custom_class(self):
+		markup = MarkdownMarkup(extensions=["codehilite(css_class=myclass)"])
+		converted = markup.convert('    :::python\n    import foo')
+		stylesheet = converted.get_stylesheet()
+		self.assertIn(".myclass .k {", stylesheet)
+		body = converted.get_document_body()
+		self.assertIn('<div class="myclass">', body)
+
+	@unittest.skipIf(pymdownx is None, "pymdownx module is not available")
+	def test_pymdownx_highlight(self):
+		markup = MarkdownMarkup(extensions=["pymdownx.highlight"])
+		converted = markup.convert('    import foo')
+		stylesheet = converted.get_stylesheet()
+		self.assertIn(".highlight .k {", stylesheet)
+		body = converted.get_document_body()
+		self.assertIn('<div class="highlight">', body)
+
+	@unittest.skipIf(pymdownx is None, "pymdownx module is not available")
+	def test_pymdownx_highlight_custom_class(self):
+		markup = MarkdownMarkup(extensions=["pymdownx.highlight(css_class=myclass)"])
+		converted = markup.convert('    import foo')
+		stylesheet = converted.get_stylesheet()
+		self.assertIn(".myclass .k {", stylesheet)
+		body = converted.get_document_body()
+		self.assertIn('<div class="myclass">', body)
