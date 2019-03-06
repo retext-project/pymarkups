@@ -213,6 +213,11 @@ class MarkdownTest(unittest.TestCase):
 			tables_source).get_document_body()
 		self.assertNotIn('<table>', html)
 
+	def test_remove_extra_double(self):
+		"""Removing extra twice should not cause a crash."""
+		markup = MarkdownMarkup(extensions=['remove_extra'])
+		markup.convert('Required-Extensions: remove_extra\n')
+
 	def test_remove_extra_removes_mathjax(self):
 		markup = MarkdownMarkup(extensions=['remove_extra'])
 		html = markup.convert('$$1$$').get_document_body()

@@ -116,8 +116,10 @@ class MarkdownMarkup(AbstractMarkup):
 				mathjax_config = {"enable_dollar_delimiter": True}
 				extension_configs["mdx_math"] = mathjax_config
 			elif extension == 'remove_extra':
-				extension_names.remove("markdown.extensions.extra")
-				extension_names.remove("mdx_math")
+				if "markdown.extensions.extra" in extension_names:
+					extension_names.remove("markdown.extensions.extra")
+				if "mdx_math" in extension_names:
+					extension_names.remove("mdx_math")
 			else:
 				name, config = self._split_extension_config(extension)
 				if name in _canonicalized_ext_names:
