@@ -12,6 +12,6 @@ matrix:
       dist: xenial
     - python: "pypy"
     - python: "pypy3"
-install: pip install Markdown docutils textile pygments codecov
+install: pip install Markdown pymdown-extensions docutils textile pygments codecov
 script: coverage run setup.py test
 after_success: codecov
