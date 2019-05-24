@@ -2,7 +2,6 @@
 # License: 3-clause BSD, see LICENSE file
 # Copyright: (C) Dmitry Shachnev, 2012-2018
 
-import pkg_resources
 from markups.markdown import MarkdownMarkup
 from markups.restructuredtext import ReStructuredTextMarkup
 from markups.textile import TextileMarkup
@@ -19,6 +18,7 @@ def get_all_markups():
 	:returns: list of all markups (both standard and custom ones)
 	:rtype: list of markup classes
 	"""
+	import pkg_resources
 	entry_points = pkg_resources.iter_entry_points("pymarkups")
 	return [entry_point.load() for entry_point in entry_points]
 
