@@ -102,6 +102,16 @@ class MarkdownMarkup(AbstractMarkup):
 		if lb == -1:
 			return extension_name, {}
 		extension_name, parameters = extension_name[:lb], extension_name[lb + 1:-1]
+
+		try: #try parse extension config using python abstract syntax
+			import ast
+			ast_obj, kwargs = ast.parse('f(%s)'%parameters).body[0].value, {}
+			if isinstance(ast_obj, ast.Call):
+				kwargs = {arg.arg: ast.literal_eval(arg.value) for arg in ast_obj.keywords}
+			return extension_name, kwargs
+		except (SyntaxError, ValueError):
+			pass #extension parameters using legacy syntax
+
 		pairs = [x.split("=") for x in parameters.split(",")]
 		return extension_name, {x.strip(): y.strip() for (x, y) in pairs}
 

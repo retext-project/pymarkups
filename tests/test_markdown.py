@@ -194,6 +194,36 @@ class MarkdownTest(unittest.TestCase):
 			'<h3 id="header">Header</h3>\n'
 			'<p><a class="wikilink" href="/Link/">Link</a></p>\n')
 
+	def test_document_extensions_parameters_ast(self):
+		markup = MarkdownMarkup(extensions=[])
+		toc_header = '<!--- Required extensions: toc(anchorlink=True, baselevel=2) --->\n\n'
+		html = markup.convert(toc_header + '## Header').get_document_body()
+		self.assertEqual(html, toc_header +
+			'<h3 id="header"><a class="toclink" href="#header">Header</a></h3>\n')
+		toc_header = '<!--- Required extensions: toc(title="Table of contents", baselevel=3) wikilinks --->\n\n'
+		html = markup.convert(toc_header + '[TOC]\n\n# Header\n[[Link]]').get_document_body()
+		self.assertEqual(html, toc_header +
+			'<div class="toc"><span class="toctitle">Table of contents</span><ul>\n'
+			'<li><a href="#header">Header</a></li>\n'
+			'</ul>\n</div>\n'
+			'<h3 id="header">Header</h3>\n'
+			'<p><a class="wikilink" href="/Link/">Link</a></p>\n')
+
+	def test_document_extensions_parameters_backward_compatibility(self):
+		markup = MarkdownMarkup(extensions=[])
+		toc_header = '<!--- Required extensions: toc(anchorlink=True, baselevel=2) --->\n\n'
+		html = markup.convert(toc_header + '## Header').get_document_body()
+		self.assertEqual(html, toc_header +
+			'<h3 id="header"><a class="toclink" href="#header">Header</a></h3>\n')
+		toc_header = '<!--- Required extensions: toc(title=Table of contents, baselevel=3) wikilinks --->\n\n'
+		html = markup.convert(toc_header + '[TOC]\n\n# Header\n[[Link]]').get_document_body()
+		self.assertEqual(html, toc_header +
+			'<div class="toc"><span class="toctitle">Table of contents</span><ul>\n'
+			'<li><a href="#header">Header</a></li>\n'
+			'</ul>\n</div>\n'
+			'<h3 id="header">Header</h3>\n'
+			'<p><a class="wikilink" href="/Link/">Link</a></p>\n')
+
 	def test_extra(self):
 		markup = MarkdownMarkup()
 		html = markup.convert(tables_source).get_document_body()
