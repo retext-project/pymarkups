@@ -1,4 +1,4 @@
-sudo: false
+dist: bionic
 language: python
 matrix:
   include:
@@ -7,9 +7,6 @@ matrix:
     - python: "3.5"
     - python: "3.6"
     - python: "3.7"
-      sudo: required
-      dist: xenial
-    - python: "pypy"
     - python: "pypy3"
 install: pip install Markdown pymdown-extensions docutils textile pygments codecov
 script: coverage run setup.py test
