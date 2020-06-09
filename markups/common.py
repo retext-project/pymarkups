@@ -12,7 +12,7 @@ MATHJAX_LOCAL_URLS = (
 	'file:///usr/share/javascript/mathjax/MathJax.js',  # Debian libjs-mathjax
 	'file:///usr/share/mathjax/MathJax.js',  # Arch Linux mathjax
 )
-MATHJAX_WEB_URL = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js'
+MATHJAX_WEB_URL = 'https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js'
 
 PYGMENTS_STYLE = 'default'
 
