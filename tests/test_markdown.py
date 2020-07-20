@@ -109,7 +109,7 @@ $$
 '''
 
 mathjax_multiline_output = \
-'''<p>
+r'''<p>
 <script type="math/tex; mode=display">
 \TeX
 \LaTeX
@@ -265,7 +265,7 @@ class MarkdownTest(unittest.TestCase):
 
 	def test_mathjax_asciimath(self):
 		markup = MarkdownMarkup(extensions=['mdx_math(use_asciimath=1)'])
-		converted = markup.convert('\( [[a,b],[c,d]] \)')
+		converted = markup.convert(r'\( [[a,b],[c,d]] \)')
 		body = converted.get_document_body()
 		self.assertIn('<script type="math/asciimath">', body)
 		self.assertIn('<script type="text/javascript"', converted.get_javascript())

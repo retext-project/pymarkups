@@ -66,7 +66,7 @@ class ReStructuredTextTest(unittest.TestCase):
 
 	def test_whole_html(self):
 		markup = ReStructuredTextMarkup()
-		text = basic_text + "\n\n.. math::\n   \sin \varphi"
+		text = basic_text + "\n\n.. math::\n   \\sin \\varphi"
 		html = markup.convert(text).get_whole_html()
 		self.assertIn("<title>Hello, world!</title>", html)
 		self.assertIn('<style type="text/css">', html)
