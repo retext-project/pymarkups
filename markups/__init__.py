@@ -18,8 +18,8 @@ def get_all_markups():
 	:returns: list of all markups (both standard and custom ones)
 	:rtype: list of markup classes
 	"""
-	import pkg_resources
-	entry_points = pkg_resources.iter_entry_points("pymarkups")
+	from importlib.metadata import entry_points
+	entry_points = entry_points()["pymarkups"]
 	return [entry_point.load() for entry_point in entry_points]
 
 def get_available_markups():
