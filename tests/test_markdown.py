@@ -270,7 +270,6 @@ class MarkdownTest(unittest.TestCase):
 		self.assertIn('<script type="math/asciimath">', body)
 		self.assertIn('<script type="text/javascript"', converted.get_javascript())
 
-	@unittest.skipUnless(hasattr(unittest.TestCase, 'assertWarnsRegex'), 'assertWarnsRegex is not supported')
 	def test_not_loading_sys(self):
 		with self.assertWarnsRegex(ImportWarning, 'Extension "sys" does not exist.'):
 			markup = MarkdownMarkup(extensions=['sys'])

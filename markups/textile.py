@@ -4,8 +4,6 @@
 # License: 3-clause BSD, see LICENSE file
 # Copyright: (C) Dmitry Shachnev, 2013-2017
 
-from __future__ import absolute_import
-
 import markups.common as common
 from markups.abstract import AbstractMarkup, ConvertedMarkup
 

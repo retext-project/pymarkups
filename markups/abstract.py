@@ -4,7 +4,7 @@
 # License: 3-clause BSD, see LICENSE file
 # Copyright: (C) Dmitry Shachnev, 2012-2018
 
-whole_html_template = u"""<!doctype html>
+whole_html_template = """<!doctype html>
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">

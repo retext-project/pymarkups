@@ -4,8 +4,6 @@
 # License: 3-clause BSD, see LICENSE file
 # Copyright: (C) Dmitry Shachnev, 2012-2018
 
-from __future__ import absolute_import
-
 import importlib
 import os
 import re
