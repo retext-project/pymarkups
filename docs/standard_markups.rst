@@ -63,8 +63,8 @@ this documentation is written in). It uses Docutils_ Python module.
 
 The file extension associated with reStructuredText markup is ``.rst``.
 
-.. _reStructuredText: http://docutils.sourceforge.net/rst.html
-.. _Docutils: http://docutils.sourceforge.net/
+.. _reStructuredText: https://docutils.sourceforge.io/rst.html
+.. _Docutils: https://docutils.sourceforge.io/
 
 .. autoclass:: markups.ReStructuredTextMarkup
 

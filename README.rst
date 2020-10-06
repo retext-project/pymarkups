@@ -22,7 +22,7 @@ Usage example:
   >>> markup.name
   'reStructuredText'
   >>> markup.attributes[markups.common.SYNTAX_DOCUMENTATION]
-  'http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html'
+  'https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html'
   >>> text = """
   ... Hello, world!
   ... =============
@@ -39,7 +39,7 @@ Usage example:
   </div>
 
 .. _Markdown: https://daringfireball.net/projects/markdown/
-.. _reStructuredText: http://docutils.sourceforge.net/rst.html
+.. _reStructuredText: https://docutils.sourceforge.io/rst.html
 .. _Textile: https://en.wikipedia.org/wiki/Textile_(markup_language)
 
 The release version can be downloaded from PyPI_. The source code is hosted on

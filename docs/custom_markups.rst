@@ -36,7 +36,7 @@ if the module is present in return value of
    The custom markups should be registered using the entry points
    mechanism, the ``pymarkups.txt`` file is no longer supported.
 
-.. _`setuptools documentation`: https://setuptools.readthedocs.io/en/latest/setuptools.html#dynamic-discovery-of-services-and-plugins
+.. _`setuptools documentation`: https://setuptools.readthedocs.io/en/latest/userguide/entry_point.html
 
 Importing third-party modules
 =============================

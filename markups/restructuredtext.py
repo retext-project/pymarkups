@@ -16,13 +16,13 @@ class ReStructuredTextMarkup(AbstractMarkup):
 	                           `Docutils settings`_
 	:type settings_overrides: dict
 
-	.. _`Docutils settings`: http://docutils.sourceforge.net/docs/user/config.html
+	.. _`Docutils settings`: https://docutils.sourceforge.io/docs/user/config.html
 	"""
 	name = 'reStructuredText'
 	attributes = {
-		common.LANGUAGE_HOME_PAGE: 'http://docutils.sourceforge.net/rst.html',
-		common.MODULE_HOME_PAGE: 'http://docutils.sourceforge.net/',
-		common.SYNTAX_DOCUMENTATION: 'http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html'
+		common.LANGUAGE_HOME_PAGE: 'https://docutils.sourceforge.io/rst.html',
+		common.MODULE_HOME_PAGE: 'https://docutils.sourceforge.io/',
+		common.SYNTAX_DOCUMENTATION: 'https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html'
 	}
 
 	file_extensions = ('.rst', '.rest')
