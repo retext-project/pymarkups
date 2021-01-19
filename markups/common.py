@@ -8,11 +8,14 @@ import os.path
 (LANGUAGE_HOME_PAGE, MODULE_HOME_PAGE, SYNTAX_DOCUMENTATION) = range(3)
 CONFIGURATION_DIR = (os.getenv('XDG_CONFIG_HOME') or os.getenv('APPDATA') or
 	os.path.expanduser('~/.config'))
-MATHJAX_LOCAL_URLS = (
+MATHJAX2_LOCAL_URLS = (
 	'file:///usr/share/javascript/mathjax/MathJax.js',  # Debian libjs-mathjax
-	'file:///usr/share/mathjax/MathJax.js',  # Arch Linux mathjax
+	'file:///usr/share/mathjax2/MathJax.js',  # Arch Linux mathjax2
 )
-MATHJAX_WEB_URL = 'https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js'
+MATHJAX3_LOCAL_URLS = (
+	'file:///usr/share/mathjax/tex-chtml.js',  # Arch Linux mathjax
+)
+MATHJAX_WEB_URL = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js'
 
 PYGMENTS_STYLE = 'default'
 
@@ -28,9 +31,12 @@ def get_pygments_stylesheet(selector, style=None):
 	else:
 		return HtmlFormatter(style=style).get_style_defs(selector) + '\n'
 
-def get_mathjax_url(webenv):
+def get_mathjax_url_and_version(webenv):
 	if not webenv:
-		for url in MATHJAX_LOCAL_URLS:
+		for url in MATHJAX3_LOCAL_URLS:
 			if os.path.exists(url[7:]):  # strip file://
-				return url
-	return MATHJAX_WEB_URL
+				return url, 3
+		for url in MATHJAX2_LOCAL_URLS:
+			if os.path.exists(url[7:]):
+				return url, 2
+	return MATHJAX_WEB_URL, 3

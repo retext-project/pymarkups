@@ -39,7 +39,7 @@ class ReStructuredTextMarkup(AbstractMarkup):
 	def __init__(self, filename=None, settings_overrides=None):
 		self.overrides = settings_overrides or {}
 		self.overrides.update({
-			'math_output': 'MathJax %s?config=TeX-AMS_CHTML' % common.MATHJAX_WEB_URL,
+			'math_output': 'MathJax ' + common.MATHJAX_WEB_URL,
 			'syntax_highlight': 'short',
 			'halt_level': 5,  # Never convert system messages to exceptions
 		})
@@ -79,7 +79,11 @@ class ConvertedReStructuredText(ConvertedMarkup):
 		self.head = head
 
 	def get_javascript(self, webenv=False):
-		if 'MathJax.js?config=TeX-AMS_CHTML' not in self.head:
+		if common.MATHJAX_WEB_URL not in self.head:
 			return ''
-		return ('<script type="text/javascript" src="%s?config=TeX-AMS_CHTML"></script>\n' %
-		        common.get_mathjax_url(webenv))
+		mathjax_url, mathjax_version = common.get_mathjax_url_and_version(webenv)
+		if mathjax_version == 2:
+			mathjax_url += '?config=TeX-AMS_CHTML'
+		async_attr = ' async' if mathjax_version == 3 else ''
+		script_tag = '<script type="text/javascript" src="%s"%s></script>\n'
+		return script_tag % (mathjax_url, async_attr)

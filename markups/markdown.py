@@ -11,7 +11,7 @@ import warnings
 import markups.common as common
 from markups.abstract import AbstractMarkup, ConvertedMarkup
 
-MATHJAX_CONFIG = \
+MATHJAX2_CONFIG = \
 '''<script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   config: ["MMLorHTML.js"],
@@ -22,6 +22,31 @@ MathJax.Hub.Config({
     equationNumbers: {autoNumber: "AMS"}
   }
 });
+</script>
+'''
+
+# Taken from:
+# https://docs.mathjax.org/en/latest/upgrading/v2.html?highlight=upgrading#changes-in-the-mathjax-api
+MATHJAX3_CONFIG = \
+'''
+<script>
+MathJax = {
+  options: {
+    renderActions: {
+      find: [10, function (doc) {
+        for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+          const display = !!node.type.match(/; *mode=display/);
+          const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+          const text = document.createTextNode('');
+          node.parentNode.replaceChild(text, node);
+          math.start = {node: text, delim: '', n: 0};
+          math.end = {node: text, delim: '', n: 0};
+          doc.math.push(math);
+        }
+      }, '']
+    }
+  }
+};
 </script>
 '''
 
@@ -182,10 +207,10 @@ class MarkdownMarkup(AbstractMarkup):
 class ConvertedMarkdown(ConvertedMarkup):
 
 	def get_javascript(self, webenv=False):
-		if '<script type="math/' in self.body:
-			javascript = (MATHJAX_CONFIG + '<script type="text/javascript" src="'
-		                                     + common.get_mathjax_url(webenv) + '"></script>')
-		else:
-			javascript = ''
-
-		return javascript
+		if '<script type="math/' not in self.body:
+			return ''
+		mathjax_url, mathjax_version = common.get_mathjax_url_and_version(webenv)
+		config = MATHJAX3_CONFIG if mathjax_version == 3 else MATHJAX2_CONFIG
+		async_attr = ' async' if mathjax_version == 3 else ''
+		script_tag = '<script type="text/javascript" src="%s"%s></script>'
+		return config + script_tag % (mathjax_url, async_attr)
