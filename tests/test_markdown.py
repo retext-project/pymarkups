@@ -5,8 +5,8 @@
 # Copyright: (C) Dmitry Shachnev, 2012-2018
 
 from markups.markdown import MarkdownMarkup, _canonicalized_ext_names
-from os import remove
-from tempfile import NamedTemporaryFile
+from os.path import join
+from tempfile import TemporaryDirectory
 import unittest
 import warnings
 
@@ -275,14 +275,14 @@ class MarkdownTest(unittest.TestCase):
 			markup = MarkdownMarkup(extensions=['sys'])
 		self.assertNotIn('sys', markup.extensions)
 
-	def test_extensions_file(self):
-		f = NamedTemporaryFile(mode="w", delete=False)
-		f.write("foo\n# bar\nbaz\n")
-		f.close()
-		markup = MarkdownMarkup()
-		extensions = markup._load_extensions_list_from_file(f.name)
-		self.assertEqual(extensions, ["foo", "baz"])
-		remove(f.name)
+	def test_extensions_txt_file(self):
+		with TemporaryDirectory() as tmpdirname:
+			txtfilename = join(tmpdirname, "markdown-extensions.txt")
+			with open(txtfilename, "w") as f:
+				f.write("foo\n# bar\nbaz(arg=value)\n")
+			markup = MarkdownMarkup(filename=join(tmpdirname, "foo.md"))
+		self.assertEqual(markup.global_extensions,
+		                 [("foo", {}), ("baz", {"arg": "value"})])
 
 	def test_codehilite(self):
 		markup = MarkdownMarkup(extensions=["codehilite"])
