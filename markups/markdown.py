@@ -82,23 +82,24 @@ class MarkdownMarkup(AbstractMarkup):
 		        hasattr(markdown, 'version_info') and markdown.version_info >= (2, 6))
 
 	def _load_extensions_list_from_file(self, filename):
-		try:
-			extensions_file = open(filename)
-		except IOError:
-			return []
-		else:
-			extensions = [line.rstrip() for line in extensions_file
-			              if not line.startswith('#')]
-			extensions_file.close()
-			return extensions
+		with open(filename) as extensions_file:
+			for line in extensions_file:
+				if not line.startswith('#'):
+					yield self._split_extension_config(line.rstrip())
 
 	def _get_global_extensions(self, filename):
-		extensions = self._load_extensions_list_from_file(
-			os.path.join(common.CONFIGURATION_DIR, 'markdown-extensions.txt'))
 		local_directory = os.path.dirname(filename) if filename else ''
-		extensions += self._load_extensions_list_from_file(
-			os.path.join(local_directory, 'markdown-extensions.txt'))
-		yield from self._split_extensions_configs(extensions)
+		choices = [
+			os.path.join(local_directory, 'markdown-extensions.txt'),
+			os.path.join(common.CONFIGURATION_DIR, 'markdown-extensions.txt'),
+		]
+		for choice in choices:
+			try:
+				yield from self._load_extensions_list_from_file(choice)
+			except IOError:
+				continue  # Cannot open file, move to the next choice
+			else:
+				break  # File loaded successfully, skip the remaining choices
 
 	def _get_document_extensions(self, text):
 		lines = text.splitlines()
