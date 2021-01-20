@@ -98,14 +98,14 @@ class MarkdownMarkup(AbstractMarkup):
 		local_directory = os.path.dirname(filename) if filename else ''
 		extensions += self._load_extensions_list_from_file(
 			os.path.join(local_directory, 'markdown-extensions.txt'))
-		return extensions
+		yield from self._split_extensions_configs(extensions)
 
 	def _get_document_extensions(self, text):
 		lines = text.splitlines()
 		match = extensions_re.search(lines[0]) if lines else None
 		if match:
-			return extension_name_re.findall(match.group(1))
-		return []
+			extensions = extension_name_re.findall(match.group(1))
+			yield from self._split_extensions_configs(extensions)
 
 	def _canonicalize_extension_name(self, extension_name):
 		prefixes = ('markdown.extensions.', '', 'mdx_')
@@ -128,30 +128,41 @@ class MarkdownMarkup(AbstractMarkup):
 		pairs = [x.split("=") for x in parameters.split(",")]
 		return extension_name, {x.strip(): y.strip() for (x, y) in pairs}
 
-	def _apply_extensions(self):
-		extensions = (self.requested_extensions +
-			self.global_extensions + self.document_extensions)
+	def _split_extensions_configs(self, extensions):
+		"""Splits the configuration options from a list of strings.
+
+		:returns: a generator of (name, config) tuples
+		"""
+		for extension in extensions:
+			yield self._split_extension_config(extension)
+
+	def _apply_extensions(self, document_extensions=None):
+		extensions = self.global_extensions
+		extensions.extend(
+			self._split_extensions_configs(self.requested_extensions))
+		if document_extensions is not None:
+			extensions.extend(document_extensions)
+
 		extension_names = {"markdown.extensions.extra", "mdx_math"}
 		extension_configs = {}
 
-		for extension in extensions:
-			if extension == 'mathjax':
+		for name, config in extensions:
+			if name == 'mathjax':
 				mathjax_config = {"enable_dollar_delimiter": True}
 				extension_configs["mdx_math"] = mathjax_config
-			elif extension == 'remove_extra':
+			elif name == 'remove_extra':
 				if "markdown.extensions.extra" in extension_names:
 					extension_names.remove("markdown.extensions.extra")
 				if "mdx_math" in extension_names:
 					extension_names.remove("mdx_math")
 			else:
-				name, config = self._split_extension_config(extension)
 				if name in _canonicalized_ext_names:
 					canonical_name = _canonicalized_ext_names[name]
 				else:
 					canonical_name = self._canonicalize_extension_name(name)
 					if canonical_name is None:
 						warnings.warn('Extension "%s" does not exist.' %
-							extension, ImportWarning)
+							name, ImportWarning)
 						continue
 					_canonicalized_ext_names[name] = canonical_name
 				extension_names.add(canonical_name)
@@ -167,19 +178,16 @@ class MarkdownMarkup(AbstractMarkup):
 		import markdown
 		self.markdown = markdown
 		self.requested_extensions = extensions or []
+		self.global_extensions = []
 		if extensions is None:
-			self.global_extensions = self._get_global_extensions(filename)
-		else:
-			self.global_extensions = []
-		self.document_extensions = []
+			self.global_extensions.extend(self._get_global_extensions(filename))
 		self._apply_extensions()
 
 	def convert(self, text):
 
 		# Determine body
 		self.md.reset()
-		self.document_extensions = self._get_document_extensions(text)
-		self._apply_extensions()
+		self._apply_extensions(self._get_document_extensions(text))
 		body = self.md.convert(text) + '\n'
 
 		# Determine title
