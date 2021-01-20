@@ -1,6 +1,6 @@
-.. image:: https://api.travis-ci.org/retext-project/pymarkups.svg
-   :target: https://travis-ci.org/retext-project/pymarkups
-   :alt: Travis CI status
+.. image:: https://github.com/retext-project/pymarkups/workflows/tests/badge.svg
+   :target: https://github.com/retext-project/pymarkups/actions
+   :alt: GitHub Actions status
 .. image:: https://codecov.io/gh/retext-project/pymarkups/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/retext-project/pymarkups
    :alt: Coverage status
