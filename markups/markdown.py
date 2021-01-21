@@ -11,6 +11,11 @@ import warnings
 import markups.common as common
 from markups.abstract import AbstractMarkup, ConvertedMarkup
 
+try:
+	import yaml
+except ImportError:
+	yaml = None
+
 MATHJAX2_CONFIG = \
 '''<script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -81,21 +86,40 @@ class MarkdownMarkup(AbstractMarkup):
 		return (hasattr(markdown, '__version_info__') or  # underscored attribute means 3.x
 		        hasattr(markdown, 'version_info') and markdown.version_info >= (2, 6))
 
-	def _load_extensions_list_from_file(self, filename):
+	def _load_extensions_list_from_txt_file(self, filename):
 		with open(filename) as extensions_file:
 			for line in extensions_file:
 				if not line.startswith('#'):
 					yield self._split_extension_config(line.rstrip())
 
+	def _load_extensions_list_from_yaml_file(self, filename):
+		with open(filename) as extensions_file:
+			try:
+				data = yaml.safe_load(extensions_file)
+			except yaml.YAMLError as ex:
+				warnings.warn(f'Failed parsing {filename}: {ex}', SyntaxWarning)
+				raise IOError from ex
+		if isinstance(data, list):
+			for item in data:
+				if isinstance(item, dict):
+					yield from item.items()
+				elif isinstance(item, str):
+					yield item, {}
+
 	def _get_global_extensions(self, filename):
 		local_directory = os.path.dirname(filename) if filename else ''
 		choices = [
+			os.path.join(local_directory, 'markdown-extensions.yaml'),
 			os.path.join(local_directory, 'markdown-extensions.txt'),
+			os.path.join(common.CONFIGURATION_DIR, 'markdown-extensions.yaml'),
 			os.path.join(common.CONFIGURATION_DIR, 'markdown-extensions.txt'),
 		]
 		for choice in choices:
 			try:
-				yield from self._load_extensions_list_from_file(choice)
+				if choice.endswith('.txt'):
+					yield from self._load_extensions_list_from_txt_file(choice)
+				elif choice.endswith('.yaml') and yaml:
+					yield from self._load_extensions_list_from_yaml_file(choice)
 			except IOError:
 				continue  # Cannot open file, move to the next choice
 			else:

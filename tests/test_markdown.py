@@ -284,6 +284,40 @@ class MarkdownTest(unittest.TestCase):
 		self.assertEqual(markup.global_extensions,
 		                 [("foo", {}), ("baz", {"arg": "value"})])
 
+	def test_extensions_yaml_file(self):
+		with TemporaryDirectory() as tmpdirname:
+			yamlfilename = join(tmpdirname, "markdown-extensions.yaml")
+			with open(yamlfilename, "w") as f:
+				f.write('- smarty:\n'
+				        '    substitutions:\n'
+				        '      left-single-quote: "&sbquo;"\n'
+				        '      right-single-quote: "&lsquo;"\n'
+				        '    smart_dashes: False\n'
+				        '- toc:\n'
+				        '    permalink: True\n'
+				        '    separator: "_"\n'
+				        '    toc_depth: 3\n'
+				        '- sane_lists\n')
+			markup = MarkdownMarkup(filename=join(tmpdirname, "foo.md"))
+		self.assertEqual(
+			markup.global_extensions,
+			[("smarty", {"substitutions": {"left-single-quote": "&sbquo;",
+			                               "right-single-quote": "&lsquo;"},
+			  "smart_dashes": False}),
+			 ("toc", {"permalink": True, "separator": "_", "toc_depth": 3}),
+			 ("sane_lists", {}),
+			])
+
+	def test_extensions_yaml_file_invalid(self):
+		with TemporaryDirectory() as tmpdirname:
+			yamlfilename = join(tmpdirname, "markdown-extensions.yaml")
+			with open(yamlfilename, "w") as f:
+				f.write('[this is an invalid YAML file')
+			with self.assertWarns(SyntaxWarning) as cm:
+				MarkdownMarkup(filename=join(tmpdirname, "foo.md"))
+			self.assertIn("Failed parsing", str(cm.warning))
+			self.assertIn("expected ',' or ']'", str(cm.warning))
+
 	def test_codehilite(self):
 		markup = MarkdownMarkup(extensions=["codehilite"])
 		converted = markup.convert('    :::python\n    import foo')
