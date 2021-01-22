@@ -7,22 +7,58 @@ These markups are available by default:
 Markdown markup
 ===============
 
-Markdown_ markup uses Python-Markdown_ as a backend (version 2.6 is
-required).
+Markdown_ markup uses Python-Markdown_ as a backend (version 2.6 or later
+is required).
 
 There are several ways to enable `Python-Markdown extensions`_.
 
-* List extensions in a file named :file:`markdown-extensions.txt` in
-  the :ref:`configuration directory <configuration-directory>`,
-  separated by newline. The extensions will be automatically applied
+* List extensions in a file named :file:`markdown-extensions.yaml` or
+  :file:`markdown-extensions.txt` in the :ref:`configuration directory
+  <configuration-directory>`. The extensions will be automatically applied
   to all documents.
-* If :file:`markdown-extensions.txt` is placed into working directory,
-  all documents in that directory will get extensions listed in that
-  file.
+* If :file:`markdown-extensions.yaml` or :file:`markdown-extensions.txt`
+  is placed into working directory, all documents in that directory will
+  get extensions that are listed in that file.
 * If first line of a document contains ":samp:`Required extensions:
   {ext1 ext2 ...}`", that list will be applied to a document.
 * Finally, one can programmatically pass list of extension names to
   :class:`markups.MarkdownMarkup` constructor.
+
+The YAML file should be a list of extensions, possibly with configuration
+options, for example:
+
+.. code-block:: yaml
+
+   - smarty:
+       substitutions:
+         left-single-quote: "&sbquo;"
+         right-single-quote: "&lsquo;"
+       smart_dashes: False
+   - toc:
+       permalink: True
+       separator: "_"
+       toc_depth: 3
+   - sane_lists
+
+Or using a JSON-like syntax:
+
+.. code-block:: yaml
+
+   ["smarty", "sane_lists"]
+
+YAML support works only when the PyYAML_ module is installed.
+
+The txt file is a simple list of extensions, separated by newlines. Lines
+starting with ``#`` are treated as comments and ignored. It is possible to
+specify string options in brackets, for example::
+
+   toc(title=Contents)
+   sane_lists
+
+The same syntax to specify options works in the ``Required extensions``
+line. You can put it into a comment to make it invisible in the output::
+
+   <!-- Required extensions: toc(title=Contents) sane_lists -->
 
 The `Math Markdown extension`_ is enabled by default. This extension
 supports a syntax for LaTeX-style math formulas (powered by MathJax_).
@@ -50,6 +86,7 @@ supported as well.
 .. _Python-Markdown: https://python-markdown.github.io/
 .. _MathJax: https://www.mathjax.org/
 .. _`Python-Markdown extensions`: https://python-markdown.github.io/extensions/
+.. _PyYAML: https://pypi.org/project/PyYAML/
 .. _`Math Markdown extension`: https://github.com/mitya57/python-markdown-math
 .. _`Python-Markdown Extra`: https://python-markdown.github.io/extensions/extra/
 
