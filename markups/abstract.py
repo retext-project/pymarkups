@@ -17,7 +17,7 @@ whole_html_template = """<!doctype html>
 """
 
 
-class AbstractMarkup(object):
+class AbstractMarkup:
 	"""Abstract class for markup languages.
 
 	:param filename: optional name of the file
@@ -56,7 +56,7 @@ class AbstractMarkup(object):
 		raise NotImplementedError
 
 
-class ConvertedMarkup(object):
+class ConvertedMarkup:
 	"""This class encapsulates the title, body, stylesheet and javascript
 	of a converted document.
 
