@@ -23,8 +23,8 @@ def get_all_markups() -> List[Type[AbstractMarkup]]:
 		from importlib.metadata import entry_points
 	except ImportError:  # backport for older Python versions
 		from importlib_metadata import entry_points
-	entry_points = entry_points()["pymarkups"]
-	return [entry_point.load() for entry_point in entry_points]
+	entrypoints = entry_points()["pymarkups"]
+	return [entry_point.load() for entry_point in entrypoints]
 
 def get_available_markups() -> List[Type[AbstractMarkup]]:
 	"""
@@ -79,3 +79,4 @@ def find_markup_class_by_name(name: str) -> Optional[Type[AbstractMarkup]]:
 	for markup in get_all_markups():
 		if markup.name.lower() == name.lower():
 			return markup
+	return None
