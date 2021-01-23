@@ -307,6 +307,9 @@ class MarkdownTest(unittest.TestCase):
 			 ("toc", {"permalink": True, "separator": "_", "toc_depth": 3}),
 			 ("sane_lists", {}),
 			])
+		converted = markup.convert("'foo' -- bar")
+		body = converted.get_document_body()
+		self.assertEqual(body, '<p>&sbquo;foo&lsquo; -- bar</p>\n')
 
 	def test_extensions_yaml_file_invalid(self):
 		with TemporaryDirectory() as tmpdirname:
