@@ -4,6 +4,7 @@
 # License: 3-clause BSD, see LICENSE file
 # Copyright: (C) Dmitry Shachnev, 2013-2017
 
+import importlib
 import markups.common as common
 from markups.abstract import AbstractMarkup, ConvertedMarkup
 
@@ -24,7 +25,7 @@ class TextileMarkup(AbstractMarkup):
 	@staticmethod
 	def available():
 		try:
-			import textile
+			importlib.import_module('textile')
 		except ImportError:
 			return False
 		return True

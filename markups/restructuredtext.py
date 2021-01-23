@@ -4,6 +4,7 @@
 # License: 3-clause BSD, see LICENSE file
 # Copyright: (C) Dmitry Shachnev, 2012-2018
 
+import importlib
 import markups.common as common
 from markups.abstract import AbstractMarkup, ConvertedMarkup
 
@@ -31,7 +32,7 @@ class ReStructuredTextMarkup(AbstractMarkup):
 	@staticmethod
 	def available():
 		try:
-			import docutils.core
+			importlib.import_module('docutils.core')
 		except ImportError:
 			return False
 		return True

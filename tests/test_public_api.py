@@ -2,9 +2,10 @@
 # License: 3-clause BSD, see LICENSE file
 # Copyright: (C) Dmitry Shachnev, 2012-2018
 
+import importlib
+import unittest
 import markups
 from markups.common import get_pygments_stylesheet
-import unittest
 
 class APITest(unittest.TestCase):
 	def test_api(self):
@@ -28,7 +29,7 @@ class APITest(unittest.TestCase):
 
 	def test_get_pygments_stylesheet(self):
 		try:
-			import pygments.formatters
+			importlib.import_module('pygments.formatters')
 		except ImportError:
 			raise unittest.SkipTest("Pygments not available")
 		stylesheet = get_pygments_stylesheet(".selector")
