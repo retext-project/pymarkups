@@ -3,6 +3,7 @@
 # Copyright: (C) Dmitry Shachnev, 2012-2018
 
 import os.path
+from typing import Optional, Tuple
 
 # Some common constants and functions
 (LANGUAGE_HOME_PAGE, MODULE_HOME_PAGE, SYNTAX_DOCUMENTATION) = range(3)
@@ -19,7 +20,7 @@ MATHJAX_WEB_URL = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js'
 
 PYGMENTS_STYLE = 'default'
 
-def get_pygments_stylesheet(selector, style=None):
+def get_pygments_stylesheet(selector: Optional[str], style: Optional[str] = None) -> str:
 	if style is None:
 		style = PYGMENTS_STYLE
 	if style == '':
@@ -31,7 +32,7 @@ def get_pygments_stylesheet(selector, style=None):
 	else:
 		return HtmlFormatter(style=style).get_style_defs(selector) + '\n'
 
-def get_mathjax_url_and_version(webenv):
+def get_mathjax_url_and_version(webenv: bool) -> Tuple[str, int]:
 	if not webenv:
 		for url in MATHJAX3_LOCAL_URLS:
 			if os.path.exists(url[7:]):  # strip file://

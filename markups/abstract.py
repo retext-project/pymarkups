@@ -4,6 +4,8 @@
 # License: 3-clause BSD, see LICENSE file
 # Copyright: (C) Dmitry Shachnev, 2012-2018
 
+from typing import Any, Dict, Tuple, Optional
+
 whole_html_template = """<!doctype html>
 <html>
 <head>
@@ -21,37 +23,34 @@ class AbstractMarkup:
 	"""Abstract class for markup languages.
 
 	:param filename: optional name of the file
-	:type filename: str
 	"""
 
 	#: name of the markup visible to user
-	name = ''
+	name: str
 	#: various attributes, like links to website and syntax documentation
-	attributes = {}
+	attributes: Dict[int, Any]
 	#: indicates which file extensions are associated with the markup
-	file_extensions = ()
+	file_extensions: Tuple[str, ...]
 	#: the default file extension
-	default_extension = ''
+	default_extension: str
 
-	def __init__(self, filename=None):
+	def __init__(self, filename: Optional[str] = None):
 		self.filename = filename
 
 	@staticmethod
-	def available():
+	def available() -> bool:
 		"""
 		:returns: whether the markup is ready for use
 
 		          (for example, whether the required third-party
 		          modules are importable)
-		:rtype: bool
 		"""
 		return True
 
-	def convert(self, text):
+	def convert(self, text: str) -> 'ConvertedMarkup':
 		"""
 		:returns: a ConvertedMarkup instance (or a subclass thereof)
 		          containing the markup converted to HTML
-		:rtype: ConvertedMarkup
 		"""
 		raise NotImplementedError
 
@@ -64,60 +63,56 @@ class ConvertedMarkup:
 	method, usually it should not be instantiated directly.
 	"""
 
-	def __init__(self, body, title='', stylesheet='', javascript=''):
+	def __init__(self, body: str, title: str = '',
+	             stylesheet: str = '', javascript: str = ''):
 		self.title = title
 		self.stylesheet = stylesheet
 		self.javascript = javascript
 		self.body = body
 
-	def get_document_title(self):
+	def get_document_title(self) -> str:
 		"""
 		:returns: the document title
-		:rtype: str
 		"""
 		return self.title
 
-	def get_document_body(self):
+	def get_document_body(self) -> str:
 		"""
 		:returns: the contents of the ``<body>`` HTML tag
-		:rtype: str
 		"""
 		return self.body
 
-	def get_stylesheet(self):
+	def get_stylesheet(self) -> str:
 		"""
 		:returns: the contents of ``<style type="text/css">`` HTML tag
-		:rtype: str
 		"""
 		return self.stylesheet
 
-	def get_javascript(self, webenv=False):
+	def get_javascript(self, webenv: bool = False) -> str:
 		"""
 		:returns: one or more HTML tags to be inserted into the document
 		          ``<head>``.
-		:rtype: str
-		:param bool webenv: if true, the specific markups may optimize the
-		                    document for being used in the World Wide Web (for
-		                    example, a remote version of MathJax script can be
-		                    inserted instead of the local one).
+		:param webenv: if true, the specific markups may optimize the
+		               document for being used in the World Wide Web (for
+		               example, a remote version of MathJax script can be
+		               inserted instead of the local one).
 		"""
 		return self.javascript
 
-	def get_whole_html(self, custom_headers='', include_stylesheet=True,
-	                   fallback_title='', webenv=False):
+	def get_whole_html(self, custom_headers: str = '', include_stylesheet: bool = True,
+	                   fallback_title: str = '', webenv: bool = False) -> str:
 		"""
 		:returns: the full contents of the HTML document (unless overridden
 		          this is a combination of the previous methods)
-		:rtype: str
-		:param str custom_headers: custom HTML to be inserted into the document
-		                           ``<head>``
-		:param bool include_stylesheet: if false, the stylesheet will not
-		                                be included in the document ``<head>``
-		:param str fallback_title: when impossible to get the ``<title>`` from
-		                           the document, this string can be used as a
-		                           fallback
-		:param bool webenv: like in :meth:`~.ConvertedMarkup.get_javascript`
-		                    above
+		:param custom_headers: custom HTML to be inserted into the document
+		                       ``<head>``
+		:param include_stylesheet: if false, the stylesheet will not
+		                           be included in the document ``<head>``
+		:param fallback_title: when impossible to get the ``<title>`` from
+		                       the document, this string can be used as a
+		                       fallback
+		:param webenv: like in :meth:`~.ConvertedMarkup.get_javascript`
+		               above
 		"""
 		stylesheet = ('<style type="text/css">\n' + self.get_stylesheet()
 			+ '</style>\n' if include_stylesheet else '')
