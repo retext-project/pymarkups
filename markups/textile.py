@@ -2,7 +2,7 @@
 
 # This file is part of python-markups module
 # License: 3-clause BSD, see LICENSE file
-# Copyright: (C) Dmitry Shachnev, 2013-2017
+# Copyright: (C) Dmitry Shachnev, 2013-2021
 
 import importlib
 import markups.common as common

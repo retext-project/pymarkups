@@ -1,6 +1,6 @@
 # This file is part of python-markups module
 # License: 3-clause BSD, see LICENSE file
-# Copyright: (C) Dmitry Shachnev, 2012-2018
+# Copyright: (C) Dmitry Shachnev, 2012-2021
 
 import os.path
 from typing import Optional, Tuple
