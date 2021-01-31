@@ -58,4 +58,4 @@ installing Sphinx_ and running::
   python3 setup.py build_sphinx
 
 .. _online: https://pymarkups.readthedocs.io/en/latest/
-.. _Sphinx: http://www.sphinx-doc.org/en/stable/
+.. _Sphinx: https://www.sphinx-doc.org/en/master/
