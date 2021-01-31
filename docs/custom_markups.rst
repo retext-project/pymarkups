@@ -26,6 +26,14 @@ For example:
        ...
    )
 
+Or using the declarative syntax in ``setup.cfg``:
+
+.. code-block:: ini
+
+   [options.entry_points]
+   pymarkups =
+       mymarkup = mymodule:MyMarkupClass
+
 See the `setuptools documentation`_ on entry points for details.
 
 To check if the module was found by Python-Markups, one can check
