@@ -1,3 +1,21 @@
+Version 3.1.0, 2021-01-31
+=========================
+
+Incompatible changes:
+
+* Python versions older than 3.6 are no longer supported.
+
+Other changes:
+
+* Instead of ``pkg_resources``, ``importlib.metadata`` is now used.
+* For Markdown markup, ``markdown-extensions.yaml`` files are now supported
+  in addition to ``markdown-extensions.txt`` files.
+* Type annotations were added for public API.
+* The reStructuredText markup no longer raises exceptions for invalid markup.
+* MathJax v3 is now supported in addition to v2. Also, the Arch Linux mathjax
+  packages are now supported (issue #4).
+* Added Pygments CSS support for the ``pymdownx.highlight`` Markdown extension.
+
 Version 3.0.0, 2018-05-03
 =========================
 
