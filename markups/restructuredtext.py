@@ -43,6 +43,7 @@ class ReStructuredTextMarkup(AbstractMarkup):
 			'math_output': 'MathJax ' + common.MATHJAX_WEB_URL,
 			'syntax_highlight': 'short',
 			'halt_level': 5,  # Never convert system messages to exceptions
+			'stylesheet_path': 'minimal.css',  # Do not include plain.css
 		})
 		AbstractMarkup.__init__(self, filename)
 		from docutils.core import publish_parts
