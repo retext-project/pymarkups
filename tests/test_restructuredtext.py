@@ -7,28 +7,38 @@
 import unittest
 from markups import ReStructuredTextMarkup
 
-basic_text = \
-'''Hello, world!
+basic_text = '''\
+Hello, world!
 =============
 
 Some subtitle
 ~~~~~~~~~~~~~
 
-This is an example **reStructuredText** document.'''
+This is an example **reStructuredText** document.
+'''
+
+basic_html = '''\
+<main id="hello-world">
+<h1 class="title">Hello, world!</h1>
+<p class="subtitle" id="some-subtitle">Some subtitle</p>
+<p>This is an example <strong>reStructuredText</strong> document.</p>
+</main>
+'''
 
 @unittest.skipUnless(ReStructuredTextMarkup.available(), 'Docutils not available')
 class ReStructuredTextTest(unittest.TestCase):
 	def test_basic(self):
+		import docutils
 		markup = ReStructuredTextMarkup()
 		converted = markup.convert(basic_text)
 		text = converted.get_document_body()
 		title = converted.get_document_title()
 		stylesheet = converted.get_stylesheet()
-		text_expected = ('<div class="document" id="hello-world">\n'
-			'<h1 class="title">Hello, world!</h1>\n'
-			'<p class="subtitle" id="some-subtitle">Some subtitle</p>\n'
-			'<p>This is an example <strong>reStructuredText</strong> document.</p>\n'
-			'</div>\n')
+		text_expected = basic_html
+		if docutils.__version_info__[:2] < (0, 17):
+			# docutils uses <main> tag since revision 8474
+			text_expected = text_expected.replace('<main', '<div class="document"')
+			text_expected = text_expected.replace('</main>', '</div>')
 		title_expected = 'Hello, world!'
 		self.assertEqual(text_expected, text)
 		self.assertEqual(title_expected, title)
