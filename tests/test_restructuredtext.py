@@ -19,9 +19,9 @@ This is an example **reStructuredText** document.
 
 basic_html = '''\
 <main id="hello-world">
-<h1 class="title">Hello, world!</h1>
+<h1 class="title" data-posmap="2">Hello, world!</h1>
 <p class="subtitle" id="some-subtitle">Some subtitle</p>
-<p>This is an example <strong>reStructuredText</strong> document.</p>
+<p data-posmap="7">This is an example <strong>reStructuredText</strong> document.</p>
 </main>
 '''
 

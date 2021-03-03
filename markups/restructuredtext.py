@@ -49,6 +49,15 @@ class ReStructuredTextMarkup(AbstractMarkup):
 		from docutils.core import publish_parts
 		self._publish_parts = publish_parts
 
+		# Monkey-patch HTMLTranslator to add source lines information
+		from docutils.writers.html5_polyglot import HTMLTranslator
+		old_starttag = HTMLTranslator.starttag
+		def starttag(_self, node, tagname, suffix='\n', empty=False, **attributes):
+			if node.line is not None:
+				attributes['data-posmap'] = node.line
+			return old_starttag(_self, node, tagname, suffix, empty, **attributes)
+		HTMLTranslator.starttag = starttag
+
 	def convert(self, text):
 		parts = self._publish_parts(text, source_path=self.filename,
 			writer_name='html5', settings_overrides=self.overrides)
