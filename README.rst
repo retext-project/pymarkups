@@ -33,10 +33,10 @@ Usage example:
   >>> result.get_document_title()
   'Hello, world!'
   >>> print(result.get_document_body())  # doctest: +NORMALIZE_WHITESPACE
-  <div class="document" id="hello-world">
-  <h1 class="title">Hello, world!</h1>
-  <p>This is an example <strong>reStructuredText</strong> document.</p>
-  </div>
+  <main id="hello-world">
+  <h1 class="title" data-posmap="3">Hello, world!</h1>
+  <p data-posmap="5">This is an example <strong>reStructuredText</strong> document.</p>
+  </main>
 
 .. _Markdown: https://daringfireball.net/projects/markdown/
 .. _reStructuredText: https://docutils.sourceforge.io/rst.html
