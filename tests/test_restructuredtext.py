@@ -2,7 +2,7 @@
 
 # This file is part of python-markups test suite
 # License: 3-clause BSD, see LICENSE file
-# Copyright: (C) Dmitry Shachnev, 2012-2020
+# Copyright: (C) Dmitry Shachnev, 2012-2021
 
 import unittest
 from markups import ReStructuredTextMarkup

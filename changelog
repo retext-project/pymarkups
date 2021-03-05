@@ -1,3 +1,12 @@
+Version 3.1.1, 2021-03-05
+=========================
+
+* The reStructuredText markup now includes line numbers information in
+  ``data-posmap`` attributes.
+* The reStructuredText markup now uses only ``minimal.css`` stylesheet
+  (not ``plain.css`` anymore).
+* Added support for the upcoming docutils 0.17 release to the tests.
+
 Version 3.1.0, 2021-01-31
 =========================
 
