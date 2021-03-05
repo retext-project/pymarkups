@@ -11,7 +11,7 @@ from markups.abstract import AbstractMarkup, ConvertedMarkup
 try:
 	from docutils.writers.html5_polyglot import HTMLTranslator
 except ImportError:
-	HTMLTranslator = None
+	CustomHTMLTranslator = None
 else:
 	class CustomHTMLTranslator(HTMLTranslator):
 		def starttag(self, node, tagname, suffix='\n', empty=False, **attributes):
