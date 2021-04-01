@@ -23,7 +23,10 @@ def get_all_markups() -> List[Type[AbstractMarkup]]:
 		from importlib.metadata import entry_points
 	except ImportError:  # backport for older Python versions
 		from importlib_metadata import entry_points
-	entrypoints = entry_points()["pymarkups"]
+	try:  # Python 3.10+ or importlib_metadata 3.6+
+		entrypoints = entry_points(group="pymarkups")
+	except TypeError:  # Older versions
+		entrypoints = entry_points()["pymarkups"]
 	return [entry_point.load() for entry_point in entrypoints]
 
 def get_available_markups() -> List[Type[AbstractMarkup]]:
