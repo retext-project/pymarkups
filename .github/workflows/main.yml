@@ -22,6 +22,8 @@ jobs:
         run: python setup.py install
       - name: Run tests
         run: coverage run -m unittest discover -s tests -v
+      - name: Run the doctest
+        run: python -m doctest README.rst -v
       - name: Upload reports to Codecov
         if: ${{ matrix.python == 3.9 }}
         run: codecov
