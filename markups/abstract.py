@@ -4,6 +4,8 @@
 # License: 3-clause BSD, see LICENSE file
 # Copyright: (C) Dmitry Shachnev, 2012-2021
 
+from __future__ import annotations
+
 from typing import Any, Dict, Tuple, Optional
 
 whole_html_template = """<!doctype html>
@@ -47,7 +49,7 @@ class AbstractMarkup:
 		"""
 		return True
 
-	def convert(self, text: str) -> 'ConvertedMarkup':
+	def convert(self, text: str) -> ConvertedMarkup:
 		"""
 		:returns: a ConvertedMarkup instance (or a subclass thereof)
 		          containing the markup converted to HTML
