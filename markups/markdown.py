@@ -162,7 +162,7 @@ class MarkdownMarkup(AbstractMarkup):
 			yield self._split_extension_config(extension)
 
 	def _apply_extensions(self, document_extensions=None):
-		extensions = self.global_extensions
+		extensions = self.global_extensions.copy()
 		extensions.extend(
 			self._split_extensions_configs(self.requested_extensions))
 		if document_extensions is not None:
