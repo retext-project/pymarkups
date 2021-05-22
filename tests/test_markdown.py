@@ -194,6 +194,18 @@ class MarkdownTest(unittest.TestCase):
 			'<h3 id="header">Header</h3>\n'
 			'<p><a class="wikilink" href="/Link/">Link</a></p>\n')
 
+	def test_document_extensions_change(self):
+		"""Extensions from document should be replaced on each run, not added."""
+		markup = MarkdownMarkup(extensions=[])
+		toc_header = '<!-- Required extensions: toc -->\n\n'
+		content = '[TOC]\n\n# Header'
+		html = markup.convert(toc_header + content).get_document_body()
+		self.assertNotIn('<p>[TOC]</p>', html)
+		html = markup.convert(content).get_document_body()
+		self.assertIn('<p>[TOC]</p>', html)
+		html = markup.convert(toc_header + content).get_document_body()
+		self.assertNotIn('<p>[TOC]</p>', html)
+
 	def test_extra(self):
 		markup = MarkdownMarkup()
 		html = markup.convert(tables_source).get_document_body()
