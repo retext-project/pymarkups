@@ -15,7 +15,7 @@ except ImportError:
 else:
 	class CustomHTMLTranslator(HTMLTranslator):
 		def starttag(self, node, tagname, suffix='\n', empty=False, **attributes):
-			if (node is not None) and hasattr(node, 'line') and (node.line is not None):
+			if node is not None and getattr(node, 'line', None) is not None:
 				attributes['data-posmap'] = node.line
 			return super().starttag(node, tagname, suffix, empty, **attributes)
 
