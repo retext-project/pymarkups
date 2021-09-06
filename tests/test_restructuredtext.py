@@ -82,3 +82,13 @@ class ReStructuredTextTest(unittest.TestCase):
 		self.assertIn('<style type="text/css">', html)
 		self.assertIn('<script type="text/javascript"', html)
 		self.assertIn('This is an example', html)
+
+	def test_toc_backrefs(self):
+		markup = ReStructuredTextMarkup()
+		text = (".. contents::\n"
+		        "   :backlinks: entry\n"
+		        "\n"
+		        "Section title\n"
+		        "-------------\n")
+		body = markup.convert(text).get_document_body()
+		self.assertIn('<a class="toc-backref"', body)
