@@ -1,3 +1,11 @@
+Version 3.1.2, 2021-09-06
+=========================
+
+* Incompatible change: Python 3.6 is no longer supported.
+* Fixed replacing Markdown extensions in document.
+* Fixed crash when using TOC backrefs in reStructuredText (issue #14,
+  thanks Hrissimir for the patch).
+
 Version 3.1.1, 2021-03-05
 =========================
 
