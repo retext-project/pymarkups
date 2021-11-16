@@ -57,14 +57,14 @@ class ReStructuredTextTest(unittest.TestCase):
 		markup = ReStructuredTextMarkup('/dev/null',
 		                                settings_overrides = {'warning_stream': False})
 		body = markup.convert('`').get_document_body() # unclosed role
-		self.assertIn('system-message', body)
+		self.assertIn('<p class="system-message-title">System Message: WARNING/2', body)
 		self.assertIn('/dev/null', body)
 
 	def test_errors_overridden(self):
 		markup = ReStructuredTextMarkup('/dev/null',
 		                                settings_overrides = {'report_level': 4})
 		body = markup.convert('`').get_document_body() # unclosed role
-		self.assertNotIn('system-message', body)
+		self.assertNotIn('System Message', body)
 
 	def test_errors_severe(self):
 		markup = ReStructuredTextMarkup(settings_overrides={'warning_stream': False})
