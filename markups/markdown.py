@@ -115,10 +115,12 @@ class MarkdownMarkup(AbstractMarkup):
 			os.path.join(common.CONFIGURATION_DIR, 'markdown-extensions.txt'),
 		]
 		for choice in choices:
+			if choice.endswith('.yaml') and yaml is None:
+				continue
 			try:
 				if choice.endswith('.txt'):
 					yield from self._load_extensions_list_from_txt_file(choice)
-				elif choice.endswith('.yaml') and yaml:
+				else:
 					yield from self._load_extensions_list_from_yaml_file(choice)
 			except IOError:
 				continue  # Cannot open file, move to the next choice
