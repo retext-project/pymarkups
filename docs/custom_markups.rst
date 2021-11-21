@@ -44,7 +44,7 @@ if the module is present in return value of
    The custom markups should be registered using the entry points
    mechanism, the ``pymarkups.txt`` file is no longer supported.
 
-.. _`setuptools documentation`: https://setuptools.readthedocs.io/en/latest/userguide/entry_point.html
+.. _`setuptools documentation`: https://setuptools.pypa.io/en/latest/userguide/entry_point.html
 
 Importing third-party modules
 =============================
@@ -73,4 +73,3 @@ additional markup-specific state is required to implement
 :class:`~markups.abstract.ConvertedMarkup`, a subclass can be defined and an
 instance of it returned from :meth:`~markups.abstract.AbstractMarkup.convert`
 instead.
-
