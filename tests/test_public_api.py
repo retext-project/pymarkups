@@ -33,7 +33,7 @@ class APITest(unittest.TestCase):
 		except ImportError:
 			raise unittest.SkipTest("Pygments not available")
 		stylesheet = get_pygments_stylesheet(".selector")
-		self.assertIn(".selector .ch { color: #408080", stylesheet)
+		self.assertIn(".selector .nf { color: #0000FF", stylesheet)
 		stylesheet = get_pygments_stylesheet(".selector", style="colorful")
-		self.assertIn(".selector .ch { color: #888888", stylesheet)
+		self.assertIn(".selector .nf { color: #0066BB", stylesheet)
 		self.assertFalse(get_pygments_stylesheet(".selector", style=""))
