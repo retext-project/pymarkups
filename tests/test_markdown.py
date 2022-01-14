@@ -15,6 +15,11 @@ try:
 except ImportError:
 	pymdownx = None
 
+try:
+    import yaml
+except ImportError:
+    yaml = None
+
 tables_source = \
 '''th1 | th2
 --- | ---
@@ -296,6 +301,7 @@ class MarkdownTest(unittest.TestCase):
 		self.assertEqual(markup.global_extensions,
 		                 [("foo", {}), ("baz", {"arg": "value"})])
 
+	@unittest.skipIf(yaml is None, "PyYAML module is not available")
 	def test_extensions_yaml_file(self):
 		with TemporaryDirectory() as tmpdirname:
 			yamlfilename = join(tmpdirname, "markdown-extensions.yaml")
@@ -323,6 +329,7 @@ class MarkdownTest(unittest.TestCase):
 		body = converted.get_document_body()
 		self.assertEqual(body, '<p>&sbquo;foo&lsquo; -- bar</p>\n')
 
+	@unittest.skipIf(yaml is None, "PyYAML module is not available")
 	def test_extensions_yaml_file_invalid(self):
 		with TemporaryDirectory() as tmpdirname:
 			yamlfilename = join(tmpdirname, "markdown-extensions.yaml")
