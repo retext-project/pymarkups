@@ -18,6 +18,7 @@ jobs:
         run: |
           python -m pip install Markdown python-markdown-math pymdown-extensions
           python -m pip install docutils textile pygments codecov PyYAML
+          python -m pip install lxml asciidoc
       - name: Install the project
         run: python setup.py install
       - name: Run tests
