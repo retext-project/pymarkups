@@ -2,6 +2,7 @@
 # License: 3-clause BSD, see LICENSE file
 # Copyright: (C) Dmitry Shachnev, 2012-2021
 
+from importlib.metadata import entry_points
 from typing import List, Optional, Type
 from markups.abstract import AbstractMarkup
 from markups.markdown import MarkdownMarkup
@@ -25,11 +26,7 @@ def get_all_markups() -> List[Type[AbstractMarkup]]:
 	"""
 	:returns: list of all markups (both standard and custom ones)
 	"""
-	try:
-		from importlib.metadata import entry_points
-	except ImportError:  # backport for older Python versions
-		from importlib_metadata import entry_points
-	try:  # Python 3.10+ or importlib_metadata 3.6+
+	try:  # Python 3.10+
 		entrypoints = entry_points(group="pymarkups")
 	except TypeError:  # Older versions
 		entrypoints = entry_points()["pymarkups"]
