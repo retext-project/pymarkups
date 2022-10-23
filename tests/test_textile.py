@@ -7,7 +7,7 @@ import unittest
 
 @unittest.skipUnless(TextileMarkup.available(), 'Textile not available')
 class TextileTest(unittest.TestCase):
-	def test_textile(self):
-		markup = TextileMarkup()
-		html = markup.convert('Hello, **world**!').get_document_body()
-		self.assertEqual(html, '\t<p>Hello, <b>world</b>!</p>')
+    def test_textile(self):
+        markup = TextileMarkup()
+        html = markup.convert('Hello, **world**!').get_document_body()
+        self.assertEqual(html, '\t<p>Hello, <b>world</b>!</p>')
