@@ -6,7 +6,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, Tuple, Optional
+from typing import Any, Optional
 
 whole_html_template = """<!doctype html>
 <html>
@@ -30,9 +30,9 @@ class AbstractMarkup:
     #: name of the markup visible to user
     name: str
     #: various attributes, like links to website and syntax documentation
-    attributes: Dict[int, Any]
+    attributes: dict[int, Any]
     #: indicates which file extensions are associated with the markup
-    file_extensions: Tuple[str, ...]
+    file_extensions: tuple[str, ...]
     #: the default file extension
     default_extension: str
 

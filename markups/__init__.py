@@ -3,7 +3,7 @@
 # Copyright: (C) Dmitry Shachnev, 2012-2021
 
 from importlib.metadata import entry_points
-from typing import List, Optional, Type
+from typing import Optional
 from markups.abstract import AbstractMarkup
 from markups.markdown import MarkdownMarkup
 from markups.restructuredtext import ReStructuredTextMarkup
@@ -22,7 +22,7 @@ builtin_markups = [
 
 # Public API
 
-def get_all_markups() -> List[Type[AbstractMarkup]]:
+def get_all_markups() -> list[type[AbstractMarkup]]:
     """
     :returns: list of all markups (both standard and custom ones)
     """
@@ -32,7 +32,7 @@ def get_all_markups() -> List[Type[AbstractMarkup]]:
         entrypoints = entry_points()["pymarkups"]
     return [entry_point.load() for entry_point in entrypoints]
 
-def get_available_markups() -> List[Type[AbstractMarkup]]:
+def get_available_markups() -> list[type[AbstractMarkup]]:
     """
     :returns: list of all available markups (markups whose
               :meth:`~markups.abstract.AbstractMarkup.available`
@@ -72,7 +72,7 @@ def get_markup_for_file_name(filename: str, return_class: bool = False):
     if markup_class and markup_class.available():
         return markup_class(filename=filename)
 
-def find_markup_class_by_name(name: str) -> Optional[Type[AbstractMarkup]]:
+def find_markup_class_by_name(name: str) -> Optional[type[AbstractMarkup]]:
     """
     :returns: a markup with
               :attr:`~markups.abstract.AbstractMarkup.name`
