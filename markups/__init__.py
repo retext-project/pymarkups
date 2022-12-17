@@ -3,7 +3,7 @@
 # Copyright: (C) Dmitry Shachnev, 2012-2021
 
 from importlib.metadata import entry_points
-from typing import Optional
+from typing import Literal, Optional, overload
 from markups.abstract import AbstractMarkup
 from markups.markdown import MarkdownMarkup
 from markups.restructuredtext import ReStructuredTextMarkup
@@ -43,6 +43,18 @@ def get_available_markups() -> list[type[AbstractMarkup]]:
         if markup.available():
             available_markups.append(markup)
     return available_markups
+
+@overload
+def get_markup_for_file_name(
+    filename: str, return_class: Literal[False]
+) -> Optional[AbstractMarkup]:
+    ...
+
+@overload
+def get_markup_for_file_name(
+    filename: str, return_class: Literal[True]
+) -> Optional[type[AbstractMarkup]]:
+    ...
 
 def get_markup_for_file_name(filename: str, return_class: bool = False):
     """
