@@ -5,8 +5,10 @@
 # Copyright: (C) Dmitry Shachnev, 2013-2021
 
 import importlib
+
 import markups.common as common
 from markups.abstract import AbstractMarkup, ConvertedMarkup
+
 
 class TextileMarkup(AbstractMarkup):
     """Markup class for Textile language.

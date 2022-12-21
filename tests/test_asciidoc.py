@@ -3,6 +3,7 @@
 # Copyright: (C) Dave Kuhlman, 2022
 
 import unittest
+
 from markups.asciidoc import AsciiDocMarkup
 
 

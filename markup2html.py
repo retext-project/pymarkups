@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 import argparse
-import markups
 import sys
+
+import markups
 
 
 def export_file(args):

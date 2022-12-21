@@ -5,8 +5,9 @@
 # Copyright: (C) Dave Kuhlman, 2022
 
 import importlib
-from io import StringIO
 import warnings
+from io import StringIO
+
 import markups.common as common
 from markups.abstract import AbstractMarkup, ConvertedMarkup
 

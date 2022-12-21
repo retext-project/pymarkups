@@ -4,8 +4,10 @@
 
 import importlib
 import unittest
+
 import markups
 from markups.common import get_pygments_stylesheet
+
 
 class APITest(unittest.TestCase):
     def test_api(self):

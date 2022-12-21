@@ -5,6 +5,7 @@
 # Copyright: (C) Dmitry Shachnev, 2012-2021
 
 import importlib
+
 import markups.common as common
 from markups.abstract import AbstractMarkup, ConvertedMarkup
 

@@ -2,8 +2,10 @@
 # License: 3-clause BSD, see LICENSE file
 # Copyright: (C) Dmitry Shachnev, 2013-2018
 
-from markups import TextileMarkup
 import unittest
+
+from markups import TextileMarkup
+
 
 @unittest.skipUnless(TextileMarkup.available(), 'Textile not available')
 class TextileTest(unittest.TestCase):

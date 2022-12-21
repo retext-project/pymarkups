@@ -5,6 +5,7 @@
 # Copyright: (C) Dmitry Shachnev, 2012-2021
 
 import unittest
+
 from markups import ReStructuredTextMarkup
 
 basic_text = '''\

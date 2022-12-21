@@ -4,11 +4,12 @@
 
 from importlib.metadata import entry_points
 from typing import Literal, Optional, overload
+
 from markups.abstract import AbstractMarkup
+from markups.asciidoc import AsciiDocMarkup
 from markups.markdown import MarkdownMarkup
 from markups.restructuredtext import ReStructuredTextMarkup
 from markups.textile import TextileMarkup
-from markups.asciidoc import AsciiDocMarkup
 
 __version_tuple__ = (3, 1, 3)
 __version__ = '.'.join(map(str, __version_tuple__))
