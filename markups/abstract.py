@@ -117,7 +117,7 @@ class ConvertedMarkup:
                        above
         """
         stylesheet = ('<style type="text/css">\n' + self.get_stylesheet()
-            + '</style>\n' if include_stylesheet else '')
+                      + '</style>\n' if include_stylesheet else '')
 
         context = {
             "body": self.get_document_body(),

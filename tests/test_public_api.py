@@ -17,9 +17,11 @@ class APITest(unittest.TestCase):
         self.assertIn(markups.AsciiDocMarkup, all_markups)
         markup_class = markups.find_markup_class_by_name('restructuredtext')
         self.assertEqual(markups.ReStructuredTextMarkup, markup_class)
-        markup_class = markups.get_markup_for_file_name('myfile.mkd', return_class=True)
+        markup_class = markups.get_markup_for_file_name(
+            'myfile.mkd', return_class=True)
         self.assertEqual(markups.MarkdownMarkup, markup_class)
-        markup_class = markups.get_markup_for_file_name('myfile.adoc', return_class=True)
+        markup_class = markups.get_markup_for_file_name(
+            'myfile.adoc', return_class=True)
         self.assertEqual(markups.AsciiDocMarkup, markup_class)
 
     @unittest.skipUnless(markups.MarkdownMarkup.available(), 'Markdown not available')

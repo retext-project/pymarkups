@@ -26,6 +26,7 @@ basic_html = '''\
 </main>
 '''
 
+
 @unittest.skipUnless(ReStructuredTextMarkup.available(), 'Docutils not available')
 class ReStructuredTextTest(unittest.TestCase):
     def test_basic(self):
@@ -38,7 +39,8 @@ class ReStructuredTextTest(unittest.TestCase):
         text_expected = basic_html
         if docutils.__version_info__[:2] < (0, 17):
             # docutils uses <main> tag since revision 8474
-            text_expected = text_expected.replace('<main', '<div class="document"')
+            text_expected = text_expected.replace(
+                '<main', '<div class="document"')
             text_expected = text_expected.replace('</main>', '</div>')
         title_expected = 'Hello, world!'
         self.assertEqual(text_expected, text)
@@ -56,19 +58,21 @@ class ReStructuredTextTest(unittest.TestCase):
 
     def test_errors(self):
         markup = ReStructuredTextMarkup('/dev/null',
-                                        settings_overrides = {'warning_stream': False})
-        body = markup.convert('`').get_document_body() # unclosed role
-        self.assertIn('<p class="system-message-title">System Message: WARNING/2', body)
+                                        settings_overrides={'warning_stream': False})
+        body = markup.convert('`').get_document_body()  # unclosed role
+        self.assertIn(
+            '<p class="system-message-title">System Message: WARNING/2', body)
         self.assertIn('/dev/null', body)
 
     def test_errors_overridden(self):
         markup = ReStructuredTextMarkup('/dev/null',
-                                        settings_overrides = {'report_level': 4})
-        body = markup.convert('`').get_document_body() # unclosed role
+                                        settings_overrides={'report_level': 4})
+        body = markup.convert('`').get_document_body()  # unclosed role
         self.assertNotIn('System Message', body)
 
     def test_errors_severe(self):
-        markup = ReStructuredTextMarkup(settings_overrides={'warning_stream': False})
+        markup = ReStructuredTextMarkup(
+            settings_overrides={'warning_stream': False})
         text = "***************\nfaulty headline"
         # The following line should not raise SystemMessage exception
         body = markup.convert(text).get_document_body()

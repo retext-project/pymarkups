@@ -66,7 +66,7 @@ class ReStructuredTextMarkup(AbstractMarkup):
 
     def convert(self, text):
         parts = self._publish_parts(text, source_path=self.filename,
-            writer=self.writer, settings_overrides=self.overrides)
+                                    writer=self.writer, settings_overrides=self.overrides)
 
         # Determine head
         head = parts['head']
@@ -83,7 +83,8 @@ class ReStructuredTextMarkup(AbstractMarkup):
         stylestart = '<style type="text/css">'
         stylesheet = ''
         if stylestart in origstyle:
-            stylesheet = origstyle[origstyle.find(stylestart)+25:origstyle.rfind('</style>')]
+            stylesheet = origstyle[origstyle.find(
+                stylestart)+25:origstyle.rfind('</style>')]
         stylesheet += common.get_pygments_stylesheet('.code')
 
         return ConvertedReStructuredText(head, body, title, stylesheet)
@@ -98,7 +99,8 @@ class ConvertedReStructuredText(ConvertedMarkup):
     def get_javascript(self, webenv=False):
         if common.MATHJAX_WEB_URL not in self.head:
             return ''
-        mathjax_url, mathjax_version = common.get_mathjax_url_and_version(webenv)
+        mathjax_url, mathjax_version = common.get_mathjax_url_and_version(
+            webenv)
         if mathjax_version == 2:
             mathjax_url += '?config=TeX-AMS_CHTML'
         async_attr = ' async' if mathjax_version == 3 else ''

@@ -22,13 +22,13 @@ except ImportError:
     yaml = None
 
 tables_source = \
-'''th1 | th2
+    '''th1 | th2
 --- | ---
 t11 | t21
 t12 | t22'''
 
 tables_output = \
-'''<table>
+    '''<table>
 <thead>
 <tr>
 <th>th1</th>
@@ -49,7 +49,7 @@ tables_output = \
 '''
 
 deflists_source = \
-'''Apple
+    '''Apple
 :   Pomaceous fruit of plants of the genus Malus in
     the family Rosaceae.
 
@@ -57,7 +57,7 @@ Orange
 :   The fruit of an evergreen tree of the genus Citrus.'''
 
 deflists_output = \
-'''<dl>
+    '''<dl>
 <dt>Apple</dt>
 <dd>Pomaceous fruit of plants of the genus Malus in
 the family Rosaceae.</dd>
@@ -67,10 +67,10 @@ the family Rosaceae.</dd>
 '''
 
 mathjax_header = \
-'<!--- Type: markdown; Required extensions: mathjax --->\n\n'
+    '<!--- Type: markdown; Required extensions: mathjax --->\n\n'
 
 mathjax_source = \
-r'''$i_1$ some text \$escaped\$ $i_2$
+    r'''$i_1$ some text \$escaped\$ $i_2$
 
 \(\LaTeX\) \\(escaped\)
 
@@ -86,7 +86,7 @@ $$m_1$$ text $$m_2$$
 '''
 
 mathjax_output = \
-r'''<p>
+    r'''<p>
 <script type="math/tex">i_1</script> some text $escaped$ <script type="math/tex">i_2</script>
 </p>
 <p>
@@ -107,7 +107,7 @@ r'''<p>
 '''
 
 mathjax_multiline_source = \
-r'''
+    r'''
 $$
 \TeX
 \LaTeX
@@ -115,7 +115,7 @@ $$
 '''
 
 mathjax_multiline_output = \
-r'''<p>
+    r'''<p>
 <script type="math/tex; mode=display">
 \TeX
 \LaTeX
@@ -124,7 +124,7 @@ r'''<p>
 '''
 
 mathjax_multilevel_source = \
-r'''
+    r'''
 \begin{equation*}
   \begin{pmatrix}
     1 & 0\\
@@ -134,7 +134,7 @@ r'''
 '''
 
 mathjax_multilevel_output = \
-r'''<p>
+    r'''<p>
 <script type="math/tex; mode=display">\begin{equation*}
   \begin{pmatrix}
     1 & 0\\
@@ -143,6 +143,7 @@ r'''<p>
 \end{equation*}</script>
 </p>
 '''
+
 
 @unittest.skipUnless(MarkdownMarkup.available(), 'Markdown not available')
 class MarkdownTest(unittest.TestCase):
@@ -158,10 +159,13 @@ class MarkdownTest(unittest.TestCase):
     def test_extensions_loading(self):
         markup = MarkdownMarkup()
         self.assertIsNone(markup._canonicalize_extension_name('nonexistent'))
-        self.assertIsNone(markup._canonicalize_extension_name('nonexistent(someoption)'))
+        self.assertIsNone(markup._canonicalize_extension_name(
+            'nonexistent(someoption)'))
         self.assertIsNone(markup._canonicalize_extension_name('.foobar'))
-        self.assertEqual(markup._canonicalize_extension_name('meta'), 'markdown.extensions.meta')
-        name, parameters = markup._split_extension_config('toc(anchorlink=1, foo=bar)')
+        self.assertEqual(markup._canonicalize_extension_name(
+            'meta'), 'markdown.extensions.meta')
+        name, parameters = markup._split_extension_config(
+            'toc(anchorlink=1, foo=bar)')
         self.assertEqual(name, 'toc')
         self.assertEqual(parameters, {'anchorlink': '1', 'foo': 'bar'})
 
@@ -174,7 +178,8 @@ class MarkdownTest(unittest.TestCase):
         self.assertIn('footnote-backref', html)
 
     def test_removing_duplicate_extensions(self):
-        markup = MarkdownMarkup(extensions=['remove_extra', 'toc', 'markdown.extensions.toc'])
+        markup = MarkdownMarkup(
+            extensions=['remove_extra', 'toc', 'markdown.extensions.toc'])
         self.assertEqual(len(markup.extensions), 1)
         self.assertIn('markdown.extensions.toc', markup.extensions)
 
@@ -182,23 +187,25 @@ class MarkdownTest(unittest.TestCase):
         markup = MarkdownMarkup(extensions=['toc(anchorlink=1)'])
         html = markup.convert('## Header').get_document_body()
         self.assertEqual(html,
-            '<h2 id="header"><a class="toclink" href="#header">Header</a></h2>\n')
-        self.assertEqual(_canonicalized_ext_names['toc'], 'markdown.extensions.toc')
+                         '<h2 id="header"><a class="toclink" href="#header">Header</a></h2>\n')
+        self.assertEqual(
+            _canonicalized_ext_names['toc'], 'markdown.extensions.toc')
 
     def test_document_extensions_parameters(self):
         markup = MarkdownMarkup(extensions=[])
         toc_header = '<!--- Required extensions: toc(anchorlink=1) --->\n\n'
         html = markup.convert(toc_header + '## Header').get_document_body()
         self.assertEqual(html, toc_header +
-            '<h2 id="header"><a class="toclink" href="#header">Header</a></h2>\n')
+                         '<h2 id="header"><a class="toclink" href="#header">Header</a></h2>\n')
         toc_header = '<!--- Required extensions: toc(title=Table of contents, baselevel=3) wikilinks --->\n\n'
-        html = markup.convert(toc_header + '[TOC]\n\n# Header\n[[Link]]').get_document_body()
+        html = markup.convert(
+            toc_header + '[TOC]\n\n# Header\n[[Link]]').get_document_body()
         self.assertEqual(html, toc_header +
-            '<div class="toc"><span class="toctitle">Table of contents</span><ul>\n'
-            '<li><a href="#header">Header</a></li>\n'
-            '</ul>\n</div>\n'
-            '<h3 id="header">Header</h3>\n'
-            '<p><a class="wikilink" href="/Link/">Link</a></p>\n')
+                         '<div class="toc"><span class="toctitle">Table of contents</span><ul>\n'
+                         '<li><a href="#header">Header</a></li>\n'
+                         '</ul>\n</div>\n'
+                         '<h3 id="header">Header</h3>\n'
+                         '<p><a class="wikilink" href="/Link/">Link</a></p>\n')
 
     def test_document_extensions_change(self):
         """Extensions from document should be replaced on each run, not added."""
@@ -252,14 +259,16 @@ class MarkdownTest(unittest.TestCase):
     def test_default_math(self):
         # by default $...$ delimeter should be disabled
         markup = MarkdownMarkup(extensions=[])
-        self.assertEqual('<p>$1$</p>\n', markup.convert('$1$').get_document_body())
+        self.assertEqual(
+            '<p>$1$</p>\n', markup.convert('$1$').get_document_body())
         self.assertEqual('<p>\n<script type="math/tex; mode=display">1</script>\n</p>\n',
-            markup.convert('$$1$$').get_document_body())
+                         markup.convert('$$1$$').get_document_body())
 
     def test_mathjax(self):
         markup = MarkdownMarkup(extensions=['mathjax'])
         # Escaping should work
-        self.assertEqual('', markup.convert('Hello, \\$2+2$!').get_javascript())
+        self.assertEqual('', markup.convert(
+            'Hello, \\$2+2$!').get_javascript())
         js = markup.convert(mathjax_source).get_javascript()
         self.assertIn('<script', js)
         body = markup.convert(mathjax_source).get_document_body()
@@ -286,7 +295,8 @@ class MarkdownTest(unittest.TestCase):
         converted = markup.convert(r'\( [[a,b],[c,d]] \)')
         body = converted.get_document_body()
         self.assertIn('<script type="math/asciimath">', body)
-        self.assertIn('<script type="text/javascript"', converted.get_javascript())
+        self.assertIn('<script type="text/javascript"',
+                      converted.get_javascript())
 
     def test_not_loading_sys(self):
         with self.assertWarnsRegex(ImportWarning, 'Extension "sys" does not exist.'):
@@ -325,7 +335,7 @@ class MarkdownTest(unittest.TestCase):
               "smart_dashes": False}),
              ("toc", {"permalink": True, "separator": "_", "toc_depth": 3}),
              ("sane_lists", {}),
-            ])
+             ])
         converted = markup.convert("'foo' -- bar")
         body = converted.get_document_body()
         self.assertEqual(body, '<p>&sbquo;foo&lsquo; -- bar</p>\n')
@@ -368,7 +378,8 @@ class MarkdownTest(unittest.TestCase):
 
     @unittest.skipIf(pymdownx is None, "pymdownx module is not available")
     def test_pymdownx_highlight_custom_class(self):
-        markup = MarkdownMarkup(extensions=["pymdownx.highlight(css_class=myclass)"])
+        markup = MarkdownMarkup(
+            extensions=["pymdownx.highlight(css_class=myclass)"])
         converted = markup.convert('    import foo')
         stylesheet = converted.get_stylesheet()
         self.assertIn(".myclass .k {", stylesheet)

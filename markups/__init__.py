@@ -23,6 +23,7 @@ builtin_markups = [
 
 # Public API
 
+
 def get_all_markups() -> list[type[AbstractMarkup]]:
     """
     :returns: list of all markups (both standard and custom ones)
@@ -32,6 +33,7 @@ def get_all_markups() -> list[type[AbstractMarkup]]:
     except TypeError:  # Older versions
         entrypoints = entry_points()["pymarkups"]
     return [entry_point.load() for entry_point in entrypoints]
+
 
 def get_available_markups() -> list[type[AbstractMarkup]]:
     """
@@ -45,17 +47,20 @@ def get_available_markups() -> list[type[AbstractMarkup]]:
             available_markups.append(markup)
     return available_markups
 
+
 @overload
 def get_markup_for_file_name(
     filename: str, return_class: Literal[False]
 ) -> Optional[AbstractMarkup]:
     ...
 
+
 @overload
 def get_markup_for_file_name(
     filename: str, return_class: Literal[True]
 ) -> Optional[type[AbstractMarkup]]:
     ...
+
 
 def get_markup_for_file_name(filename: str, return_class: bool = False):
     """
@@ -84,6 +89,7 @@ def get_markup_for_file_name(filename: str, return_class: bool = False):
         return markup_class
     if markup_class and markup_class.available():
         return markup_class(filename=filename)
+
 
 def find_markup_class_by_name(name: str) -> Optional[type[AbstractMarkup]]:
     """

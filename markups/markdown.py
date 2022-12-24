@@ -18,7 +18,7 @@ except ImportError:
     yaml = None
 
 MATHJAX2_CONFIG = \
-'''<script type="text/x-mathjax-config">
+    '''<script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   config: ["MMLorHTML.js"],
   jax: ["input/TeX", "input/AsciiMath", "output/HTML-CSS", "output/NativeMML"],
@@ -34,7 +34,7 @@ MathJax.Hub.Config({
 # Taken from:
 # https://docs.mathjax.org/en/latest/upgrading/v2.html?highlight=upgrading#changes-in-the-mathjax-api
 MATHJAX3_CONFIG = \
-'''
+    '''
 <script>
 MathJax = {
   options: {
@@ -57,9 +57,11 @@ MathJax = {
 '''
 
 extensions_re = re.compile(r'required.extensions: (.+)', flags=re.IGNORECASE)
-extension_name_re = re.compile(r'[a-z0-9_.]+(?:\([^)]+\))?', flags=re.IGNORECASE)
+extension_name_re = re.compile(
+    r'[a-z0-9_.]+(?:\([^)]+\))?', flags=re.IGNORECASE)
 
 _canonicalized_ext_names = {}
+
 
 class MarkdownMarkup(AbstractMarkup):
     """Markup class for Markdown language.
@@ -98,7 +100,8 @@ class MarkdownMarkup(AbstractMarkup):
             try:
                 data = yaml.safe_load(extensions_file)
             except yaml.YAMLError as ex:
-                warnings.warn(f'Failed parsing {filename}: {ex}', SyntaxWarning)
+                warnings.warn(
+                    f'Failed parsing {filename}: {ex}', SyntaxWarning)
                 raise IOError from ex
         if isinstance(data, list):
             for item in data:
@@ -190,7 +193,7 @@ class MarkdownMarkup(AbstractMarkup):
                     canonical_name = self._canonicalize_extension_name(name)
                     if canonical_name is None:
                         warnings.warn('Extension "%s" does not exist.' %
-                            name, ImportWarning)
+                                      name, ImportWarning)
                         continue
                     _canonicalized_ext_names[name] = canonical_name
                 extension_names.add(canonical_name)
@@ -208,7 +211,8 @@ class MarkdownMarkup(AbstractMarkup):
         self.requested_extensions = extensions or []
         self.global_extensions = []
         if extensions is None:
-            self.global_extensions.extend(self._get_global_extensions(filename))
+            self.global_extensions.extend(
+                self._get_global_extensions(filename))
         self._apply_extensions()
 
     def convert(self, text):
@@ -228,7 +232,8 @@ class MarkdownMarkup(AbstractMarkup):
         css_class = None
 
         if 'markdown.extensions.codehilite' in self.extensions:
-            config = self.extension_configs.get('markdown.extensions.codehilite', {})
+            config = self.extension_configs.get(
+                'markdown.extensions.codehilite', {})
             css_class = config.get('css_class', 'codehilite')
             stylesheet = common.get_pygments_stylesheet('.%s' % css_class)
         elif 'pymdownx.highlight' in self.extensions:
@@ -240,12 +245,14 @@ class MarkdownMarkup(AbstractMarkup):
 
         return ConvertedMarkdown(body, title, stylesheet)
 
+
 class ConvertedMarkdown(ConvertedMarkup):
 
     def get_javascript(self, webenv=False):
         if '<script type="math/' not in self.body:
             return ''
-        mathjax_url, mathjax_version = common.get_mathjax_url_and_version(webenv)
+        mathjax_url, mathjax_version = common.get_mathjax_url_and_version(
+            webenv)
         config = MATHJAX3_CONFIG if mathjax_version == 3 else MATHJAX2_CONFIG
         async_attr = ' async' if mathjax_version == 3 else ''
         script_tag = '<script type="text/javascript" src="%s"%s></script>'
