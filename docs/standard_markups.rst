@@ -117,3 +117,16 @@ The file extension associated with Textile markup is ``.textile``.
 .. _python-textile: https://github.com/textile/python-textile
 
 .. autoclass:: markups.TextileMarkup
+
+AsciiDoc markup
+===============
+
+This markup provides support for AsciiDoc_ language. It uses asciidoc-py_
+module.
+
+The file extension associated with AsciiDoc markup is ``.adoc``.
+
+.. _AsciiDoc: https://asciidoc.org
+.. _asciidoc-py: https://asciidoc-py.github.io
+
+.. autoclass:: markups.AsciiDocMarkup

@@ -10,8 +10,8 @@
 
 This module provides a wrapper around various text markup languages.
 
-Available by default are Markdown_, reStructuredText_ and Textile_, but you
-can easily add your own markups.
+Available by default are Markdown_, reStructuredText_, Textile_ and AsciiDoc_,
+but you can easily add your own markups.
 
 Usage example:
 
@@ -41,6 +41,7 @@ Usage example:
 .. _Markdown: https://daringfireball.net/projects/markdown/
 .. _reStructuredText: https://docutils.sourceforge.io/rst.html
 .. _Textile: https://en.wikipedia.org/wiki/Textile_(markup_language)
+.. _AsciiDoc: https://asciidoc.org
 
 The release version can be downloaded from PyPI_ or installed using::
 
