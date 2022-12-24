@@ -11,7 +11,7 @@ from markups.asciidoc import AsciiDocMarkup
     AsciiDocMarkup.available(), "asciidoc.py and/or lxml not available"
 )
 class AsciiDocTextTest(unittest.TestCase):
-    def test_basic(self):
+    def test_basic(self) -> None:
         self.maxDiff = None
         markup = AsciiDocMarkup()
         converted = markup.convert(BASIC_TEXT)
@@ -23,7 +23,7 @@ class AsciiDocTextTest(unittest.TestCase):
         self.assertEqual(title_expected, title)
         self.assertGreater(len(stylesheet), 100)
 
-    def test_error_handling(self):
+    def test_error_handling(self) -> None:
         markup = AsciiDocMarkup()
         with self.assertWarnsRegex(
             SyntaxWarning, "section title not allowed in list item"
@@ -31,7 +31,7 @@ class AsciiDocTextTest(unittest.TestCase):
             converted = markup.convert(INVALID_SYNTAX)
         self.assertIn("Foo", converted.get_document_body())
 
-    def test_unicode(self):
+    def test_unicode(self) -> None:
         markup = AsciiDocMarkup()
         converted = markup.convert("Тест")
         body = converted.get_document_body()

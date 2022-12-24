@@ -28,7 +28,7 @@ class AsciiDocMarkup(AbstractMarkup):
     default_extension = ".adoc"
 
     @staticmethod
-    def available():
+    def available() -> bool:
         try:
             importlib.import_module("asciidoc")
             importlib.import_module("lxml")
@@ -36,7 +36,7 @@ class AsciiDocMarkup(AbstractMarkup):
             return False
         return True
 
-    def convert(self, text):
+    def convert(self, text: str) -> ConvertedMarkup:
         import asciidoc
         from lxml import etree
 
@@ -51,7 +51,7 @@ class AsciiDocMarkup(AbstractMarkup):
         try:
             asciidoc.execute(None, opts, [infile])
         except SystemExit as ex:
-            warnings.warn(ex.__context__, SyntaxWarning)
+            warnings.warn(str(ex.__context__), SyntaxWarning)
             pass
         result = outfile.getvalue()
         parser = etree.HTMLParser()

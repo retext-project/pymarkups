@@ -4,18 +4,22 @@
 # License: 3-clause BSD, see LICENSE file
 # Copyright: (C) Dmitry Shachnev, 2012-2021
 
+from __future__ import annotations
+
 import importlib
 import os
 import re
 import warnings
+from typing import Any, Iterable, Iterator, Optional
 
 import markups.common as common
 from markups.abstract import AbstractMarkup, ConvertedMarkup
 
 try:
     import yaml
+    HAVE_YAML = True
 except ImportError:
-    yaml = None
+    HAVE_YAML = False
 
 MATHJAX2_CONFIG = \
     '''<script type="text/x-mathjax-config">
@@ -60,7 +64,9 @@ extensions_re = re.compile(r'required.extensions: (.+)', flags=re.IGNORECASE)
 extension_name_re = re.compile(
     r'[a-z0-9_.]+(?:\([^)]+\))?', flags=re.IGNORECASE)
 
-_canonicalized_ext_names = {}
+_canonicalized_ext_names: dict[str, str] = {}
+
+_name_and_config = tuple[str, dict[str, Any]]
 
 
 class MarkdownMarkup(AbstractMarkup):
@@ -82,7 +88,7 @@ class MarkdownMarkup(AbstractMarkup):
     default_extension = '.mkd'
 
     @staticmethod
-    def available():
+    def available() -> bool:
         try:
             import markdown
         except ImportError:
@@ -91,13 +97,17 @@ class MarkdownMarkup(AbstractMarkup):
         return (hasattr(markdown, '__version_info__') or
                 hasattr(markdown, 'version_info') and markdown.version_info >= (2, 6))
 
-    def _load_extensions_list_from_txt_file(self, filename):
+    def _load_extensions_list_from_txt_file(
+        self, filename: str
+    ) -> Iterator[_name_and_config]:
         with open(filename) as extensions_file:
             for line in extensions_file:
                 if not line.startswith('#'):
                     yield self._split_extension_config(line.rstrip())
 
-    def _load_extensions_list_from_yaml_file(self, filename):
+    def _load_extensions_list_from_yaml_file(
+        self, filename: str
+    ) -> Iterator[_name_and_config]:
         with open(filename) as extensions_file:
             try:
                 data = yaml.safe_load(extensions_file)
@@ -112,7 +122,9 @@ class MarkdownMarkup(AbstractMarkup):
                 elif isinstance(item, str):
                     yield item, {}
 
-    def _get_global_extensions(self, filename):
+    def _get_global_extensions(
+        self, filename: Optional[str]
+    ) -> Iterator[_name_and_config]:
         local_directory = os.path.dirname(filename) if filename else ''
         choices = [
             os.path.join(local_directory, 'markdown-extensions.yaml'),
@@ -121,7 +133,7 @@ class MarkdownMarkup(AbstractMarkup):
             os.path.join(common.CONFIGURATION_DIR, 'markdown-extensions.txt'),
         ]
         for choice in choices:
-            if choice.endswith('.yaml') and yaml is None:
+            if choice.endswith('.yaml') and not HAVE_YAML:
                 continue
             try:
                 if choice.endswith('.txt'):
@@ -133,14 +145,14 @@ class MarkdownMarkup(AbstractMarkup):
             else:
                 break  # File loaded successfully, skip the remaining choices
 
-    def _get_document_extensions(self, text):
+    def _get_document_extensions(self, text: str) -> Iterator[_name_and_config]:
         lines = text.splitlines()
         match = extensions_re.search(lines[0]) if lines else None
         if match:
             extensions = extension_name_re.findall(match.group(1))
             yield from self._split_extensions_configs(extensions)
 
-    def _canonicalize_extension_name(self, extension_name):
+    def _canonicalize_extension_name(self, extension_name: str) -> Optional[str]:
         prefixes = ('markdown.extensions.', '', 'mdx_')
         for prefix in prefixes:
             try:
@@ -151,8 +163,9 @@ class MarkdownMarkup(AbstractMarkup):
                 pass
             else:
                 return prefix + extension_name
+        return None
 
-    def _split_extension_config(self, extension_name):
+    def _split_extension_config(self, extension_name: str) -> _name_and_config:
         """Splits the configuration options from the extension name."""
         lb = extension_name.find('(')
         if lb == -1:
@@ -161,7 +174,9 @@ class MarkdownMarkup(AbstractMarkup):
         pairs = [x.split("=") for x in parameters.split(",")]
         return extension_name, {x.strip(): y.strip() for (x, y) in pairs}
 
-    def _split_extensions_configs(self, extensions):
+    def _split_extensions_configs(
+        self, extensions: Iterable[str]
+    ) -> Iterator[_name_and_config]:
         """Splits the configuration options from a list of strings.
 
         :returns: a generator of (name, config) tuples
@@ -169,7 +184,9 @@ class MarkdownMarkup(AbstractMarkup):
         for extension in extensions:
             yield self._split_extension_config(extension)
 
-    def _apply_extensions(self, document_extensions=None):
+    def _apply_extensions(
+        self, document_extensions: Optional[Iterable[_name_and_config]] = None
+    ) -> None:
         extensions = self.global_extensions.copy()
         extensions.extend(
             self._split_extensions_configs(self.requested_extensions))
@@ -192,11 +209,12 @@ class MarkdownMarkup(AbstractMarkup):
                 if name in _canonicalized_ext_names:
                     canonical_name = _canonicalized_ext_names[name]
                 else:
-                    canonical_name = self._canonicalize_extension_name(name)
-                    if canonical_name is None:
+                    candidate = self._canonicalize_extension_name(name)
+                    if candidate is None:
                         warnings.warn('Extension "%s" does not exist.' %
                                       name, ImportWarning)
                         continue
+                    canonical_name = candidate
                     _canonicalized_ext_names[name] = canonical_name
                 extension_names.add(canonical_name)
                 extension_configs[canonical_name] = config
@@ -206,18 +224,20 @@ class MarkdownMarkup(AbstractMarkup):
         self.extensions = extension_names
         self.extension_configs = extension_configs
 
-    def __init__(self, filename=None, extensions=None):
+    def __init__(
+        self, filename: Optional[str] = None, extensions: Optional[list[str]] = None
+    ):
         AbstractMarkup.__init__(self, filename)
         import markdown
         self.markdown = markdown
         self.requested_extensions = extensions or []
-        self.global_extensions = []
+        self.global_extensions: list[_name_and_config] = []
         if extensions is None:
             self.global_extensions.extend(
                 self._get_global_extensions(filename))
         self._apply_extensions()
 
-    def convert(self, text):
+    def convert(self, text: str) -> ConvertedMarkdown:
 
         # Determine body
         self.md.reset()
@@ -250,7 +270,7 @@ class MarkdownMarkup(AbstractMarkup):
 
 class ConvertedMarkdown(ConvertedMarkup):
 
-    def get_javascript(self, webenv=False):
+    def get_javascript(self, webenv: bool = False) -> str:
         if '<script type="math/' not in self.body:
             return ''
         mathjax_url, mathjax_version = common.get_mathjax_url_and_version(

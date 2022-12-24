@@ -29,7 +29,7 @@ basic_html = '''\
 
 @unittest.skipUnless(ReStructuredTextMarkup.available(), 'Docutils not available')
 class ReStructuredTextTest(unittest.TestCase):
-    def test_basic(self):
+    def test_basic(self) -> None:
         import docutils
         markup = ReStructuredTextMarkup()
         converted = markup.convert(basic_text)
@@ -47,7 +47,7 @@ class ReStructuredTextTest(unittest.TestCase):
         self.assertEqual(title_expected, title)
         self.assertIn('.code', stylesheet)
 
-    def test_mathjax_loading(self):
+    def test_mathjax_loading(self) -> None:
         markup = ReStructuredTextMarkup()
         self.assertEqual('', markup.convert('Hello, world!').get_javascript())
         js = markup.convert('Hello, :math:`2+2`!').get_javascript()
@@ -56,7 +56,7 @@ class ReStructuredTextTest(unittest.TestCase):
         self.assertIn('<span class="math">', body)
         self.assertIn(r'\(2+2\)</span>', body)
 
-    def test_errors(self):
+    def test_errors(self) -> None:
         markup = ReStructuredTextMarkup('/dev/null',
                                         settings_overrides={'warning_stream': False})
         body = markup.convert('`').get_document_body()  # unclosed role
@@ -64,13 +64,13 @@ class ReStructuredTextTest(unittest.TestCase):
             '<p class="system-message-title">System Message: WARNING/2', body)
         self.assertIn('/dev/null', body)
 
-    def test_errors_overridden(self):
+    def test_errors_overridden(self) -> None:
         markup = ReStructuredTextMarkup('/dev/null',
                                         settings_overrides={'report_level': 4})
         body = markup.convert('`').get_document_body()  # unclosed role
         self.assertNotIn('System Message', body)
 
-    def test_errors_severe(self):
+    def test_errors_severe(self) -> None:
         markup = ReStructuredTextMarkup(
             settings_overrides={'warning_stream': False})
         text = "***************\nfaulty headline"
@@ -79,7 +79,7 @@ class ReStructuredTextTest(unittest.TestCase):
         self.assertIn("system-message", body)
         self.assertIn("Incomplete section title.", body)
 
-    def test_whole_html(self):
+    def test_whole_html(self) -> None:
         markup = ReStructuredTextMarkup()
         text = basic_text + "\n\n.. math::\n   \\sin \\varphi"
         html = markup.convert(text).get_whole_html()
@@ -88,7 +88,7 @@ class ReStructuredTextTest(unittest.TestCase):
         self.assertIn('<script type="text/javascript"', html)
         self.assertIn('This is an example', html)
 
-    def test_toc_backrefs(self):
+    def test_toc_backrefs(self) -> None:
         markup = ReStructuredTextMarkup()
         text = (".. contents::\n"
                 "   :backlinks: entry\n"

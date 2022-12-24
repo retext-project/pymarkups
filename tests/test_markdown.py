@@ -4,6 +4,7 @@
 # License: 3-clause BSD, see LICENSE file
 # Copyright: (C) Dmitry Shachnev, 2012-2021
 
+import importlib
 import unittest
 import warnings
 from os.path import join
@@ -17,9 +18,10 @@ except ImportError:
     pymdownx = None
 
 try:
-    import yaml
+    importlib.import_module("yaml")
+    HAVE_YAML = True
 except ImportError:
-    yaml = None
+    HAVE_YAML = False
 
 tables_source = \
     '''th1 | th2
@@ -149,14 +151,14 @@ mathjax_multilevel_output = \
 class MarkdownTest(unittest.TestCase):
     maxDiff = None
 
-    def setUp(self):
+    def setUp(self) -> None:
         warnings.simplefilter("ignore", Warning)
 
-    def test_empty_file(self):
+    def test_empty_file(self) -> None:
         markup = MarkdownMarkup()
         self.assertEqual(markup.convert('').get_document_body(), '\n')
 
-    def test_extensions_loading(self):
+    def test_extensions_loading(self) -> None:
         markup = MarkdownMarkup()
         self.assertIsNone(markup._canonicalize_extension_name('nonexistent'))
         self.assertIsNone(markup._canonicalize_extension_name(
@@ -169,7 +171,7 @@ class MarkdownTest(unittest.TestCase):
         self.assertEqual(name, 'toc')
         self.assertEqual(parameters, {'anchorlink': '1', 'foo': 'bar'})
 
-    def test_loading_extensions_by_module_name(self):
+    def test_loading_extensions_by_module_name(self) -> None:
         markup = MarkdownMarkup(extensions=['markdown.extensions.footnotes'])
         source = ('Footnotes[^1] have a label and the content.\n\n'
                   '[^1]: This is a footnote content.')
@@ -177,13 +179,13 @@ class MarkdownTest(unittest.TestCase):
         self.assertIn('<sup', html)
         self.assertIn('footnote-backref', html)
 
-    def test_removing_duplicate_extensions(self):
+    def test_removing_duplicate_extensions(self) -> None:
         markup = MarkdownMarkup(
             extensions=['remove_extra', 'toc', 'markdown.extensions.toc'])
         self.assertEqual(len(markup.extensions), 1)
         self.assertIn('markdown.extensions.toc', markup.extensions)
 
-    def test_extensions_parameters(self):
+    def test_extensions_parameters(self) -> None:
         markup = MarkdownMarkup(extensions=['toc(anchorlink=1)'])
         html = markup.convert('## Header').get_document_body()
         self.assertEqual(html,
@@ -192,7 +194,7 @@ class MarkdownTest(unittest.TestCase):
         self.assertEqual(
             _canonicalized_ext_names['toc'], 'markdown.extensions.toc')
 
-    def test_document_extensions_parameters(self):
+    def test_document_extensions_parameters(self) -> None:
         markup = MarkdownMarkup(extensions=[])
         toc_header = '<!--- Required extensions: toc(anchorlink=1) --->\n\n'
         html = markup.convert(toc_header + '## Header').get_document_body()
@@ -211,7 +213,7 @@ class MarkdownTest(unittest.TestCase):
                          '<h3 id="header">Header</h3>\n'
                          '<p><a class="wikilink" href="/Link/">Link</a></p>\n')
 
-    def test_document_extensions_change(self):
+    def test_document_extensions_change(self) -> None:
         """Extensions from document should be replaced on each run, not added."""
         markup = MarkdownMarkup(extensions=[])
         toc_header = '<!-- Required extensions: toc -->\n\n'
@@ -223,36 +225,36 @@ class MarkdownTest(unittest.TestCase):
         html = markup.convert(toc_header + content).get_document_body()
         self.assertNotIn('<p>[TOC]</p>', html)
 
-    def test_extra(self):
+    def test_extra(self) -> None:
         markup = MarkdownMarkup()
         html = markup.convert(tables_source).get_document_body()
         self.assertEqual(tables_output, html)
         html = markup.convert(deflists_source).get_document_body()
         self.assertEqual(deflists_output, html)
 
-    def test_remove_extra(self):
+    def test_remove_extra(self) -> None:
         markup = MarkdownMarkup(extensions=['remove_extra'])
         html = markup.convert(tables_source).get_document_body()
         self.assertNotIn('<table>', html)
 
-    def test_remove_extra_document_extension(self):
+    def test_remove_extra_document_extension(self) -> None:
         markup = MarkdownMarkup(extensions=[])
         html = markup.convert(
             'Required-Extensions: remove_extra\n\n' +
             tables_source).get_document_body()
         self.assertNotIn('<table>', html)
 
-    def test_remove_extra_double(self):
+    def test_remove_extra_double(self) -> None:
         """Removing extra twice should not cause a crash."""
         markup = MarkdownMarkup(extensions=['remove_extra'])
         markup.convert('Required-Extensions: remove_extra\n')
 
-    def test_remove_extra_removes_mathjax(self):
+    def test_remove_extra_removes_mathjax(self) -> None:
         markup = MarkdownMarkup(extensions=['remove_extra'])
         html = markup.convert('$$1$$').get_document_body()
         self.assertNotIn('math/tex', html)
 
-    def test_meta(self):
+    def test_meta(self) -> None:
         markup = MarkdownMarkup()
         text = ('Required-Extensions: meta\n'
                 'Title: Hello, world!\n\n'
@@ -260,7 +262,7 @@ class MarkdownTest(unittest.TestCase):
         title = markup.convert(text).get_document_title()
         self.assertEqual('Hello, world!', title)
 
-    def test_default_math(self):
+    def test_default_math(self) -> None:
         # by default $...$ delimeter should be disabled
         markup = MarkdownMarkup(extensions=[])
         self.assertEqual(
@@ -270,7 +272,7 @@ class MarkdownTest(unittest.TestCase):
                          '</p>\n',
                          markup.convert('$$1$$').get_document_body())
 
-    def test_mathjax(self):
+    def test_mathjax(self) -> None:
         markup = MarkdownMarkup(extensions=['mathjax'])
         # Escaping should work
         self.assertEqual('', markup.convert(
@@ -280,23 +282,23 @@ class MarkdownTest(unittest.TestCase):
         body = markup.convert(mathjax_source).get_document_body()
         self.assertEqual(mathjax_output, body)
 
-    def test_mathjax_document_extension(self):
+    def test_mathjax_document_extension(self) -> None:
         markup = MarkdownMarkup()
         text = mathjax_header + mathjax_source
         body = markup.convert(text).get_document_body()
         self.assertEqual(mathjax_header + mathjax_output, body)
 
-    def test_mathjax_multiline(self):
+    def test_mathjax_multiline(self) -> None:
         markup = MarkdownMarkup(extensions=['mathjax'])
         body = markup.convert(mathjax_multiline_source).get_document_body()
         self.assertEqual(mathjax_multiline_output, body)
 
-    def test_mathjax_multilevel(self):
+    def test_mathjax_multilevel(self) -> None:
         markup = MarkdownMarkup()
         body = markup.convert(mathjax_multilevel_source).get_document_body()
         self.assertEqual(mathjax_multilevel_output, body)
 
-    def test_mathjax_asciimath(self):
+    def test_mathjax_asciimath(self) -> None:
         markup = MarkdownMarkup(extensions=['mdx_math(use_asciimath=1)'])
         converted = markup.convert(r'\( [[a,b],[c,d]] \)')
         body = converted.get_document_body()
@@ -304,12 +306,12 @@ class MarkdownTest(unittest.TestCase):
         self.assertIn('<script type="text/javascript"',
                       converted.get_javascript())
 
-    def test_not_loading_sys(self):
+    def test_not_loading_sys(self) -> None:
         with self.assertWarnsRegex(ImportWarning, 'Extension "sys" does not exist.'):
             markup = MarkdownMarkup(extensions=['sys'])
         self.assertNotIn('sys', markup.extensions)
 
-    def test_extensions_txt_file(self):
+    def test_extensions_txt_file(self) -> None:
         with TemporaryDirectory() as tmpdirname:
             txtfilename = join(tmpdirname, "markdown-extensions.txt")
             with open(txtfilename, "w") as f:
@@ -318,8 +320,8 @@ class MarkdownTest(unittest.TestCase):
         self.assertEqual(markup.global_extensions,
                          [("foo", {}), ("baz", {"arg": "value"})])
 
-    @unittest.skipIf(yaml is None, "PyYAML module is not available")
-    def test_extensions_yaml_file(self):
+    @unittest.skipIf(not HAVE_YAML, "PyYAML module is not available")
+    def test_extensions_yaml_file(self) -> None:
         with TemporaryDirectory() as tmpdirname:
             yamlfilename = join(tmpdirname, "markdown-extensions.yaml")
             with open(yamlfilename, "w") as f:
@@ -346,8 +348,8 @@ class MarkdownTest(unittest.TestCase):
         body = converted.get_document_body()
         self.assertEqual(body, '<p>&sbquo;foo&lsquo; -- bar</p>\n')
 
-    @unittest.skipIf(yaml is None, "PyYAML module is not available")
-    def test_extensions_yaml_file_invalid(self):
+    @unittest.skipIf(not HAVE_YAML, "PyYAML module is not available")
+    def test_extensions_yaml_file_invalid(self) -> None:
         with TemporaryDirectory() as tmpdirname:
             yamlfilename = join(tmpdirname, "markdown-extensions.yaml")
             with open(yamlfilename, "w") as f:
@@ -357,7 +359,7 @@ class MarkdownTest(unittest.TestCase):
             self.assertIn("Failed parsing", str(cm.warning))
             self.assertIn("expected ',' or ']'", str(cm.warning))
 
-    def test_codehilite(self):
+    def test_codehilite(self) -> None:
         markup = MarkdownMarkup(extensions=["codehilite"])
         converted = markup.convert('    :::python\n    import foo')
         stylesheet = converted.get_stylesheet()
@@ -365,7 +367,7 @@ class MarkdownTest(unittest.TestCase):
         body = converted.get_document_body()
         self.assertIn('<div class="codehilite">', body)
 
-    def test_codehilite_custom_class(self):
+    def test_codehilite_custom_class(self) -> None:
         markup = MarkdownMarkup(extensions=["codehilite(css_class=myclass)"])
         converted = markup.convert('    :::python\n    import foo')
         stylesheet = converted.get_stylesheet()
@@ -374,7 +376,7 @@ class MarkdownTest(unittest.TestCase):
         self.assertIn('<div class="myclass">', body)
 
     @unittest.skipIf(pymdownx is None, "pymdownx module is not available")
-    def test_pymdownx_highlight(self):
+    def test_pymdownx_highlight(self) -> None:
         markup = MarkdownMarkup(extensions=["pymdownx.highlight"])
         converted = markup.convert('    import foo')
         stylesheet = converted.get_stylesheet()
@@ -383,7 +385,7 @@ class MarkdownTest(unittest.TestCase):
         self.assertIn('<div class="highlight">', body)
 
     @unittest.skipIf(pymdownx is None, "pymdownx module is not available")
-    def test_pymdownx_highlight_custom_class(self):
+    def test_pymdownx_highlight_custom_class(self) -> None:
         markup = MarkdownMarkup(
             extensions=["pymdownx.highlight(css_class=myclass)"])
         converted = markup.convert('    import foo')

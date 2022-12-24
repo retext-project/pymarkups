@@ -4,18 +4,25 @@
 # License: 3-clause BSD, see LICENSE file
 # Copyright: (C) Dmitry Shachnev, 2012-2021
 
-import importlib
+from __future__ import annotations
+
+from typing import Any, Optional
 
 import markups.common as common
 from markups.abstract import AbstractMarkup, ConvertedMarkup
 
 try:
-    from docutils.writers.html5_polyglot import HTMLTranslator
+    from docutils.core import publish_parts
+    from docutils.writers.html5_polyglot import HTMLTranslator, Writer
+    HAVE_DOCUTILS = True
 except ImportError:
-    CustomHTMLTranslator = None
-else:
-    class CustomHTMLTranslator(HTMLTranslator):
-        def starttag(self, node, tagname, suffix='\n', empty=False, **attributes):
+    HAVE_DOCUTILS = False
+
+if HAVE_DOCUTILS:
+    class CustomHTMLTranslator(HTMLTranslator):  # type: ignore
+        def starttag(  # type: ignore
+            self, node, tagname, suffix='\n', empty=False, **attributes
+        ):
             if getattr(node, 'line', None) is not None:
                 attributes['data-posmap'] = node.line
             return super().starttag(node, tagname, suffix, empty, **attributes)
@@ -43,14 +50,14 @@ class ReStructuredTextMarkup(AbstractMarkup):
     default_extension = '.rst'
 
     @staticmethod
-    def available():
-        try:
-            importlib.import_module('docutils.core')
-        except ImportError:
-            return False
-        return True
+    def available() -> bool:
+        return HAVE_DOCUTILS
 
-    def __init__(self, filename=None, settings_overrides=None):
+    def __init__(
+        self,
+        filename: Optional[str] = None,
+        settings_overrides: Optional[dict[str, Any]] = None,
+    ):
         self.overrides = settings_overrides or {}
         self.overrides.update({
             'math_output': 'MathJax ' + common.MATHJAX_WEB_URL,
@@ -59,16 +66,13 @@ class ReStructuredTextMarkup(AbstractMarkup):
             'stylesheet_path': 'minimal.css',  # Do not include plain.css
         })
         AbstractMarkup.__init__(self, filename)
-        from docutils.core import publish_parts
-        from docutils.writers.html5_polyglot import Writer
-        self._publish_parts = publish_parts
         self.writer = Writer()
         self.writer.translator_class = CustomHTMLTranslator
 
-    def convert(self, text):
-        parts = self._publish_parts(text, source_path=self.filename,
-                                    writer=self.writer,
-                                    settings_overrides=self.overrides)
+    def convert(self, text: str) -> ConvertedReStructuredText:
+        parts = publish_parts(text, source_path=self.filename,
+                              writer=self.writer,
+                              settings_overrides=self.overrides)
 
         # Determine head
         head = parts['head']
@@ -94,11 +98,11 @@ class ReStructuredTextMarkup(AbstractMarkup):
 
 class ConvertedReStructuredText(ConvertedMarkup):
 
-    def __init__(self, head, body, title, stylesheet):
+    def __init__(self, head: str, body: str, title: str, stylesheet: str):
         ConvertedMarkup.__init__(self, body, title, stylesheet)
         self.head = head
 
-    def get_javascript(self, webenv=False):
+    def get_javascript(self, webenv: bool = False) -> str:
         if common.MATHJAX_WEB_URL not in self.head:
             return ''
         mathjax_url, mathjax_version = common.get_mathjax_url_and_version(

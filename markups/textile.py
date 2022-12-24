@@ -5,6 +5,7 @@
 # Copyright: (C) Dmitry Shachnev, 2013-2021
 
 import importlib
+from typing import Optional
 
 import markups.common as common
 from markups.abstract import AbstractMarkup, ConvertedMarkup
@@ -27,17 +28,17 @@ class TextileMarkup(AbstractMarkup):
     default_extension = '.textile'
 
     @staticmethod
-    def available():
+    def available() -> bool:
         try:
             importlib.import_module('textile')
         except ImportError:
             return False
         return True
 
-    def __init__(self, filename=None):
+    def __init__(self, filename: Optional[str] = None):
         AbstractMarkup.__init__(self, filename)
         from textile import textile
         self.textile = textile
 
-    def convert(self, text):
+    def convert(self, text: str) -> ConvertedMarkup:
         return ConvertedMarkup(self.textile(text))

@@ -9,7 +9,7 @@ from markups import TextileMarkup
 
 @unittest.skipUnless(TextileMarkup.available(), 'Textile not available')
 class TextileTest(unittest.TestCase):
-    def test_textile(self):
+    def test_textile(self) -> None:
         markup = TextileMarkup()
         html = markup.convert('Hello, **world**!').get_document_body()
         self.assertEqual(html, '\t<p>Hello, <b>world</b>!</p>')

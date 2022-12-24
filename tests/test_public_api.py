@@ -10,7 +10,7 @@ from markups.common import get_pygments_stylesheet
 
 
 class APITest(unittest.TestCase):
-    def test_api(self):
+    def test_api(self) -> None:
         all_markups = markups.get_all_markups()
         self.assertIn(markups.MarkdownMarkup, all_markups)
         self.assertIn(markups.ReStructuredTextMarkup, all_markups)
@@ -25,16 +25,16 @@ class APITest(unittest.TestCase):
         self.assertEqual(markups.AsciiDocMarkup, markup_class)
 
     @unittest.skipUnless(markups.MarkdownMarkup.available(), 'Markdown not available')
-    def test_api_instance(self):
+    def test_api_instance(self) -> None:
         markup = markups.get_markup_for_file_name('myfile.mkd')
         self.assertIsInstance(markup, markups.MarkdownMarkup)
 
     @unittest.skipUnless(markups.MarkdownMarkup.available(), 'Markdown not available')
-    def test_available_markups(self):
+    def test_available_markups(self) -> None:
         available_markups = markups.get_available_markups()
         self.assertIn(markups.MarkdownMarkup, available_markups)
 
-    def test_get_pygments_stylesheet(self):
+    def test_get_pygments_stylesheet(self) -> None:
         try:
             importlib.import_module('pygments.formatters')
         except ImportError:

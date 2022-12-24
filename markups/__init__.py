@@ -3,7 +3,7 @@
 # Copyright: (C) Dmitry Shachnev, 2012-2021
 
 from importlib.metadata import entry_points
-from typing import Literal, Optional, overload
+from typing import Literal, Optional, Union, overload
 
 from markups.abstract import AbstractMarkup
 from markups.asciidoc import AsciiDocMarkup
@@ -13,6 +13,18 @@ from markups.textile import TextileMarkup
 
 __version_tuple__ = (3, 1, 3)
 __version__ = '.'.join(map(str, __version_tuple__))
+
+__all__ = [
+    "AbstractMarkup",
+    "AsciiDocMarkup",
+    "MarkdownMarkup",
+    "ReStructuredTextMarkup",
+    "TextileMarkup",
+    "find_markup_class_by_name",
+    "get_all_markups",
+    "get_available_markups",
+    "get_markup_for_file_name",
+]
 
 builtin_markups = [
     MarkdownMarkup,
@@ -50,7 +62,7 @@ def get_available_markups() -> list[type[AbstractMarkup]]:
 
 @overload
 def get_markup_for_file_name(
-    filename: str, return_class: Literal[False]
+    filename: str, return_class: Literal[False] = False
 ) -> Optional[AbstractMarkup]:
     ...
 
@@ -62,7 +74,9 @@ def get_markup_for_file_name(
     ...
 
 
-def get_markup_for_file_name(filename: str, return_class: bool = False):
+def get_markup_for_file_name(
+    filename: str, return_class: bool = False
+) -> Optional[Union[AbstractMarkup, type[AbstractMarkup]]]:
     """
     :param filename: name of the file
     :param return_class: if true, this function will return
@@ -89,6 +103,7 @@ def get_markup_for_file_name(filename: str, return_class: bool = False):
         return markup_class
     if markup_class and markup_class.available():
         return markup_class(filename=filename)
+    return None
 
 
 def find_markup_class_by_name(name: str) -> Optional[type[AbstractMarkup]]:

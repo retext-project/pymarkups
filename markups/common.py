@@ -33,7 +33,9 @@ def get_pygments_stylesheet(
     except ImportError:
         return ''
     else:
-        return HtmlFormatter(style=style).get_style_defs(selector) + '\n'
+        defs = HtmlFormatter(style=style).get_style_defs(selector)
+        assert isinstance(defs, str)
+        return defs + "\n"
 
 
 def get_mathjax_url_and_version(webenv: bool) -> tuple[str, int]:
