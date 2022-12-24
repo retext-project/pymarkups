@@ -62,7 +62,7 @@ CONTENT_PART_EXPECTED = """\
 </div>
 </div>
 </div>
-"""
+"""  # noqa: E501
 
 INVALID_SYNTAX = """\
 - Foo

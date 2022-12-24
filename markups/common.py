@@ -21,7 +21,9 @@ MATHJAX_WEB_URL = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js'
 PYGMENTS_STYLE = 'default'
 
 
-def get_pygments_stylesheet(selector: Optional[str], style: Optional[str] = None) -> str:
+def get_pygments_stylesheet(
+    selector: Optional[str], style: Optional[str] = None
+) -> str:
     if style is None:
         style = PYGMENTS_STYLE
     if style == '':

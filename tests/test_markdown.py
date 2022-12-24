@@ -104,7 +104,7 @@ mathjax_output = \
 <script type="math/tex; mode=display"> \alpha </script> text <script type="math/tex; mode=display"> \beta </script>
 </p>
 <p>$$escaped$$ \[escaped]</p>
-'''
+'''  # noqa: E501
 
 mathjax_multiline_source = \
     r'''
@@ -187,7 +187,8 @@ class MarkdownTest(unittest.TestCase):
         markup = MarkdownMarkup(extensions=['toc(anchorlink=1)'])
         html = markup.convert('## Header').get_document_body()
         self.assertEqual(html,
-                         '<h2 id="header"><a class="toclink" href="#header">Header</a></h2>\n')
+                         '<h2 id="header"><a class="toclink" href="#header">Header</a>'
+                         '</h2>\n')
         self.assertEqual(
             _canonicalized_ext_names['toc'], 'markdown.extensions.toc')
 
@@ -196,12 +197,15 @@ class MarkdownTest(unittest.TestCase):
         toc_header = '<!--- Required extensions: toc(anchorlink=1) --->\n\n'
         html = markup.convert(toc_header + '## Header').get_document_body()
         self.assertEqual(html, toc_header +
-                         '<h2 id="header"><a class="toclink" href="#header">Header</a></h2>\n')
-        toc_header = '<!--- Required extensions: toc(title=Table of contents, baselevel=3) wikilinks --->\n\n'
+                         '<h2 id="header"><a class="toclink" href="#header">Header</a>'
+                         '</h2>\n')
+        toc_header = ('<!--- Required extensions:'
+                      ' toc(title=Table of contents, baselevel=3) wikilinks --->\n\n')
         html = markup.convert(
             toc_header + '[TOC]\n\n# Header\n[[Link]]').get_document_body()
         self.assertEqual(html, toc_header +
-                         '<div class="toc"><span class="toctitle">Table of contents</span><ul>\n'
+                         '<div class="toc">'
+                         '<span class="toctitle">Table of contents</span><ul>\n'
                          '<li><a href="#header">Header</a></li>\n'
                          '</ul>\n</div>\n'
                          '<h3 id="header">Header</h3>\n'
@@ -261,7 +265,9 @@ class MarkdownTest(unittest.TestCase):
         markup = MarkdownMarkup(extensions=[])
         self.assertEqual(
             '<p>$1$</p>\n', markup.convert('$1$').get_document_body())
-        self.assertEqual('<p>\n<script type="math/tex; mode=display">1</script>\n</p>\n',
+        self.assertEqual('<p>\n'
+                         '<script type="math/tex; mode=display">1</script>\n'
+                         '</p>\n',
                          markup.convert('$$1$$').get_document_body())
 
     def test_mathjax(self):

@@ -35,7 +35,8 @@ class ReStructuredTextMarkup(AbstractMarkup):
     attributes = {
         common.LANGUAGE_HOME_PAGE: 'https://docutils.sourceforge.io/rst.html',
         common.MODULE_HOME_PAGE: 'https://docutils.sourceforge.io/',
-        common.SYNTAX_DOCUMENTATION: 'https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html'
+        common.SYNTAX_DOCUMENTATION:
+            'https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html'
     }
 
     file_extensions = ('.rst', '.rest')
@@ -66,7 +67,8 @@ class ReStructuredTextMarkup(AbstractMarkup):
 
     def convert(self, text):
         parts = self._publish_parts(text, source_path=self.filename,
-                                    writer=self.writer, settings_overrides=self.overrides)
+                                    writer=self.writer,
+                                    settings_overrides=self.overrides)
 
         # Determine head
         head = parts['head']

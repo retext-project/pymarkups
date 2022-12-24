@@ -54,7 +54,7 @@ MathJax = {
   }
 };
 </script>
-'''
+'''  # noqa: E501
 
 extensions_re = re.compile(r'required.extensions: (.+)', flags=re.IGNORECASE)
 extension_name_re = re.compile(
@@ -74,7 +74,8 @@ class MarkdownMarkup(AbstractMarkup):
     attributes = {
         common.LANGUAGE_HOME_PAGE: 'https://daringfireball.net/projects/markdown/',
         common.MODULE_HOME_PAGE: 'https://github.com/Python-Markdown/markdown',
-        common.SYNTAX_DOCUMENTATION: 'https://daringfireball.net/projects/markdown/syntax'
+        common.SYNTAX_DOCUMENTATION:
+            'https://daringfireball.net/projects/markdown/syntax'
     }
 
     file_extensions = ('.md', '.mkd', '.mkdn', '.mdwn', '.mdown', '.markdown')
@@ -86,7 +87,8 @@ class MarkdownMarkup(AbstractMarkup):
             import markdown
         except ImportError:
             return False
-        return (hasattr(markdown, '__version_info__') or  # underscored attribute means 3.x
+        # underscored attribute means 3.x
+        return (hasattr(markdown, '__version_info__') or
                 hasattr(markdown, 'version_info') and markdown.version_info >= (2, 6))
 
     def _load_extensions_list_from_txt_file(self, filename):
