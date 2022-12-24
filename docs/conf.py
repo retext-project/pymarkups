@@ -3,6 +3,8 @@
 import os
 import sys
 
+from markups import __version_tuple__
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -33,8 +35,7 @@ copyright = '2021, Dmitry Shachnev'
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
-from markups import __version_tuple__
-
+#
 # The short X.Y version.
 version = '%d.%d' % __version_tuple__[:2]
 # The full version, including alpha/beta/rc tags.
