@@ -1,5 +1,3 @@
-# vim: ts=8:sts=8:sw=8:noexpandtab
-
 # This file is part of python-markups test suite
 # License: 3-clause BSD, see LICENSE file
 # Copyright: (C) Dmitry Shachnev, 2012-2021

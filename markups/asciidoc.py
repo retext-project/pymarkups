@@ -1,5 +1,3 @@
-# vim: ts=4:sts=4:sw=4:expandtab
-
 # This file is part of python-markups module
 # License: 3-clause BSD, see LICENSE file
 # Copyright: (C) Dave Kuhlman, 2022
