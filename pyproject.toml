@@ -32,7 +32,7 @@ Documentation = "https://pymarkups.readthedocs.io/en/latest/"
 "Issue Tracker" = "https://github.com/retext-project/pymarkups/issues/"
 
 [project.optional-dependencies]
-markdown = ["Markdown>=2.6", "PyYAML"]
+markdown = ["Markdown>=3", "PyYAML"]
 restructuredtext = ["docutils"]
 textile = ["textile"]
 highlighting = ["Pygments"]

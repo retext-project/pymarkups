@@ -93,9 +93,7 @@ class MarkdownMarkup(AbstractMarkup):
             import markdown
         except ImportError:
             return False
-        # underscored attribute means 3.x
-        return (hasattr(markdown, '__version_info__') or
-                hasattr(markdown, 'version_info') and markdown.version_info >= (2, 6))
+        return getattr(markdown, '__version_info__', (2,)) >= (3,)
 
     def _load_extensions_list_from_txt_file(
         self, filename: str
