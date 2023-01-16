@@ -56,7 +56,7 @@ The source code is hosted on GitHub_.
 The documentation is available online_ or can be generated from source by
 installing Sphinx_ and running::
 
-  python3 setup.py build_sphinx
+  python3 -m sphinx docs build/sphinx/html
 
 .. _online: https://pymarkups.readthedocs.io/en/latest/
 .. _Sphinx: https://www.sphinx-doc.org/en/master/
