@@ -1,3 +1,22 @@
+Version 4.0.0, 2023-01-16
+=========================
+
+Incompatible changes:
+
+* Python versions older than 3.9 are no longer supported.
+* Python-Markdown versions older than 3.0 are no longer supported.
+* Setuptools 61.2 or higher is required to build the project.
+* ``setup.py`` has been removed. Use ``pip``, ``build`` or other :PEP:`517`
+  compatible tool.
+
+Other changes:
+
+* Added AsciiDocMarkup (contributed by Dave Kuhlman in #17).
+* Made the tests pass with Pygments ≥ 2.11.
+* Made the tests pass when PyYAML is not installed (#18).
+* Reformatted code in accordance with :PEP:`8` standard.
+* Fixed mypy errors and added a :PEP:`561` ``py.typed`` file.
+
 Version 3.1.3, 2021-11-21
 =========================
 
