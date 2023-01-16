@@ -1,2 +1,55 @@
 [build-system]
-requires = ["setuptools>=30.3", "wheel"]
+requires = ["setuptools>=61.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Markups"
+description = "A wrapper around various text markups"
+readme = "README.rst"
+authors = [{name = "Dmitry Shachnev", email = "mitya57@gmail.com"}]
+license = {text = "BSD 3-Clause License"}
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Text Processing :: Markup",
+    "Topic :: Text Processing :: General",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.9"
+dependencies = ["python-markdown-math"]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/retext-project/pymarkups"
+Documentation = "https://pymarkups.readthedocs.io/en/latest/"
+"Issue Tracker" = "https://github.com/retext-project/pymarkups/issues/"
+
+[project.optional-dependencies]
+markdown = ["Markdown>=2.6", "PyYAML"]
+restructuredtext = ["docutils"]
+textile = ["textile"]
+highlighting = ["Pygments"]
+asciidoc = ["asciidoc", "lxml"]
+
+[project.entry-points.pymarkups]
+markdown = "markups.markdown:MarkdownMarkup"
+restructuredtext = "markups.restructuredtext:ReStructuredTextMarkup"
+textile = "markups.textile:TextileMarkup"
+asciidoc = "markups.asciidoc:AsciiDocMarkup"
+
+[tool.setuptools]
+packages = ["markups"]
+include-package-data = false
+
+[tool.setuptools.package-data]
+markups = ["py.typed"]
+
+[tool.setuptools.dynamic]
+version = {attr = "markups.__version__"}
