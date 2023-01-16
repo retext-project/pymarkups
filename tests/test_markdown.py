@@ -261,7 +261,7 @@ class MarkdownTest(unittest.TestCase):
         self.assertEqual('Hello, world!', title)
 
     def test_default_math(self) -> None:
-        # by default $...$ delimeter should be disabled
+        # by default $...$ delimiter should be disabled
         markup = MarkdownMarkup(extensions=[])
         self.assertEqual(
             '<p>$1$</p>\n', markup.convert('$1$').get_document_body())
