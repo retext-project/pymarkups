@@ -33,7 +33,7 @@ copyright = '2023, Dmitry Shachnev'
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
-from markups import __version_tuple__
+from markups import __version_tuple__  # noqa: E402
 
 # The short X.Y version.
 version = '%d.%d' % __version_tuple__[:2]
