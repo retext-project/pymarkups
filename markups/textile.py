@@ -16,10 +16,10 @@ class TextileMarkup(AbstractMarkup):
     name = 'Textile'
     attributes = {
         common.LANGUAGE_HOME_PAGE:
-            'http://en.wikipedia.org/wiki/Textile_(markup_language)',
+            'https://en.wikipedia.org/wiki/Textile_(markup_language)',
         common.MODULE_HOME_PAGE: 'https://github.com/textile/python-textile',
         common.SYNTAX_DOCUMENTATION:
-            'http://movabletype.org/documentation/author/textile-2-syntax.html'
+            'https://movabletype.org/documentation/author/textile-2-syntax.html'
     }
 
     file_extensions = ('.textile',)
