@@ -89,6 +89,7 @@ class MarkdownMarkup(AbstractMarkup):
     def available() -> bool:
         try:
             import markdown
+            importlib.import_module('mdx_math')
         except ImportError:
             return False
         return getattr(markdown, '__version_info__', (2,)) >= (3,)

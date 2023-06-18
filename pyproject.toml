@@ -23,7 +23,6 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 requires-python = ">=3.9"
-dependencies = ["python-markdown-math"]
 dynamic = ["version"]
 
 [project.urls]
@@ -32,7 +31,7 @@ Documentation = "https://pymarkups.readthedocs.io/en/latest/"
 "Issue Tracker" = "https://github.com/retext-project/pymarkups/issues/"
 
 [project.optional-dependencies]
-markdown = ["Markdown>=3", "PyYAML"]
+markdown = ["Markdown>=3", "PyYAML", "python-markdown-math"]
 restructuredtext = ["docutils"]
 textile = ["textile"]
 highlighting = ["Pygments"]
