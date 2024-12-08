@@ -1,6 +1,6 @@
 # This file is part of python-markups module
 # License: 3-clause BSD, see LICENSE file
-# Copyright: (C) Dmitry Shachnev, 2012-2022
+# Copyright: (C) Dmitry Shachnev, 2012-2024
 
 import os.path
 
