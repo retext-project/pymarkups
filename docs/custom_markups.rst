@@ -14,25 +14,11 @@ your module's ``entry_points``, in the “pymarkups” entry point group.
 
 For example:
 
-.. code-block:: python
+.. code-block:: toml
+   :caption: pyproject.toml
 
-   setup(
-       ...
-       entry_points={
-           'pymarkups': [
-               'mymarkup = mymodule:MyMarkupClass',
-           ],
-       },
-       ...
-   )
-
-Or using the declarative syntax in ``setup.cfg``:
-
-.. code-block:: ini
-
-   [options.entry_points]
-   pymarkups =
-       mymarkup = mymodule:MyMarkupClass
+   [project.entry-points.pymarkups]
+   mymarkup = "mymodule:MyMarkupClass"
 
 See the `setuptools documentation`_ on entry points for details.
 
