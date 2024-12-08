@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 import markups.common as common
 from markups.abstract import AbstractMarkup, ConvertedMarkup
@@ -53,8 +53,8 @@ class ReStructuredTextMarkup(AbstractMarkup):
 
     def __init__(
         self,
-        filename: Optional[str] = None,
-        settings_overrides: Optional[dict[str, Any]] = None,
+        filename: str | None = None,
+        settings_overrides: dict[str, Any] | None = None,
     ):
         self.overrides = settings_overrides or {}
         self.overrides.update({

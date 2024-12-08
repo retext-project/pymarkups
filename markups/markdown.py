@@ -8,7 +8,7 @@ import importlib
 import os
 import re
 import warnings
-from typing import Any, Iterable, Iterator, Optional
+from typing import Any, Iterable, Iterator
 
 import markups.common as common
 from markups.abstract import AbstractMarkup, ConvertedMarkup
@@ -120,7 +120,7 @@ class MarkdownMarkup(AbstractMarkup):
                     yield item, {}
 
     def _get_global_extensions(
-        self, filename: Optional[str]
+        self, filename: str | None
     ) -> Iterator[_name_and_config]:
         local_directory = os.path.dirname(filename) if filename else ''
         choices = [
@@ -149,7 +149,7 @@ class MarkdownMarkup(AbstractMarkup):
             extensions = extension_name_re.findall(match.group(1))
             yield from self._split_extensions_configs(extensions)
 
-    def _canonicalize_extension_name(self, extension_name: str) -> Optional[str]:
+    def _canonicalize_extension_name(self, extension_name: str) -> str | None:
         prefixes = ('markdown.extensions.', '', 'mdx_')
         for prefix in prefixes:
             try:
@@ -182,7 +182,7 @@ class MarkdownMarkup(AbstractMarkup):
             yield self._split_extension_config(extension)
 
     def _apply_extensions(
-        self, document_extensions: Optional[Iterable[_name_and_config]] = None
+        self, document_extensions: Iterable[_name_and_config] | None = None
     ) -> None:
         extensions = self.global_extensions.copy()
         extensions.extend(
@@ -222,7 +222,7 @@ class MarkdownMarkup(AbstractMarkup):
         self.extension_configs = extension_configs
 
     def __init__(
-        self, filename: Optional[str] = None, extensions: Optional[list[str]] = None
+        self, filename: str | None = None, extensions: list[str] | None = None
     ):
         AbstractMarkup.__init__(self, filename)
         import markdown

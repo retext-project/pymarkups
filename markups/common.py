@@ -3,7 +3,6 @@
 # Copyright: (C) Dmitry Shachnev, 2012-2022
 
 import os.path
-from typing import Optional
 
 # Some common constants and functions
 (LANGUAGE_HOME_PAGE, MODULE_HOME_PAGE, SYNTAX_DOCUMENTATION) = range(3)
@@ -22,7 +21,7 @@ PYGMENTS_STYLE = 'default'
 
 
 def get_pygments_stylesheet(
-    selector: Optional[str], style: Optional[str] = None
+    selector: str | None, style: str | None = None
 ) -> str:
     if style is None:
         style = PYGMENTS_STYLE

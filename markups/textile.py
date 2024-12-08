@@ -3,7 +3,6 @@
 # Copyright: (C) Dmitry Shachnev, 2013-2023
 
 import importlib
-from typing import Optional
 
 import markups.common as common
 from markups.abstract import AbstractMarkup, ConvertedMarkup
@@ -32,7 +31,7 @@ class TextileMarkup(AbstractMarkup):
             return False
         return True
 
-    def __init__(self, filename: Optional[str] = None):
+    def __init__(self, filename: str | None = None):
         AbstractMarkup.__init__(self, filename)
         from textile import textile
         self.textile = textile

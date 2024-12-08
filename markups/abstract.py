@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 whole_html_template = """<!doctype html>
 <html>
@@ -34,7 +34,7 @@ class AbstractMarkup:
     #: the default file extension
     default_extension: str
 
-    def __init__(self, filename: Optional[str] = None):
+    def __init__(self, filename: str | None = None):
         self.filename = filename
 
     @staticmethod

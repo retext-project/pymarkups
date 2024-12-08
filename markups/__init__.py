@@ -3,7 +3,7 @@
 # Copyright: (C) Dmitry Shachnev, 2012-2022
 
 from importlib.metadata import entry_points
-from typing import Literal, Optional, Union, overload
+from typing import Literal, overload
 
 from markups.abstract import AbstractMarkup
 from markups.asciidoc import AsciiDocMarkup
@@ -63,20 +63,20 @@ def get_available_markups() -> list[type[AbstractMarkup]]:
 @overload
 def get_markup_for_file_name(
     filename: str, return_class: Literal[False] = False
-) -> Optional[AbstractMarkup]:
+) -> AbstractMarkup | None:
     ...
 
 
 @overload
 def get_markup_for_file_name(
     filename: str, return_class: Literal[True]
-) -> Optional[type[AbstractMarkup]]:
+) -> type[AbstractMarkup] | None:
     ...
 
 
 def get_markup_for_file_name(
     filename: str, return_class: bool = False
-) -> Optional[Union[AbstractMarkup, type[AbstractMarkup]]]:
+) -> AbstractMarkup | type[AbstractMarkup] | None:
     """
     :param filename: name of the file
     :param return_class: if true, this function will return
@@ -106,7 +106,7 @@ def get_markup_for_file_name(
     return None
 
 
-def find_markup_class_by_name(name: str) -> Optional[type[AbstractMarkup]]:
+def find_markup_class_by_name(name: str) -> type[AbstractMarkup] | None:
     """
     :returns: a markup with
               :attr:`~markups.abstract.AbstractMarkup.name`
