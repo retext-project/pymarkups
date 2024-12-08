@@ -27,7 +27,9 @@ def export_file(args: argparse.Namespace) -> None:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--web-environment", help="export for web environment", action="store_true"
+        "--web-environment",
+        help="export for web environment",
+        action="store_true",
     )
     parser.add_argument(
         "--include-stylesheet",
@@ -35,7 +37,9 @@ if __name__ == "__main__":
         action="store_true",
     )
     parser.add_argument(
-        "--fallback-title", help="fallback title of the HTML document", metavar="TITLE"
+        "--fallback-title",
+        help="fallback title of the HTML document",
+        metavar="TITLE",
     )
     parser.add_argument("input_file", help="input file")
     parser.add_argument("output_file", help="output file")

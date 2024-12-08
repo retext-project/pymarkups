@@ -95,7 +95,8 @@ class MarkdownMarkup(AbstractMarkup):
         return getattr(markdown, "__version_info__", (2,)) >= (3,)
 
     def _load_extensions_list_from_txt_file(
-        self, filename: str
+        self,
+        filename: str,
     ) -> Iterator[_name_and_config]:
         with open(filename) as extensions_file:
             for line in extensions_file:
@@ -103,7 +104,8 @@ class MarkdownMarkup(AbstractMarkup):
                     yield self._split_extension_config(line.rstrip())
 
     def _load_extensions_list_from_yaml_file(
-        self, filename: str
+        self,
+        filename: str,
     ) -> Iterator[_name_and_config]:
         with open(filename) as extensions_file:
             try:
@@ -119,7 +121,8 @@ class MarkdownMarkup(AbstractMarkup):
                     yield item, {}
 
     def _get_global_extensions(
-        self, filename: str | None
+        self,
+        filename: str | None,
     ) -> Iterator[_name_and_config]:
         local_directory = os.path.dirname(filename) if filename else ""
         choices = [
@@ -171,7 +174,8 @@ class MarkdownMarkup(AbstractMarkup):
         return extension_name, {x.strip(): y.strip() for (x, y) in pairs}
 
     def _split_extensions_configs(
-        self, extensions: Iterable[str]
+        self,
+        extensions: Iterable[str],
     ) -> Iterator[_name_and_config]:
         """Splits the configuration options from a list of strings.
 
@@ -181,7 +185,8 @@ class MarkdownMarkup(AbstractMarkup):
             yield self._split_extension_config(extension)
 
     def _apply_extensions(
-        self, document_extensions: Iterable[_name_and_config] | None = None
+        self,
+        document_extensions: Iterable[_name_and_config] | None = None,
     ) -> None:
         extensions = self.global_extensions.copy()
         extensions.extend(self._split_extensions_configs(self.requested_extensions))
@@ -207,7 +212,8 @@ class MarkdownMarkup(AbstractMarkup):
                     candidate = self._canonicalize_extension_name(name)
                     if candidate is None:
                         warnings.warn(
-                            f'Extension "{name}" does not exist.', ImportWarning
+                            f'Extension "{name}" does not exist.',
+                            ImportWarning,
                         )
                         continue
                     canonical_name = candidate
@@ -223,7 +229,9 @@ class MarkdownMarkup(AbstractMarkup):
         self.extension_configs = extension_configs
 
     def __init__(
-        self, filename: str | None = None, extensions: list[str] | None = None
+        self,
+        filename: str | None = None,
+        extensions: list[str] | None = None,
     ):
         AbstractMarkup.__init__(self, filename)
         import markdown

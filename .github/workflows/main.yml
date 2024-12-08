@@ -48,6 +48,6 @@ jobs:
       - name: Install ruff
         run: python -m pip install ruff
       - name: Run ruff check
-        run: ruff check --select F,E,W,I,UP --target-version py310 .
+        run: ruff check --select F,E,W,I,UP,COM --target-version py310 .
       - name: Run ruff format
         run: ruff format --diff .

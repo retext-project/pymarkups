@@ -20,7 +20,8 @@ class APITest(unittest.TestCase):
         markup_class = markups.get_markup_for_file_name("myfile.mkd", return_class=True)
         self.assertEqual(markups.MarkdownMarkup, markup_class)
         markup_class = markups.get_markup_for_file_name(
-            "myfile.adoc", return_class=True
+            "myfile.adoc",
+            return_class=True,
         )
         self.assertEqual(markups.AsciiDocMarkup, markup_class)
 

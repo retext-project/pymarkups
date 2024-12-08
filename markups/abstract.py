@@ -64,7 +64,11 @@ class ConvertedMarkup:
     """
 
     def __init__(
-        self, body: str, title: str = "", stylesheet: str = "", javascript: str = ""
+        self,
+        body: str,
+        title: str = "",
+        stylesheet: str = "",
+        javascript: str = "",
     ):
         self.title = title
         self.stylesheet = stylesheet

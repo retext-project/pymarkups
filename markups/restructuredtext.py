@@ -21,7 +21,12 @@ if HAVE_DOCUTILS:
 
     class CustomHTMLTranslator(HTMLTranslator):  # type: ignore
         def starttag(  # type: ignore
-            self, node, tagname, suffix="\n", empty=False, **attributes
+            self,
+            node,
+            tagname,
+            suffix="\n",
+            empty=False,
+            **attributes,
         ):
             if getattr(node, "line", None) is not None:
                 attributes["data-posmap"] = node.line
@@ -65,7 +70,7 @@ class ReStructuredTextMarkup(AbstractMarkup):
                 "syntax_highlight": "short",
                 "halt_level": 5,  # Never convert system messages to exceptions
                 "stylesheet_path": "minimal.css",  # Do not include plain.css
-            }
+            },
         )
         AbstractMarkup.__init__(self, filename)
         self.writer = Writer()

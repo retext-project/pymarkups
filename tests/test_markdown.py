@@ -159,11 +159,12 @@ class MarkdownTest(unittest.TestCase):
         markup = MarkdownMarkup()
         self.assertIsNone(markup._canonicalize_extension_name("nonexistent"))
         self.assertIsNone(
-            markup._canonicalize_extension_name("nonexistent(someoption)")
+            markup._canonicalize_extension_name("nonexistent(someoption)"),
         )
         self.assertIsNone(markup._canonicalize_extension_name(".foobar"))
         self.assertEqual(
-            markup._canonicalize_extension_name("meta"), "markdown.extensions.meta"
+            markup._canonicalize_extension_name("meta"),
+            "markdown.extensions.meta",
         )
         name, parameters = markup._split_extension_config("toc(anchorlink=1, foo=bar)")
         self.assertEqual(name, "toc")
@@ -181,7 +182,7 @@ class MarkdownTest(unittest.TestCase):
 
     def test_removing_duplicate_extensions(self) -> None:
         markup = MarkdownMarkup(
-            extensions=["remove_extra", "toc", "markdown.extensions.toc"]
+            extensions=["remove_extra", "toc", "markdown.extensions.toc"],
         )
         self.assertEqual(len(markup.extensions), 1)
         self.assertIn("markdown.extensions.toc", markup.extensions)
@@ -209,7 +210,7 @@ class MarkdownTest(unittest.TestCase):
             " toc(title=Table of contents, baselevel=3) wikilinks --->\n\n"
         )
         html = markup.convert(
-            toc_header + "[TOC]\n\n# Header\n[[Link]]"
+            toc_header + "[TOC]\n\n# Header\n[[Link]]",
         ).get_document_body()
         self.assertEqual(
             html,
@@ -248,7 +249,7 @@ class MarkdownTest(unittest.TestCase):
     def test_remove_extra_document_extension(self) -> None:
         markup = MarkdownMarkup(extensions=[])
         html = markup.convert(
-            "Required-Extensions: remove_extra\n\n" + tables_source
+            "Required-Extensions: remove_extra\n\n" + tables_source,
         ).get_document_body()
         self.assertNotIn("<table>", html)
 
@@ -321,7 +322,8 @@ class MarkdownTest(unittest.TestCase):
                 f.write("foo\n# bar\nbaz(arg=value)\n")
             markup = MarkdownMarkup(filename=join(tmpdirname, "foo.md"))
         self.assertEqual(
-            markup.global_extensions, [("foo", {}), ("baz", {"arg": "value"})]
+            markup.global_extensions,
+            [("foo", {}), ("baz", {"arg": "value"})],
         )
 
     @unittest.skipIf(not HAVE_YAML, "PyYAML module is not available")
@@ -339,7 +341,7 @@ class MarkdownTest(unittest.TestCase):
                     "    permalink: True\n"
                     '    separator: "_"\n'
                     "    toc_depth: 3\n"
-                    "- sane_lists\n"
+                    "- sane_lists\n",
                 )
             markup = MarkdownMarkup(filename=join(tmpdirname, "foo.md"))
         self.assertEqual(

@@ -8,7 +8,8 @@ from markups.asciidoc import AsciiDocMarkup
 
 
 @unittest.skipUnless(
-    AsciiDocMarkup.available(), "asciidoc.py and/or lxml not available"
+    AsciiDocMarkup.available(),
+    "asciidoc.py and/or lxml not available",
 )
 class AsciiDocTextTest(unittest.TestCase):
     def test_basic(self) -> None:
@@ -26,7 +27,8 @@ class AsciiDocTextTest(unittest.TestCase):
     def test_error_handling(self) -> None:
         markup = AsciiDocMarkup()
         with self.assertWarnsRegex(
-            SyntaxWarning, "section title not allowed in list item"
+            SyntaxWarning,
+            "section title not allowed in list item",
         ):
             converted = markup.convert(INVALID_SYNTAX)
         self.assertIn("Foo", converted.get_document_body())

@@ -59,18 +59,21 @@ def get_available_markups() -> list[type[AbstractMarkup]]:
 
 @overload
 def get_markup_for_file_name(
-    filename: str, return_class: Literal[False] = False
+    filename: str,
+    return_class: Literal[False] = False,
 ) -> AbstractMarkup | None: ...
 
 
 @overload
 def get_markup_for_file_name(
-    filename: str, return_class: Literal[True]
+    filename: str,
+    return_class: Literal[True],
 ) -> type[AbstractMarkup] | None: ...
 
 
 def get_markup_for_file_name(
-    filename: str, return_class: bool = False
+    filename: str,
+    return_class: bool = False,
 ) -> AbstractMarkup | type[AbstractMarkup] | None:
     """
     :param filename: name of the file

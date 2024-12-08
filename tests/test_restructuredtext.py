@@ -56,7 +56,8 @@ class ReStructuredTextTest(unittest.TestCase):
 
     def test_errors(self) -> None:
         markup = ReStructuredTextMarkup(
-            "/dev/null", settings_overrides={"warning_stream": False}
+            "/dev/null",
+            settings_overrides={"warning_stream": False},
         )
         body = markup.convert("`").get_document_body()  # unclosed role
         self.assertIn('<p class="system-message-title">System Message: WARNING/2', body)
@@ -64,7 +65,8 @@ class ReStructuredTextTest(unittest.TestCase):
 
     def test_errors_overridden(self) -> None:
         markup = ReStructuredTextMarkup(
-            "/dev/null", settings_overrides={"report_level": 4}
+            "/dev/null",
+            settings_overrides={"report_level": 4},
         )
         body = markup.convert("`").get_document_body()  # unclosed role
         self.assertNotIn("System Message", body)
