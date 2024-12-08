@@ -40,10 +40,7 @@ def get_all_markups() -> list[type[AbstractMarkup]]:
     """
     :returns: list of all markups (both standard and custom ones)
     """
-    try:  # Python 3.10+
-        entrypoints = entry_points(group="pymarkups")
-    except TypeError:  # Older versions
-        entrypoints = entry_points()["pymarkups"]
+    entrypoints = entry_points(group="pymarkups")
     return [entry_point.load() for entry_point in entrypoints]
 
 
