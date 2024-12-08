@@ -1,3 +1,11 @@
+Version 4.1.0, 2024-12-08
+=========================
+
+* Incompatible change: Python 3.9 is no longer supported.
+* Made the order of Markdown extensions deterministic
+  (fixes a problem with ``pymdownx.superfences``).
+* Adopted ruff for code quality checks and auto-formatting.
+
 Version 4.0.0, 2023-01-16
 =========================
 
