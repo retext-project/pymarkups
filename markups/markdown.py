@@ -208,8 +208,8 @@ class MarkdownMarkup(AbstractMarkup):
                 else:
                     candidate = self._canonicalize_extension_name(name)
                     if candidate is None:
-                        warnings.warn('Extension "%s" does not exist.' %
-                                      name, ImportWarning)
+                        warnings.warn(f'Extension "{name}" does not exist.',
+                                      ImportWarning)
                         continue
                     canonical_name = candidate
                     _canonicalized_ext_names[name] = canonical_name
@@ -254,11 +254,11 @@ class MarkdownMarkup(AbstractMarkup):
             config = self.extension_configs.get(
                 'markdown.extensions.codehilite', {})
             css_class = config.get('css_class', 'codehilite')
-            stylesheet = common.get_pygments_stylesheet('.%s' % css_class)
+            stylesheet = common.get_pygments_stylesheet(f'.{css_class}')
         elif 'pymdownx.highlight' in self.extensions:
             config = self.extension_configs.get('pymdownx.highlight', {})
             css_class = config.get('css_class', 'highlight')
-            stylesheet = common.get_pygments_stylesheet('.%s' % css_class)
+            stylesheet = common.get_pygments_stylesheet(f'.{css_class}')
         else:
             stylesheet = ''
 
