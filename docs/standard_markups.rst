@@ -113,7 +113,7 @@ module.
 
 The file extension associated with Textile markup is ``.textile``.
 
-.. _Textile: https://en.wikipedia.org/wiki/Textile_(markup_language)
+.. _Textile: https://textile-lang.com
 .. _python-textile: https://github.com/textile/python-textile
 
 .. autoclass:: markups.TextileMarkup
