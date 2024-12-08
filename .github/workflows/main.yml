@@ -11,6 +11,7 @@ jobs:
           - '3.10'
           - '3.11'
           - '3.12'
+          - '3.13'
           - pypy-3.9
     runs-on: ubuntu-latest
     steps:
@@ -29,7 +30,7 @@ jobs:
       - name: Run the doctest
         run: python -m doctest README.rst -v
       - name: Upload reports to Codecov
-        if: ${{ matrix.python == '3.12' }}
+        if: ${{ matrix.python == '3.13' }}
         run: codecov
   static-analysis:
     runs-on: ubuntu-latest
