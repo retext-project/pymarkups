@@ -133,6 +133,16 @@ mathjax_multilevel_output = r"""<p>
 </p>
 """
 
+triple_backticks_in_list_source = """
+1. List item 1
+
+    ```python
+    import this
+    ```
+
+2. List item 2
+"""
+
 
 @unittest.skipUnless(MarkdownMarkup.available(), "Markdown not available")
 class MarkdownTest(unittest.TestCase):
@@ -397,3 +407,13 @@ class MarkdownTest(unittest.TestCase):
         self.assertIn(".myclass .k {", stylesheet)
         body = converted.get_document_body()
         self.assertIn('<div class="myclass">', body)
+
+    @unittest.skipIf(pymdownx is None, "pymdownx module is not available")
+    def test_pymdownx_superfences_is_preferred(self) -> None:
+        markup = MarkdownMarkup(extensions=["pymdownx.superfences"])
+        converted = markup.convert(triple_backticks_in_list_source)
+        body = converted.get_document_body()
+        # produced by pymdownx.superfences
+        self.assertIn('<div class="highlight">', body)
+        # produced by fenced_code (part of extra)
+        self.assertNotIn("<code>python", body)
