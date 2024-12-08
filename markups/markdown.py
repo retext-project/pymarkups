@@ -8,7 +8,8 @@ import importlib
 import os
 import re
 import warnings
-from typing import Any, Iterable, Iterator
+from collections.abc import Iterable, Iterator
+from typing import Any
 
 import markups.common as common
 from markups.abstract import AbstractMarkup, ConvertedMarkup
