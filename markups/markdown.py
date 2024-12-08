@@ -215,7 +215,7 @@ class MarkdownMarkup(AbstractMarkup):
                 extension_names.add(canonical_name)
                 extension_configs[canonical_name] = config
         self.md = self.markdown.Markdown(
-            extensions=list(extension_names),
+            extensions=sorted(extension_names),
             extension_configs=extension_configs,
             output_format="html5",
         )
