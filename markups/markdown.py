@@ -111,7 +111,7 @@ class MarkdownMarkup(AbstractMarkup):
             except yaml.YAMLError as ex:
                 warnings.warn(
                     f'Failed parsing {filename}: {ex}', SyntaxWarning)
-                raise IOError from ex
+                raise OSError from ex
         if isinstance(data, list):
             for item in data:
                 if isinstance(item, dict):
@@ -137,7 +137,7 @@ class MarkdownMarkup(AbstractMarkup):
                     yield from self._load_extensions_list_from_txt_file(choice)
                 else:
                     yield from self._load_extensions_list_from_yaml_file(choice)
-            except IOError:
+            except OSError:
                 continue  # Cannot open file, move to the next choice
             else:
                 break  # File loaded successfully, skip the remaining choices
