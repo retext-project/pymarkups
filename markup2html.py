@@ -8,8 +8,8 @@ import markups
 
 def export_file(args: argparse.Namespace) -> None:
     markup = markups.get_markup_for_file_name(args.input_file)
-    with open(args.input_file) as input:
-        text = input.read()
+    with open(args.input_file) as fp:
+        text = fp.read()
     if not markup:
         sys.exit("Markup not available.")
     converted = markup.convert(text)
