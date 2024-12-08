@@ -33,12 +33,12 @@ copyright = '2023, Dmitry Shachnev'
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
-from markups import __version_tuple__  # noqa: E402
+from markups import __version__, __version_tuple__  # noqa: E402
 
 # The short X.Y version.
-version = '%d.%d' % __version_tuple__[:2]
+version = '{}.{}'.format(*__version_tuple__)
 # The full version, including alpha/beta/rc tags.
-release = '%d.%d.%d' % __version_tuple__
+release = __version__
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
