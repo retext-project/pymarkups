@@ -63,8 +63,9 @@ class ConvertedMarkup:
     method, usually it should not be instantiated directly.
     """
 
-    def __init__(self, body: str, title: str = '',
-                 stylesheet: str = '', javascript: str = ''):
+    def __init__(
+        self, body: str, title: str = "", stylesheet: str = "", javascript: str = ""
+    ):
         self.title = title
         self.stylesheet = stylesheet
         self.javascript = javascript
@@ -99,8 +100,13 @@ class ConvertedMarkup:
         """
         return self.javascript
 
-    def get_whole_html(self, custom_headers: str = '', include_stylesheet: bool = True,
-                       fallback_title: str = '', webenv: bool = False) -> str:
+    def get_whole_html(
+        self,
+        custom_headers: str = "",
+        include_stylesheet: bool = True,
+        fallback_title: str = "",
+        webenv: bool = False,
+    ) -> str:
         """
         :returns: the full contents of the HTML document (unless overridden
                   this is a combination of the previous methods)
@@ -114,8 +120,11 @@ class ConvertedMarkup:
         :param webenv: like in :meth:`~.ConvertedMarkup.get_javascript`
                        above
         """
-        stylesheet = ('<style type="text/css">\n' + self.get_stylesheet()
-                      + '</style>\n' if include_stylesheet else '')
+        stylesheet = (
+            '<style type="text/css">\n' + self.get_stylesheet() + "</style>\n"
+            if include_stylesheet
+            else ""
+        )
 
         context = {
             "body": self.get_document_body(),

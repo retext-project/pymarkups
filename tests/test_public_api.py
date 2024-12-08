@@ -15,28 +15,28 @@ class APITest(unittest.TestCase):
         self.assertIn(markups.MarkdownMarkup, all_markups)
         self.assertIn(markups.ReStructuredTextMarkup, all_markups)
         self.assertIn(markups.AsciiDocMarkup, all_markups)
-        markup_class = markups.find_markup_class_by_name('restructuredtext')
+        markup_class = markups.find_markup_class_by_name("restructuredtext")
         self.assertEqual(markups.ReStructuredTextMarkup, markup_class)
-        markup_class = markups.get_markup_for_file_name(
-            'myfile.mkd', return_class=True)
+        markup_class = markups.get_markup_for_file_name("myfile.mkd", return_class=True)
         self.assertEqual(markups.MarkdownMarkup, markup_class)
         markup_class = markups.get_markup_for_file_name(
-            'myfile.adoc', return_class=True)
+            "myfile.adoc", return_class=True
+        )
         self.assertEqual(markups.AsciiDocMarkup, markup_class)
 
-    @unittest.skipUnless(markups.MarkdownMarkup.available(), 'Markdown not available')
+    @unittest.skipUnless(markups.MarkdownMarkup.available(), "Markdown not available")
     def test_api_instance(self) -> None:
-        markup = markups.get_markup_for_file_name('myfile.mkd')
+        markup = markups.get_markup_for_file_name("myfile.mkd")
         self.assertIsInstance(markup, markups.MarkdownMarkup)
 
-    @unittest.skipUnless(markups.MarkdownMarkup.available(), 'Markdown not available')
+    @unittest.skipUnless(markups.MarkdownMarkup.available(), "Markdown not available")
     def test_available_markups(self) -> None:
         available_markups = markups.get_available_markups()
         self.assertIn(markups.MarkdownMarkup, available_markups)
 
     def test_get_pygments_stylesheet(self) -> None:
         try:
-            importlib.import_module('pygments.formatters')
+            importlib.import_module("pygments.formatters")
         except ImportError:
             raise unittest.SkipTest("Pygments not available")
         stylesheet = get_pygments_stylesheet(".selector")

@@ -12,7 +12,7 @@ from markups.restructuredtext import ReStructuredTextMarkup
 from markups.textile import TextileMarkup
 
 __version_tuple__ = (4, 0, 0)
-__version__ = '.'.join(map(str, __version_tuple__))
+__version__ = ".".join(map(str, __version_tuple__))
 
 __all__ = [
     "AbstractMarkup",
@@ -63,15 +63,13 @@ def get_available_markups() -> list[type[AbstractMarkup]]:
 @overload
 def get_markup_for_file_name(
     filename: str, return_class: Literal[False] = False
-) -> AbstractMarkup | None:
-    ...
+) -> AbstractMarkup | None: ...
 
 
 @overload
 def get_markup_for_file_name(
     filename: str, return_class: Literal[True]
-) -> type[AbstractMarkup] | None:
-    ...
+) -> type[AbstractMarkup] | None: ...
 
 
 def get_markup_for_file_name(
