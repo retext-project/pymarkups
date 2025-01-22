@@ -24,6 +24,14 @@ basic_html = """\
 </main>
 """
 
+toc_backrefs_source = """\
+.. contents::
+   :backlinks: entry
+
+Section title
+-------------
+"""
+
 
 @unittest.skipUnless(ReStructuredTextMarkup.available(), "Docutils not available")
 class ReStructuredTextTest(unittest.TestCase):
@@ -90,12 +98,5 @@ class ReStructuredTextTest(unittest.TestCase):
 
     def test_toc_backrefs(self) -> None:
         markup = ReStructuredTextMarkup()
-        text = (
-            ".. contents::\n"
-            "   :backlinks: entry\n"
-            "\n"
-            "Section title\n"
-            "-------------\n"
-        )
-        body = markup.convert(text).get_document_body()
+        body = markup.convert(toc_backrefs_source).get_document_body()
         self.assertIn('<a class="toc-backref"', body)
