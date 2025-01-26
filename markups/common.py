@@ -11,13 +11,13 @@ CONFIGURATION_DIR = (
     or os.getenv("APPDATA")
     or os.path.expanduser("~/.config")
 )
-MATHJAX2_LOCAL_URLS = (
-    "file:///usr/share/javascript/mathjax/MathJax.js",  # Debian libjs-mathjax
-    "file:///usr/share/mathjax2/MathJax.js",  # Arch Linux mathjax2
+MATHJAX2_LOCAL_FILES = (
+    "/usr/share/javascript/mathjax/MathJax.js",  # Debian libjs-mathjax
+    "/usr/share/mathjax2/MathJax.js",  # Arch Linux mathjax2
 )
-MATHJAX3_LOCAL_URLS = (
-    "file:///usr/share/nodejs/mathjax-full/es5/tex-chtml.js",  # Debian node-mathjax-full
-    "file:///usr/share/mathjax/tex-chtml.js",  # Arch Linux mathjax
+MATHJAX3_LOCAL_FILES = (
+    "/usr/share/nodejs/mathjax-full/es5/tex-chtml.js",  # Debian node-mathjax-full
+    "/usr/share/mathjax/tex-chtml.js",  # Arch Linux mathjax
 )
 MATHJAX_WEB_URL = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
 
@@ -41,10 +41,10 @@ def get_pygments_stylesheet(selector: str | None, style: str | None = None) -> s
 
 def get_mathjax_url_and_version(webenv: bool) -> tuple[str, int]:
     if not webenv:
-        for url in MATHJAX3_LOCAL_URLS:
-            if os.path.exists(url[7:]):  # strip file://
-                return url, 3
-        for url in MATHJAX2_LOCAL_URLS:
-            if os.path.exists(url[7:]):
-                return url, 2
+        for path in MATHJAX3_LOCAL_FILES:
+            if os.path.exists(path):
+                return f"file://{path}", 3
+        for path in MATHJAX2_LOCAL_FILES:
+            if os.path.exists(path):
+                return f"file://{path}", 2
     return MATHJAX_WEB_URL, 3
