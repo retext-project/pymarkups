@@ -16,6 +16,7 @@ MATHJAX2_LOCAL_URLS = (
     "file:///usr/share/mathjax2/MathJax.js",  # Arch Linux mathjax2
 )
 MATHJAX3_LOCAL_URLS = (
+    "file:///usr/share/nodejs/mathjax-full/es5/tex-chtml.js",  # Debian node-mathjax-full
     "file:///usr/share/mathjax/tex-chtml.js",  # Arch Linux mathjax
 )
 MATHJAX_WEB_URL = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
