@@ -11,7 +11,7 @@ from markups.markdown import MarkdownMarkup
 from markups.restructuredtext import ReStructuredTextMarkup
 from markups.textile import TextileMarkup
 
-__version_tuple__ = (4, 1, 0)
+__version_tuple__ = (4, 1, 1)
 __version__ = ".".join(map(str, __version_tuple__))
 
 __all__ = [

@@ -1,3 +1,10 @@
+Version 4.1.1, 2025-04-29
+=========================
+
+* Adapt the tests to Pygments 2.19 (contributed by Markéta Calábková in #20).
+* Add support for Debian ``node-mathjax-full`` package.
+* Use :PEP:`639` license expression (needs setuptools 77 or newer).
+
 Version 4.1.0, 2024-12-08
 =========================
 
