@@ -51,3 +51,24 @@ jobs:
         run: ruff check --select F,E,W,I,UP,A,COM --target-version py310 .
       - name: Run ruff format
         run: ruff format --diff .
+  pypi-publish:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+    needs:
+      - test
+      - mypy
+      - ruff
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/Markups
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: pip install build
+      - run: python -m build
+      - if: success()
+        uses: pypa/gh-action-pypi-publish@release/v1
