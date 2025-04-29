@@ -36,6 +36,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
       - name: Install mypy and type stubs
         run: python -m pip install mypy types-docutils types-PyYAML types-Markdown
       - name: Run mypy
@@ -45,6 +47,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
       - name: Install ruff
         run: python -m pip install ruff
       - name: Run ruff check
