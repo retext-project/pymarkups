@@ -13,6 +13,10 @@ This module provides a wrapper around various text markup languages.
 Available by default are Markdown_, reStructuredText_, Textile_ and AsciiDoc_,
 but you can easily add your own markups.
 
+To install Markups, specify the list of markups you want to include, e.g.::
+
+  pip install Markups[markdown,restructuredtext]
+
 Usage example:
 
 .. code:: python
