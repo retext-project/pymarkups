@@ -19,7 +19,7 @@ except ImportError:
 
 if HAVE_DOCUTILS:
 
-    class CustomHTMLTranslator(HTMLTranslator):  # type: ignore
+    class CustomHTMLTranslator(HTMLTranslator):
         def starttag(  # type: ignore
             self,
             node,
