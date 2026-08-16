@@ -7,7 +7,7 @@ These markups are available by default:
 Markdown markup
 ===============
 
-Markdown_ markup uses Python-Markdown_ as a backend (version 2.6 or later
+Markdown_ markup uses Python-Markdown_ as a backend (version 3.0 or later
 is required).
 
 There are several ways to enable `Python-Markdown extensions`_.
